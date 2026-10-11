@@ -119,18 +119,6 @@ org.chiterok.grandDuels
 └── utils/      ColorUtil, TimeUtil, ItemBuilder, StoredLocation
 ```
 
-## Roadmap
-
-Planned work tracked in `CHANGES.md`:
-
-- Language switching in `config.yml` with generated English and Russian message and menu files
-- `/arena` free-for-all arena mode
-- Custom arena names, per-kit arena availability (admin menu) and arena choice in `/duel`
-- Admin and player menus split into folders
-- Restricted creative mode for the player kit editor
-- Rule and cooldown details shown on hover over the request message
-- PlaceholderAPI placeholders (`%grandduels_elo%`, `%grandduels_kd%`, ELO top, players in ranked/unranked)
-
 ## License
 
 GrandDuels is released under the [MIT License](LICENSE). Copyright (c) 2026 chiterok.
