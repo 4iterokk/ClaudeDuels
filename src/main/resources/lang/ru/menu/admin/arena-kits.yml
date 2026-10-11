@@ -1,0 +1,59 @@
+# МЕНЮ АДМИНА (/duels arena kits): выберите набор, чтобы настроить, на каких аренах он доступен.
+# Набор без ограничений можно играть на любой арене.
+#
+# Ключи предметов: slot (число или диапазон "0-8") | slots, material, amount, name, lore (список или строка), enchanted, action, condition
+# Действия:   PREVIOUS_PAGE, NEXT_PAGE, CLOSE
+# Условия:    has-previous, has-next, no-kits
+# Плейсхолдеры меню: {page} {pages}
+# Плейсхолдеры наборов (kit-item): {kit_name} {kit_id} {allowed} {total} {restriction}
+
+menu_title: "&8Арены для наборов"
+size: 54   # размер меню в слотах (кратно 9, максимум 54)
+
+filler:
+  material: GRAY_STAINED_GLASS_PANE
+  name: " "
+
+kit-slots: ["0-44"]
+
+kit-item:
+  name: "{kit_name}"
+  enchanted-when-restricted: true
+  lore:
+    - "&7ID: &f{kit_id}"
+    - "&7Арены: &f{allowed}&7/&f{total} {restriction}"
+    - ""
+    - "&eНажмите, чтобы настроить"
+
+# Тексты для {restriction}
+restriction:
+  none: "&8(все арены)"
+  limited: "&8(ограничено)"
+
+items:
+  previous:
+    slot: 45
+    material: ARROW
+    name: "&7« Предыдущая страница"
+    action: PREVIOUS_PAGE
+    condition: has-previous
+  next:
+    slot: 53
+    material: ARROW
+    name: "&7Следующая страница »"
+    action: NEXT_PAGE
+    condition: has-next
+  page:
+    slot: 49
+    material: PAPER
+    name: "&7Страница &f{page}&7/&f{pages}"
+  close:
+    slot: 48
+    material: BARRIER
+    name: "&cЗакрыть"
+    action: CLOSE
+  no-kits:
+    slot: 22
+    material: BARRIER
+    name: "&cНи одного набора не настроено"
+    condition: no-kits

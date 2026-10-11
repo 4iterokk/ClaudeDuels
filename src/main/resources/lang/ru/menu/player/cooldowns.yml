@@ -1,0 +1,106 @@
+# Меню личных кулдаунов и ограничений (/duel cooldowns). Ваш выбор сохраняется для каждого игрока и применяется
+# к каждому отправляемому вами вызову. Всё здесь можно настраивать.
+#
+# Действия:   TOGGLE_COOLDOWNS, RESET, BACK, CLOSE
+# Условия:    custom-cooldowns (свои кулдауны включены), has-back (меню открыто из другого меню)
+#
+# Клики по предметам:  ЛКМ +шаг | ПКМ -шаг | Shift+ЛКМ +большой шаг | Shift+ПКМ -большой шаг
+#                      Q, F или СКМ переключает запрет предмета
+
+menu_title: "&8Мои кулдауны дуэли"
+size: 36   # размер меню в слотах (кратно 9, максимум 54)
+
+filler:
+  material: GRAY_STAINED_GLASS_PANE
+  name: " "
+
+settings:
+  step: 1.0
+  shift-step: 10.0
+  max-seconds: 300.0
+
+# Плейсхолдеры в name/lore предметов: {state} {seconds} {default} {step} {shift_step}
+states:
+  cooldown: "&a{seconds} с"
+  none: "&7Без кулдауна"
+  banned: "&cЗапрещено"
+
+# По одной записи на тип предмета; ключи должны совпадать с ключами кулдаунов.
+cooldown-items:
+  golden-apple:
+    slot: 10
+    material: GOLDEN_APPLE
+    name: "&6Золотое яблоко"
+  enchanted-golden-apple:
+    slot: 11
+    material: ENCHANTED_GOLDEN_APPLE
+    name: "&dЗачарованное золотое яблоко"
+  trident:
+    slot: 12
+    material: TRIDENT
+    name: "&bТрезубец"
+  wind-charge:
+    slot: 14
+    material: WIND_CHARGE
+    name: "&fЗаряд ветра"
+  ender-pearl:
+    slot: 15
+    material: ENDER_PEARL
+    name: "&5Жемчуг Края"
+  chorus-fruit:
+    slot: 16
+    material: CHORUS_FRUIT
+    name: "&dПлод хоруса"
+
+cooldown-lore:
+  - "&7Сейчас: {state}"
+  - "&7По умолчанию на сервере: &f{default} с"
+  - ""
+  - "&eЛКМ: &f+{step} с &8| &eПКМ: &f-{step} с"
+  - "&eShift + ЛКМ/ПКМ: &f±{shift_step} с"
+  - "&eQ / F / СКМ: &fпереключить запрет"
+
+items:
+  info:
+    slot: 4
+    material: BOOK
+    name: "&6Ваши правила дуэли"
+    lore:
+      - "&7Эти правила применяются автоматически,"
+      - "&7когда вы отправляете вызов."
+  custom-on:
+    slot: 22
+    material: LIME_DYE
+    name: "&fСвои кулдауны: &aВКЛ"
+    lore:
+      - "&7Когда ВЫКЛ, действуют только ванильные кулдауны."
+      - "&eНажмите, чтобы переключить"
+    action: TOGGLE_COOLDOWNS
+    condition: custom-cooldowns
+  custom-off:
+    slot: 22
+    material: GRAY_DYE
+    name: "&fСвои кулдауны: &cВЫКЛ"
+    lore:
+      - "&7Когда ВЫКЛ, действуют только ванильные кулдауны."
+      - "&eНажмите, чтобы переключить"
+    action: TOGGLE_COOLDOWNS
+    condition: "!custom-cooldowns"
+  reset:
+    slot: 31
+    material: TNT
+    name: "&cСбросить к настройкам сервера"
+    lore:
+      - "&7Убирает все ваши изменения кулдаунов и запреты."
+    action: RESET
+  back:
+    slot: 27
+    material: ARROW
+    name: "&7« Назад"
+    action: BACK
+    condition: has-back
+  close:
+    slot: 35
+    material: BARRIER
+    name: "&cЗакрыть"
+    action: CLOSE

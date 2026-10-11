@@ -1,0 +1,41 @@
+# Меню предпросмотра набора (ПКМ по набору в выборе набора или в меню Ranked / Unranked). Всё здесь настраивается.
+#
+# Ключи предметов: slot (число "5", диапазон "8-12" или список "0, 1, 2, 5-7") | slots, material, amount, name, lore (список или строка), enchanted, action, condition
+# Действия:     BACK (вернуться в предыдущее меню), CLOSE
+# Плейсхолдеры: {kit} (отображаемое имя набора)
+#
+# Содержимое набора кладётся поверх filler и предметов ниже:
+#   hotbar-slots      слоты меню для хотбара набора (слоты набора 0-8), по порядку
+#   inventory-slots   слоты меню для инвентаря набора (слоты набора 9-35), по порядку
+#   helmet-slot, chestplate-slot, leggings-slot, boots-slot, offhand-slot   номер слота или -1, чтобы скрыть
+#   effects-slot      где показываются эффекты набора (-1 - скрыть; только если у набора есть эффекты)
+
+menu_title: "&8Просмотр: &r{kit}"
+size: 54   # размер меню в слотах (кратно 9, максимум 54)
+
+filler:
+  material: GRAY_STAINED_GLASS_PANE
+  name: " "
+
+hotbar-slots: "45-53"
+inventory-slots: "9-35"
+helmet-slot: 0
+chestplate-slot: 1
+leggings-slot: 2
+boots-slot: 3
+offhand-slot: 5
+effects-slot: 7
+
+# в "line" доступны {effect} {level} {duration}; "infinite" подставляется вместо {duration} для бесконечных эффектов
+effects-item:
+  material: POTION
+  name: "&dЭффекты"
+  line: "&7- &f{effect} {level} &7({duration})"
+  infinite: "бесконечно"
+
+items:
+  back:
+    slot: 8
+    material: ARROW
+    name: "&7« Назад"
+    action: BACK

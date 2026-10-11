@@ -1,0 +1,106 @@
+# Personal cooldowns & restrictions menu (/duel cooldowns). Your choices are saved per player and are applied to
+# every duel request you send. Everything here is customizable.
+#
+# Actions:    TOGGLE_COOLDOWNS, RESET, BACK, CLOSE
+# Conditions: custom-cooldowns (custom cooldowns enabled), has-back (menu was opened from another menu)
+#
+# Cooldown item clicks:  left +step | right -step | shift-left +shift-step | shift-right -shift-step
+#                        Q, F or middle click toggles the item ban
+
+menu_title: "&8My duel cooldowns"
+size: 36   # menu size in slots (multiple of 9, max 54)
+
+filler:
+  material: GRAY_STAINED_GLASS_PANE
+  name: " "
+
+settings:
+  step: 1.0
+  shift-step: 10.0
+  max-seconds: 300.0
+
+# Placeholders for cooldown-items name/lore: {state} {seconds} {default} {step} {shift_step}
+states:
+  cooldown: "&a{seconds}s"
+  none: "&7No cooldown"
+  banned: "&cBanned"
+
+# One entry per item type; keys must match the cooldown keys of config.yml.
+cooldown-items:
+  golden-apple:
+    slot: 10
+    material: GOLDEN_APPLE
+    name: "&6Golden Apple"
+  enchanted-golden-apple:
+    slot: 11
+    material: ENCHANTED_GOLDEN_APPLE
+    name: "&dEnchanted Golden Apple"
+  trident:
+    slot: 12
+    material: TRIDENT
+    name: "&bTrident"
+  wind-charge:
+    slot: 14
+    material: WIND_CHARGE
+    name: "&fWind Charge"
+  ender-pearl:
+    slot: 15
+    material: ENDER_PEARL
+    name: "&5Ender Pearl"
+  chorus-fruit:
+    slot: 16
+    material: CHORUS_FRUIT
+    name: "&dChorus Fruit"
+
+cooldown-lore:
+  - "&7Current: {state}"
+  - "&7Server default: &f{default}s"
+  - ""
+  - "&eLeft click: &f+{step}s &8| &eRight click: &f-{step}s"
+  - "&eShift + left/right: &f±{shift_step}s"
+  - "&eQ / F / middle click: &fToggle ban"
+
+items:
+  info:
+    slot: 4
+    material: BOOK
+    name: "&6Your duel rules"
+    lore:
+      - "&7These rules are applied automatically"
+      - "&7when you send a duel request."
+  custom-on:
+    slot: 22
+    material: LIME_DYE
+    name: "&fCustom cooldowns: &aON"
+    lore:
+      - "&7When OFF, only vanilla cooldowns apply."
+      - "&eClick to toggle"
+    action: TOGGLE_COOLDOWNS
+    condition: custom-cooldowns
+  custom-off:
+    slot: 22
+    material: GRAY_DYE
+    name: "&fCustom cooldowns: &cOFF"
+    lore:
+      - "&7When OFF, only vanilla cooldowns apply."
+      - "&eClick to toggle"
+    action: TOGGLE_COOLDOWNS
+    condition: "!custom-cooldowns"
+  reset:
+    slot: 31
+    material: TNT
+    name: "&cReset to server defaults"
+    lore:
+      - "&7Removes all your cooldown changes and bans."
+    action: RESET
+  back:
+    slot: 27
+    material: ARROW
+    name: "&7« Back"
+    action: BACK
+    condition: has-back
+  close:
+    slot: 35
+    material: BARRIER
+    name: "&cClose"
+    action: CLOSE

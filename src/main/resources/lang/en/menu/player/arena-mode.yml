@@ -1,0 +1,58 @@
+# /arena menu: pick a standard kit and you are teleported to the arena. Lists ONLY the standard kits.
+#
+# Item keys:  slot (number "5", range "8-12" or list "0, 1, 2, 5-7") | slots, material, amount, name, lore (list or string), enchanted, action, condition
+# Actions:    PREVIOUS_PAGE, NEXT_PAGE, CLOSE
+# Conditions: has-previous, has-next, no-kits
+# Menu placeholders: {page} {pages} {in_arena} (players currently in the arena)
+# Kit placeholders (kit-item): {kit_name}
+
+menu_title: "&8Arena - choose a kit"
+size: 54   # menu size in slots (multiple of 9, max 54)
+
+filler:
+  material: GRAY_STAINED_GLASS_PANE
+  name: " "
+
+kit-slots: ["0-44"]
+
+kit-item:
+  name: "{kit_name}"
+  enchanted: false
+  lore:
+    - "{kit_description}"
+    - ""
+    - "&eClick to enter the arena"
+
+items:
+  previous:
+    slot: 45
+    material: ARROW
+    name: "&7« Previous page"
+    action: PREVIOUS_PAGE
+    condition: has-previous
+  next:
+    slot: 53
+    material: ARROW
+    name: "&7Next page »"
+    action: NEXT_PAGE
+    condition: has-next
+  info:
+    slot: 49
+    material: IRON_SWORD
+    name: "&6Arena"
+    lore:
+      - "&7Fight with the chosen kit. After you"
+      - "&7die you return to the lobby."
+      - ""
+      - "&7Players in the arena: &f{in_arena}"
+      - "&7Page &f{page}&7/&f{pages}"
+  close:
+    slot: 48
+    material: BARRIER
+    name: "&cClose"
+    action: CLOSE
+  no-kits:
+    slot: 22
+    material: BARRIER
+    name: "&cNo kits available"
+    condition: no-kits

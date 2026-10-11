@@ -1,0 +1,76 @@
+# Kit selector menu (/duel <player>). Everything here is customizable.
+#
+# Item keys:  slot (number "5", range "8-12" or list "0, 1, 2, 5-7") | slots, material, amount, name, lore (list or string), enchanted, action, condition
+# Actions:    PREVIOUS_PAGE, NEXT_PAGE, OPEN_COOLDOWNS, CLOSE
+# Conditions: has-previous, has-next, no-kits  ("!flag" negates)
+# Placeholders: {page} {pages} {target}
+
+menu_title: "&8Select a kit"
+size: 54   # menu size in slots (multiple of 9, max 54)
+
+filler:
+  material: GRAY_STAINED_GLASS_PANE
+  name: " "
+
+# Slots in which kits are listed (numbers and "from-to" ranges). Kits per page = number of slots.
+kit-slots: ["0-44"]
+
+# Template for every kit entry. The icon material comes from kits.yml.
+# Placeholders: {kit_name}. Special lore lines: {kit_description} (kit description) and {kit_features} (tags below)
+kit-item:
+  name: "{kit_name}"
+  enchanted: false
+  lore:
+    - "{kit_description}"
+    - ""
+    - "{kit_features}"
+    - ""
+    - "&eClick to select"
+    - "&eRight-click to preview"
+
+# Shown in {kit_features} when the kit contains the item. {components} = customized data components.
+tags:
+  mace: "&8• &7Mace"
+  wind-charge: "&8• &7Wind Charges"
+  trident: "&8• &7Trident"
+  spear: "&8• &7Spear"
+  wolf-armor: "&8• &7Wolf Armor"
+  components: "&8• &7Data components: &f{components}"
+
+items:
+  previous:
+    slot: 45
+    material: ARROW
+    name: "&7« Previous page"
+    action: PREVIOUS_PAGE
+    condition: has-previous
+  next:
+    slot: 53
+    material: ARROW
+    name: "&7Next page »"
+    action: NEXT_PAGE
+    condition: has-next
+  page:
+    slot: 49
+    material: PAPER
+    name: "&7Page &f{page}&7/&f{pages}"
+  my-cooldowns:
+    slot: 50
+    material: CLOCK
+    name: "&6My cooldowns & restrictions"
+    lore:
+      - "&7Applied automatically to every"
+      - "&7duel request you send."
+      - ""
+      - "&eClick to edit"
+    action: OPEN_COOLDOWNS
+  close:
+    slot: 48
+    material: BARRIER
+    name: "&cClose"
+    action: CLOSE
+  no-kits:
+    slot: 22
+    material: BARRIER
+    name: "&cNo kits available"
+    condition: no-kits

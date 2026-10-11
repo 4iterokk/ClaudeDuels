@@ -1,0 +1,100 @@
+# Arena chooser of a duel request (opened from the duel settings menu). Lists the arenas that are enabled for the
+# chosen kit. Everything here is customizable.
+#
+# Item keys:  slot (number "5", range "8-12" or list "0, 1, 2, 5-7") | slots, material, amount, name, lore (list or string), enchanted, action, condition
+# Actions:    RANDOM_ARENA, PREVIOUS_PAGE, NEXT_PAGE, BACK, CLOSE
+# Conditions: has-previous, has-next, no-arenas, random-selected  ("!flag" negates)
+# Placeholders: {page} {pages} {kit} {selected} (name of the chosen arena or the "random" text)
+
+menu_title: "&8Choose an arena"
+size: 54   # menu size in slots (multiple of 9, max 54)
+
+filler:
+  material: GRAY_STAINED_GLASS_PANE
+  name: " "
+
+# Slots in which arenas are listed (numbers and "from-to" ranges). Arenas per page = number of slots.
+arena-slots: ["0-44"]
+
+# Template of every arena entry. Placeholders: {arena_name} (custom name) {arena_id} {state}
+# material-busy is used while the arena is occupied by another duel, material-selected for the chosen arena.
+arena-item:
+  material: GRASS_BLOCK
+  material-busy: RED_STAINED_GLASS
+  material-selected: LIME_STAINED_GLASS
+  name: "{arena_name}"
+  lore:
+    - "&7ID: &f{arena_id}"
+    - "&7Status: {state}"
+    - ""
+    - "&eClick to choose"
+  lore-selected:
+    - "&7ID: &f{arena_id}"
+    - "&7Status: {state}"
+    - ""
+    - "&aSelected"
+  lore-busy:
+    - "&7ID: &f{arena_id}"
+    - "&7Status: {state}"
+    - ""
+    - "&cIt is in use right now"
+  enchanted-when-selected: true
+
+# {state} texts
+states:
+  free: "&aFree"
+  busy: "&cIn use"
+
+items:
+  random:
+    slot: 49
+    material: ENDER_EYE
+    name: "&fRandom arena"
+    lore:
+      - "&7A free arena is picked when"
+      - "&7the duel starts."
+      - ""
+      - "&eClick to choose"
+    action: RANDOM_ARENA
+    condition: "!random-selected"
+  random-selected:
+    slot: 49
+    material: ENDER_EYE
+    name: "&fRandom arena &a(selected)"
+    lore:
+      - "&7A free arena is picked when"
+      - "&7the duel starts."
+    enchanted: true
+    action: RANDOM_ARENA
+    condition: random-selected
+  previous:
+    slot: 45
+    material: ARROW
+    name: "&7« Previous page"
+    action: PREVIOUS_PAGE
+    condition: has-previous
+  next:
+    slot: 53
+    material: ARROW
+    name: "&7Next page »"
+    action: NEXT_PAGE
+    condition: has-next
+  page:
+    slot: 50
+    material: PAPER
+    name: "&7Page &f{page}&7/&f{pages}"
+  back:
+    slot: 48
+    material: ARROW
+    name: "&7« Back to duel settings"
+    action: BACK
+  close:
+    slot: 51
+    material: BARRIER
+    name: "&cClose"
+    action: CLOSE
+  no-arenas:
+    slot: 22
+    material: BARRIER
+    name: "&cNo arenas available for this kit"
+    condition: no-arenas

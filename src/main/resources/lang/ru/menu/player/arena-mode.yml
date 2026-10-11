@@ -1,0 +1,58 @@
+# Меню /arena: выберите стандартный набор, и вас телепортирует на арену. Показывает ТОЛЬКО стандартные наборы.
+#
+# Ключи предметов: slot (число или диапазон "0-8") | slots, material, amount, name, lore (список или строка), enchanted, action, condition
+# Действия:   PREVIOUS_PAGE, NEXT_PAGE, CLOSE
+# Условия:    has-previous, has-next, no-kits
+# Плейсхолдеры меню: {page} {pages} {in_arena} (игроков сейчас на арене)
+# Плейсхолдеры наборов (kit-item): {kit_name}
+
+menu_title: "&8Арена - выберите набор"
+size: 54   # размер меню в слотах (кратно 9, максимум 54)
+
+filler:
+  material: GRAY_STAINED_GLASS_PANE
+  name: " "
+
+kit-slots: ["0-44"]
+
+kit-item:
+  name: "{kit_name}"
+  enchanted: false
+  lore:
+    - "{kit_description}"
+    - ""
+    - "&eНажмите, чтобы выйти на арену"
+
+items:
+  previous:
+    slot: 45
+    material: ARROW
+    name: "&7« Предыдущая страница"
+    action: PREVIOUS_PAGE
+    condition: has-previous
+  next:
+    slot: 53
+    material: ARROW
+    name: "&7Следующая страница »"
+    action: NEXT_PAGE
+    condition: has-next
+  info:
+    slot: 49
+    material: IRON_SWORD
+    name: "&6Арена"
+    lore:
+      - "&7Сражайтесь с выбранным набором. После"
+      - "&7смерти вы вернётесь в лобби."
+      - ""
+      - "&7Игроков на арене: &f{in_arena}"
+      - "&7Страница &f{page}&7/&f{pages}"
+  close:
+    slot: 48
+    material: BARRIER
+    name: "&cЗакрыть"
+    action: CLOSE
+  no-kits:
+    slot: 22
+    material: BARRIER
+    name: "&cНет доступных наборов"
+    condition: no-kits

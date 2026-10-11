@@ -1,0 +1,80 @@
+# ADMIN menu: toggle the arenas a single kit can be played on. Opened from the arenas-per-kit menu.
+# At least one arena has to stay enabled; "Allow all arenas" removes the restriction.
+#
+# Item keys:  slot (number "5", range "8-12" or list "0, 1, 2, 5-7") | slots, material, amount, name, lore (list or string), enchanted, action, condition
+# Actions:    RESET, PREVIOUS_PAGE, NEXT_PAGE, BACK, CLOSE
+# Conditions: has-previous, has-next, no-arenas, restricted (the kit has an arena restriction)
+# Menu placeholders: {page} {pages} {kit} {kit_id} {allowed} {total}
+# Arena placeholders (arena-item): {arena_name} {arena_id}
+
+menu_title: "&8Arenas of {kit}"
+size: 54   # menu size in slots (multiple of 9, max 54)
+
+filler:
+  material: GRAY_STAINED_GLASS_PANE
+  name: " "
+
+arena-slots: ["0-44"]
+
+arena-item:
+  material-allowed: LIME_STAINED_GLASS
+  material-denied: RED_STAINED_GLASS
+  name: "{arena_name}"
+  enchanted-when-allowed: true
+  lore-allowed:
+    - "&7ID: &f{arena_id}"
+    - "&aEnabled for this kit"
+    - ""
+    - "&eClick to disable"
+  lore-denied:
+    - "&7ID: &f{arena_id}"
+    - "&cDisabled for this kit"
+    - ""
+    - "&eClick to enable"
+
+items:
+  previous:
+    slot: 45
+    material: ARROW
+    name: "&7« Previous page"
+    action: PREVIOUS_PAGE
+    condition: has-previous
+  next:
+    slot: 53
+    material: ARROW
+    name: "&7Next page »"
+    action: NEXT_PAGE
+    condition: has-next
+  info:
+    slot: 49
+    material: PAPER
+    name: "&6{kit}"
+    lore:
+      - "&7Enabled arenas: &f{allowed}&7/&f{total}"
+      - "&7Page &f{page}&7/&f{pages}"
+  reset:
+    slot: 50
+    material: LIME_DYE
+    name: "&aAllow all arenas"
+    lore:
+      - "&7Removes the restriction: the kit can"
+      - "&7be played on every arena (also new ones)."
+      - ""
+      - "&eClick to apply"
+    action: RESET
+    condition: restricted
+  back:
+    slot: 48
+    material: ARROW
+    name: "&7« Back to kits"
+    action: BACK
+  close:
+    slot: 51
+    material: BARRIER
+    name: "&cClose"
+    action: CLOSE
+  no-arenas:
+    slot: 22
+    material: BARRIER
+    name: "&cNo arenas exist yet"
+    condition: no-arenas

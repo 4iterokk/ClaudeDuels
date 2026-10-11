@@ -1,0 +1,41 @@
+# Kit preview menu (right-click a kit in the kit selector or the Ranked / Unranked menu). Everything here is customizable.
+#
+# Item keys:  slot (number "5", range "8-12" or list "0, 1, 2, 5-7") | slots, material, amount, name, lore (list or string), enchanted, action, condition
+# Actions:    BACK (returns to the previous menu), CLOSE
+# Placeholders: {kit} (display name of the kit)
+#
+# The kit contents are placed on top of the filler and the items below:
+#   hotbar-slots      menu slots for the kit's hotbar (kit slots 0-8), in order
+#   inventory-slots   menu slots for the kit's inventory (kit slots 9-35), in order
+#   helmet-slot, chestplate-slot, leggings-slot, boots-slot, offhand-slot   a slot number, or -1 to hide
+#   effects-slot      where the potion effects of the kit are listed (-1 to hide; only shown if the kit has effects)
+
+menu_title: "&8Preview: &r{kit}"
+size: 54   # menu size in slots (multiple of 9, max 54)
+
+filler:
+  material: GRAY_STAINED_GLASS_PANE
+  name: " "
+
+hotbar-slots: "45-53"
+inventory-slots: "9-35"
+helmet-slot: 0
+chestplate-slot: 1
+leggings-slot: 2
+boots-slot: 3
+offhand-slot: 5
+effects-slot: 7
+
+# {effect} {level} {duration} are available in "line"; "infinite" replaces {duration} for endless effects
+effects-item:
+  material: POTION
+  name: "&dEffects"
+  line: "&7- &f{effect} {level} &7({duration})"
+  infinite: "infinite"
+
+items:
+  back:
+    slot: 8
+    material: ARROW
+    name: "&7« Back"
+    action: BACK

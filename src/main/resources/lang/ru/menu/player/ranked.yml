@@ -1,0 +1,81 @@
+# Меню очереди /ranked. Показывает ТОЛЬКО стандартные наборы (никогда наборы игроков) и счётчики, которые
+# обновляются каждую секунду, пока меню открыто. Клик по набору - встать в очередь (повторный клик - выйти).
+#
+# Ключи предметов: slot (число или диапазон "0-8") | slots, material, amount, name, lore (список или строка), enchanted, action, condition
+# Действия:   PREVIOUS_PAGE, NEXT_PAGE, LEAVE_QUEUE, CLOSE
+# Условия:    has-previous, has-next, no-kits, in-queue (вы ждёте в этом режиме)
+# Плейсхолдеры меню: {page} {pages} {mode} {total_in_duels} {total_in_queue} {queued_kit}
+# Плейсхолдеры наборов (kit-item): {kit_name} {in_duel} {in_queue}; lore-queued - для набора, на который вы встали в очередь.
+
+menu_title: "&8Рейтинговая очередь"
+size: 54   # размер меню в слотах (кратно 9, максимум 54)
+
+filler:
+  material: GRAY_STAINED_GLASS_PANE
+  name: " "
+
+kit-slots: ["0-44"]
+
+kit-item:
+  name: "{kit_name}"
+  enchanted-when-queued: true
+  lore:
+    - "{kit_description}"
+    - ""
+    - "&7В дуэлях: &f{in_duel}"
+    - "&7В очереди: &f{in_queue}"
+    - ""
+    - "&eНажмите, чтобы встать в очередь"
+    - "&eПКМ — предпросмотр набора"
+  lore-queued:
+    - "{kit_description}"
+    - ""
+    - "&7В дуэлях: &f{in_duel}"
+    - "&7В очереди: &f{in_queue}"
+    - ""
+    - "&aВы в этой очереди"
+    - "&eНажмите, чтобы выйти"
+    - "&eПКМ — предпросмотр набора"
+
+items:
+  previous:
+    slot: 45
+    material: ARROW
+    name: "&7« Предыдущая страница"
+    action: PREVIOUS_PAGE
+    condition: has-previous
+  next:
+    slot: 53
+    material: ARROW
+    name: "&7Следующая страница »"
+    action: NEXT_PAGE
+    condition: has-next
+  info:
+    slot: 49
+    material: NETHERITE_SWORD
+    name: "&6{mode} &7очередь"
+    lore:
+      - "&7Рейтинговые дуэли меняют ваш рейтинг ELO."
+      - ""
+      - "&7Игроков в дуэлях: &f{total_in_duels}"
+      - "&7Игроков в очереди: &f{total_in_queue}"
+      - "&7Страница &f{page}&7/&f{pages}"
+  leave-queue:
+    slot: 50
+    material: RED_DYE
+    name: "&cПокинуть очередь"
+    lore:
+      - "&7Вы ждёте: &f{queued_kit}"
+      - "&eНажмите, чтобы выйти"
+    action: LEAVE_QUEUE
+    condition: in-queue
+  close:
+    slot: 48
+    material: BARRIER
+    name: "&cЗакрыть"
+    action: CLOSE
+  no-kits:
+    slot: 22
+    material: BARRIER
+    name: "&cНет доступных наборов"
+    condition: no-kits

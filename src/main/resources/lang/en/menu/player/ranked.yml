@@ -1,0 +1,81 @@
+# /ranked queue menu. Lists ONLY the standard kits (never player-made kits) and shows live counts that refresh
+# every second while the menu is open. Clicking a kit joins its queue (click again to leave).
+#
+# Item keys:  slot (number "5", range "8-12" or list "0, 1, 2, 5-7") | slots, material, amount, name, lore (list or string), enchanted, action, condition
+# Actions:    PREVIOUS_PAGE, NEXT_PAGE, LEAVE_QUEUE, CLOSE
+# Conditions: has-previous, has-next, no-kits, in-queue (you are waiting in this mode)
+# Menu placeholders: {page} {pages} {mode} {total_in_duels} {total_in_queue} {queued_kit}
+# Kit placeholders (kit-item): {kit_name} {in_duel} {in_queue}; lore-queued is used for the kit you are queued for.
+
+menu_title: "&8Ranked queue"
+size: 54   # menu size in slots (multiple of 9, max 54)
+
+filler:
+  material: GRAY_STAINED_GLASS_PANE
+  name: " "
+
+kit-slots: ["0-44"]
+
+kit-item:
+  name: "{kit_name}"
+  enchanted-when-queued: true
+  lore:
+    - "{kit_description}"
+    - ""
+    - "&7In duels: &f{in_duel}"
+    - "&7In queue: &f{in_queue}"
+    - ""
+    - "&eClick to join the queue"
+    - "&eRight-click to preview"
+  lore-queued:
+    - "{kit_description}"
+    - ""
+    - "&7In duels: &f{in_duel}"
+    - "&7In queue: &f{in_queue}"
+    - ""
+    - "&aYou are in this queue"
+    - "&eClick to leave"
+    - "&eRight-click to preview"
+
+items:
+  previous:
+    slot: 45
+    material: ARROW
+    name: "&7« Previous page"
+    action: PREVIOUS_PAGE
+    condition: has-previous
+  next:
+    slot: 53
+    material: ARROW
+    name: "&7Next page »"
+    action: NEXT_PAGE
+    condition: has-next
+  info:
+    slot: 49
+    material: NETHERITE_SWORD
+    name: "&6{mode} &7queue"
+    lore:
+      - "&7Ranked duels change your ELO rating."
+      - ""
+      - "&7Players in duels: &f{total_in_duels}"
+      - "&7Players in queue: &f{total_in_queue}"
+      - "&7Page &f{page}&7/&f{pages}"
+  leave-queue:
+    slot: 50
+    material: RED_DYE
+    name: "&cLeave queue"
+    lore:
+      - "&7Queued for: &f{queued_kit}"
+      - "&eClick to leave"
+    action: LEAVE_QUEUE
+    condition: in-queue
+  close:
+    slot: 48
+    material: BARRIER
+    name: "&cClose"
+    action: CLOSE
+  no-kits:
+    slot: 22
+    material: BARRIER
+    name: "&cNo kits available"
+    condition: no-kits

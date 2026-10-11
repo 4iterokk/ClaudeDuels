@@ -1,0 +1,85 @@
+# Меню ваших СОБСТВЕННЫХ наборов (создаются через /duel kit create <имя>). Формат как у kit-selector.yml.
+#
+# Ключи предметов: slot (число или диапазон "0-8") | slots, material, amount, name, lore (список или строка), enchanted, action, condition
+# Действия:   PREVIOUS_PAGE, NEXT_PAGE, OPEN_COOLDOWNS, OPEN_STANDARD_KITS, CLOSE
+# Условия:    has-previous, has-next, no-kits
+# Плейсхолдеры: {page} {pages} {target}
+
+menu_title: "&8Выберите свой набор"
+size: 54   # размер меню в слотах (кратно 9, максимум 54)
+
+filler:
+  material: GRAY_STAINED_GLASS_PANE
+  name: " "
+
+kit-slots: ["0-44"]
+
+kit-item:
+  name: "{kit_name}"
+  enchanted: false
+  lore:
+    - "{kit_description}"
+    - ""
+    - "{kit_features}"
+    - ""
+    - "&eНажмите, чтобы выбрать"
+    - "&eПКМ — предпросмотр набора"
+
+tags:
+  mace: "&8• &7Булава"
+  wind-charge: "&8• &7Заряды ветра"
+  trident: "&8• &7Трезубец"
+  spear: "&8• &7Копьё"
+  wolf-armor: "&8• &7Броня для волка"
+  components: "&8• &7Компоненты данных: &f{components}"
+
+items:
+  previous:
+    slot: 45
+    material: ARROW
+    name: "&7« Предыдущая страница"
+    action: PREVIOUS_PAGE
+    condition: has-previous
+  next:
+    slot: 53
+    material: ARROW
+    name: "&7Следующая страница »"
+    action: NEXT_PAGE
+    condition: has-next
+  page:
+    slot: 49
+    material: PAPER
+    name: "&7Страница &f{page}&7/&f{pages}"
+  my-cooldowns:
+    slot: 50
+    material: CLOCK
+    name: "&6Ограничения и кулдауны"
+    lore:
+      - "&7Применяются автоматически к каждому"
+      - "&7отправляемому вами вызову."
+      - ""
+      - "&eНажмите, чтобы изменить"
+    action: OPEN_COOLDOWNS
+  standard-kits:
+    slot: 51
+    material: DIAMOND_SWORD
+    name: "&bСтандартные наборы"
+    lore:
+      - "&7Вернуться к наборам сервера."
+      - ""
+      - "&eНажмите, чтобы открыть"
+    action: OPEN_STANDARD_KITS
+  close:
+    slot: 48
+    material: BARRIER
+    name: "&cЗакрыть"
+    action: CLOSE
+  no-kits:
+    slot: 22
+    material: BARRIER
+    name: "&cУ вас пока нет наборов"
+    lore:
+      - "&7Положите нужные предметы в инвентарь,"
+      - "&7броню и левую руку, затем выполните"
+      - "&f/duel kit create <имя>"
+    condition: no-kits

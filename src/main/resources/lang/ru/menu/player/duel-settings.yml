@@ -1,0 +1,84 @@
+# Меню настроек дуэли (после выбора набора). Всё здесь можно настраивать.
+#
+# Действия:   TOGGLE_GAPPLES, TOGGLE_COOLDOWNS, SELECT_ARENA, OPEN_COOLDOWNS, SEND, BACK, CLOSE
+# Условия:    gapples (золотые яблоки разрешены), cooldowns (свои кулдауны включены)
+# Плейсхолдеры: {target} {kit} {arena} (выбранная арена или слово "случайная" из messages.yml)
+
+menu_title: "&8Настройки дуэли"
+size: 27   # размер меню в слотах (кратно 9, максимум 54)
+
+filler:
+  material: GRAY_STAINED_GLASS_PANE
+  name: " "
+
+items:
+  gapples-on:
+    slot: 10
+    material: GOLDEN_APPLE
+    name: "&fЗолотые яблоки: &aВКЛ"
+    lore:
+      - "&7Разрешить золотые яблоки в этой дуэли."
+      - "&eНажмите, чтобы переключить"
+    action: TOGGLE_GAPPLES
+    condition: gapples
+  gapples-off:
+    slot: 10
+    material: GOLDEN_APPLE
+    name: "&fЗолотые яблоки: &cВЫКЛ"
+    lore:
+      - "&7Разрешить золотые яблоки в этой дуэли."
+      - "&eНажмите, чтобы переключить"
+    action: TOGGLE_GAPPLES
+    condition: "!gapples"
+  cooldowns-on:
+    slot: 12
+    material: CLOCK
+    name: "&fСвои кулдауны: &aВКЛ"
+    lore:
+      - "&7Применять ваши кулдауны предметов"
+      - "&7(яблоки, жемчуг, трезубцы, заряды ветра...)."
+      - "&eНажмите, чтобы переключить"
+    action: TOGGLE_COOLDOWNS
+    condition: cooldowns
+  cooldowns-off:
+    slot: 12
+    material: CLOCK
+    name: "&fСвои кулдауны: &cВЫКЛ"
+    lore:
+      - "&7Применять ваши кулдауны предметов"
+      - "&7(яблоки, жемчуг, трезубцы, заряды ветра...)."
+      - "&eНажмите, чтобы переключить"
+    action: TOGGLE_COOLDOWNS
+    condition: "!cooldowns"
+  arena:
+    slot: 14
+    material: MAP
+    name: "&fАрена: &e{arena}"
+    lore:
+      - "&7Выберите, где пройдёт дуэль."
+      - "&eНажмите, чтобы выбрать"
+    action: SELECT_ARENA
+  send:
+    slot: 16
+    material: EMERALD_BLOCK
+    name: "&a&lОтправить вызов"
+    lore:
+      - "&7Вызвать &f{target} &7с набором &f{kit}"
+    action: SEND
+  my-cooldowns:
+    slot: 22
+    material: COMPARATOR
+    name: "&6Изменить мои кулдауны"
+    lore:
+      - "&7Кулдауны и запреты предметов."
+    action: OPEN_COOLDOWNS
+  back:
+    slot: 18
+    material: ARROW
+    name: "&7« Назад к наборам"
+    action: BACK
+  cancel:
+    slot: 26
+    material: BARRIER
+    name: "&cОтмена"
+    action: CLOSE

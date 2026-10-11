@@ -1,0 +1,85 @@
+# Menu listing the sender's OWN kits (made with /duel kit create <name>). Same format as kit-selector.yml.
+#
+# Item keys:  slot (number "5", range "8-12" or list "0, 1, 2, 5-7") | slots, material, amount, name, lore (list or string), enchanted, action, condition
+# Actions:    PREVIOUS_PAGE, NEXT_PAGE, OPEN_COOLDOWNS, OPEN_STANDARD_KITS, CLOSE
+# Conditions: has-previous, has-next, no-kits
+# Placeholders: {page} {pages} {target}
+
+menu_title: "&8Select one of your kits"
+size: 54   # menu size in slots (multiple of 9, max 54)
+
+filler:
+  material: GRAY_STAINED_GLASS_PANE
+  name: " "
+
+kit-slots: ["0-44"]
+
+kit-item:
+  name: "{kit_name}"
+  enchanted: false
+  lore:
+    - "{kit_description}"
+    - ""
+    - "{kit_features}"
+    - ""
+    - "&eClick to select"
+    - "&eRight-click to preview"
+
+tags:
+  mace: "&8• &7Mace"
+  wind-charge: "&8• &7Wind Charges"
+  trident: "&8• &7Trident"
+  spear: "&8• &7Spear"
+  wolf-armor: "&8• &7Wolf Armor"
+  components: "&8• &7Data components: &f{components}"
+
+items:
+  previous:
+    slot: 45
+    material: ARROW
+    name: "&7« Previous page"
+    action: PREVIOUS_PAGE
+    condition: has-previous
+  next:
+    slot: 53
+    material: ARROW
+    name: "&7Next page »"
+    action: NEXT_PAGE
+    condition: has-next
+  page:
+    slot: 49
+    material: PAPER
+    name: "&7Page &f{page}&7/&f{pages}"
+  my-cooldowns:
+    slot: 50
+    material: CLOCK
+    name: "&6Restrictions & cooldowns"
+    lore:
+      - "&7Applied automatically to every"
+      - "&7duel request you send."
+      - ""
+      - "&eClick to edit"
+    action: OPEN_COOLDOWNS
+  standard-kits:
+    slot: 51
+    material: DIAMOND_SWORD
+    name: "&bStandard kits"
+    lore:
+      - "&7Back to the server's kits."
+      - ""
+      - "&eClick to open"
+    action: OPEN_STANDARD_KITS
+  close:
+    slot: 48
+    material: BARRIER
+    name: "&cClose"
+    action: CLOSE
+  no-kits:
+    slot: 22
+    material: BARRIER
+    name: "&cYou have no kits yet"
+    lore:
+      - "&7Put the items you want in your inventory,"
+      - "&7armor and offhand, then run"
+      - "&f/duel kit create <name>"
+    condition: no-kits

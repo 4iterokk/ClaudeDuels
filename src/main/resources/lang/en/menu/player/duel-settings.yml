@@ -1,0 +1,84 @@
+# Duel settings menu (shown after choosing a kit). Everything here is customizable.
+#
+# Actions:    TOGGLE_GAPPLES, TOGGLE_COOLDOWNS, SELECT_ARENA, OPEN_COOLDOWNS, SEND, BACK, CLOSE
+# Conditions: gapples (golden apples allowed), cooldowns (custom cooldowns enabled)
+# Placeholders: {target} {kit} {arena} (the chosen arena, or the "random" text from messages.yml)
+
+menu_title: "&8Duel settings"
+size: 27   # menu size in slots (multiple of 9, max 54)
+
+filler:
+  material: GRAY_STAINED_GLASS_PANE
+  name: " "
+
+items:
+  gapples-on:
+    slot: 10
+    material: GOLDEN_APPLE
+    name: "&fAllow Gapples: &aON"
+    lore:
+      - "&7Toggle golden apples in this duel."
+      - "&eClick to toggle"
+    action: TOGGLE_GAPPLES
+    condition: gapples
+  gapples-off:
+    slot: 10
+    material: GOLDEN_APPLE
+    name: "&fAllow Gapples: &cOFF"
+    lore:
+      - "&7Toggle golden apples in this duel."
+      - "&eClick to toggle"
+    action: TOGGLE_GAPPLES
+    condition: "!gapples"
+  cooldowns-on:
+    slot: 12
+    material: CLOCK
+    name: "&fCustom Cooldowns: &aON"
+    lore:
+      - "&7Apply your configured item cooldowns"
+      - "&7(Gapples, Pearls, Tridents, Wind Charges...)."
+      - "&eClick to toggle"
+    action: TOGGLE_COOLDOWNS
+    condition: cooldowns
+  cooldowns-off:
+    slot: 12
+    material: CLOCK
+    name: "&fCustom Cooldowns: &cOFF"
+    lore:
+      - "&7Apply your configured item cooldowns"
+      - "&7(Gapples, Pearls, Tridents, Wind Charges...)."
+      - "&eClick to toggle"
+    action: TOGGLE_COOLDOWNS
+    condition: "!cooldowns"
+  arena:
+    slot: 14
+    material: MAP
+    name: "&fArena: &e{arena}"
+    lore:
+      - "&7Choose where the duel is played."
+      - "&eClick to choose"
+    action: SELECT_ARENA
+  send:
+    slot: 16
+    material: EMERALD_BLOCK
+    name: "&a&lSend request"
+    lore:
+      - "&7Challenge &f{target} &7with kit &f{kit}"
+    action: SEND
+  my-cooldowns:
+    slot: 22
+    material: COMPARATOR
+    name: "&6Edit my cooldowns"
+    lore:
+      - "&7Change per-item cooldowns and bans."
+    action: OPEN_COOLDOWNS
+  back:
+    slot: 18
+    material: ARROW
+    name: "&7« Back to kits"
+    action: BACK
+  cancel:
+    slot: 26
+    material: BARRIER
+    name: "&cCancel"
+    action: CLOSE

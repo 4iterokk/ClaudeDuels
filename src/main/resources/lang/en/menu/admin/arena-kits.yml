@@ -1,0 +1,59 @@
+# ADMIN menu (/duels arena kits): choose a kit to configure which arenas it can be played on.
+# A kit without a restriction can be played on every arena.
+#
+# Item keys:  slot (number "5", range "8-12" or list "0, 1, 2, 5-7") | slots, material, amount, name, lore (list or string), enchanted, action, condition
+# Actions:    PREVIOUS_PAGE, NEXT_PAGE, CLOSE
+# Conditions: has-previous, has-next, no-kits
+# Menu placeholders: {page} {pages}
+# Kit placeholders (kit-item): {kit_name} {kit_id} {allowed} {total} {restriction}
+
+menu_title: "&8Arenas per kit"
+size: 54   # menu size in slots (multiple of 9, max 54)
+
+filler:
+  material: GRAY_STAINED_GLASS_PANE
+  name: " "
+
+kit-slots: ["0-44"]
+
+kit-item:
+  name: "{kit_name}"
+  enchanted-when-restricted: true
+  lore:
+    - "&7ID: &f{kit_id}"
+    - "&7Arenas: &f{allowed}&7/&f{total} {restriction}"
+    - ""
+    - "&eClick to configure"
+
+# {restriction} texts
+restriction:
+  none: "&8(all arenas)"
+  limited: "&8(restricted)"
+
+items:
+  previous:
+    slot: 45
+    material: ARROW
+    name: "&7« Previous page"
+    action: PREVIOUS_PAGE
+    condition: has-previous
+  next:
+    slot: 53
+    material: ARROW
+    name: "&7Next page »"
+    action: NEXT_PAGE
+    condition: has-next
+  page:
+    slot: 49
+    material: PAPER
+    name: "&7Page &f{page}&7/&f{pages}"
+  close:
+    slot: 48
+    material: BARRIER
+    name: "&cClose"
+    action: CLOSE
+  no-kits:
+    slot: 22
+    material: BARRIER
+    name: "&cNo kits are configured"
+    condition: no-kits

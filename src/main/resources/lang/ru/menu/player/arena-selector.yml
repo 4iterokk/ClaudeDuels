@@ -1,0 +1,100 @@
+# Выбор арены для вызова на дуэль (открывается из меню настроек дуэли). Показывает арены, включённые для выбранного
+# набора. Всё здесь можно настраивать.
+#
+# Ключи предметов: slot (число или диапазон "0-8") | slots, material, amount, name, lore (список или строка), enchanted, action, condition
+# Действия:   RANDOM_ARENA, PREVIOUS_PAGE, NEXT_PAGE, BACK, CLOSE
+# Условия:    has-previous, has-next, no-arenas, random-selected  ("!флаг" - отрицание)
+# Плейсхолдеры: {page} {pages} {kit} {selected} (название выбранной арены или слово "случайная")
+
+menu_title: "&8Выберите арену"
+size: 54   # размер меню в слотах (кратно 9, максимум 54)
+
+filler:
+  material: GRAY_STAINED_GLASS_PANE
+  name: " "
+
+# Слоты, в которых показываются арены (числа и диапазоны "от-до"). Арен на странице = число слотов.
+arena-slots: ["0-44"]
+
+# Шаблон каждой арены. Плейсхолдеры: {arena_name} (своё название) {arena_id} {state}
+# material-busy - пока арена занята другой дуэлью, material-selected - для выбранной арены.
+arena-item:
+  material: GRASS_BLOCK
+  material-busy: RED_STAINED_GLASS
+  material-selected: LIME_STAINED_GLASS
+  name: "{arena_name}"
+  lore:
+    - "&7ID: &f{arena_id}"
+    - "&7Состояние: {state}"
+    - ""
+    - "&eНажмите, чтобы выбрать"
+  lore-selected:
+    - "&7ID: &f{arena_id}"
+    - "&7Состояние: {state}"
+    - ""
+    - "&aВыбрана"
+  lore-busy:
+    - "&7ID: &f{arena_id}"
+    - "&7Состояние: {state}"
+    - ""
+    - "&cСейчас занята"
+  enchanted-when-selected: true
+
+# Тексты для {state}
+states:
+  free: "&aСвободна"
+  busy: "&cЗанята"
+
+items:
+  random:
+    slot: 49
+    material: ENDER_EYE
+    name: "&fСлучайная арена"
+    lore:
+      - "&7Свободная арена выбирается,"
+      - "&7когда начинается дуэль."
+      - ""
+      - "&eНажмите, чтобы выбрать"
+    action: RANDOM_ARENA
+    condition: "!random-selected"
+  random-selected:
+    slot: 49
+    material: ENDER_EYE
+    name: "&fСлучайная арена &a(выбрано)"
+    lore:
+      - "&7Свободная арена выбирается,"
+      - "&7когда начинается дуэль."
+    enchanted: true
+    action: RANDOM_ARENA
+    condition: random-selected
+  previous:
+    slot: 45
+    material: ARROW
+    name: "&7« Предыдущая страница"
+    action: PREVIOUS_PAGE
+    condition: has-previous
+  next:
+    slot: 53
+    material: ARROW
+    name: "&7Следующая страница »"
+    action: NEXT_PAGE
+    condition: has-next
+  page:
+    slot: 50
+    material: PAPER
+    name: "&7Страница &f{page}&7/&f{pages}"
+  back:
+    slot: 48
+    material: ARROW
+    name: "&7« Назад к настройкам дуэли"
+    action: BACK
+  close:
+    slot: 51
+    material: BARRIER
+    name: "&cЗакрыть"
+    action: CLOSE
+  no-arenas:
+    slot: 22
+    material: BARRIER
+    name: "&cНет доступных арен для этого набора"
+    condition: no-arenas

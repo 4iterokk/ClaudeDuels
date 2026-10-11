@@ -1,0 +1,80 @@
+# МЕНЮ АДМИНА: включайте и отключайте арены для одного набора. Открывается из меню "Арены для наборов".
+# Хотя бы одна арена должна остаться включённой; "Разрешить все арены" снимает ограничение.
+#
+# Ключи предметов: slot (число или диапазон "0-8") | slots, material, amount, name, lore (список или строка), enchanted, action, condition
+# Действия:   RESET, PREVIOUS_PAGE, NEXT_PAGE, BACK, CLOSE
+# Условия:    has-previous, has-next, no-arenas, restricted (у набора есть ограничение по аренам)
+# Плейсхолдеры меню: {page} {pages} {kit} {kit_id} {allowed} {total}
+# Плейсхолдеры арен (arena-item): {arena_name} {arena_id}
+
+menu_title: "&8Арены набора {kit}"
+size: 54   # размер меню в слотах (кратно 9, максимум 54)
+
+filler:
+  material: GRAY_STAINED_GLASS_PANE
+  name: " "
+
+arena-slots: ["0-44"]
+
+arena-item:
+  material-allowed: LIME_STAINED_GLASS
+  material-denied: RED_STAINED_GLASS
+  name: "{arena_name}"
+  enchanted-when-allowed: true
+  lore-allowed:
+    - "&7ID: &f{arena_id}"
+    - "&aВключена для этого набора"
+    - ""
+    - "&eНажмите, чтобы отключить"
+  lore-denied:
+    - "&7ID: &f{arena_id}"
+    - "&cОтключена для этого набора"
+    - ""
+    - "&eНажмите, чтобы включить"
+
+items:
+  previous:
+    slot: 45
+    material: ARROW
+    name: "&7« Предыдущая страница"
+    action: PREVIOUS_PAGE
+    condition: has-previous
+  next:
+    slot: 53
+    material: ARROW
+    name: "&7Следующая страница »"
+    action: NEXT_PAGE
+    condition: has-next
+  info:
+    slot: 49
+    material: PAPER
+    name: "&6{kit}"
+    lore:
+      - "&7Включённых арен: &f{allowed}&7/&f{total}"
+      - "&7Страница &f{page}&7/&f{pages}"
+  reset:
+    slot: 50
+    material: LIME_DYE
+    name: "&aРазрешить все арены"
+    lore:
+      - "&7Снимает ограничение: на наборе можно"
+      - "&7играть на любой арене (и на новых)."
+      - ""
+      - "&eНажмите, чтобы применить"
+    action: RESET
+    condition: restricted
+  back:
+    slot: 48
+    material: ARROW
+    name: "&7« Назад к наборам"
+    action: BACK
+  close:
+    slot: 51
+    material: BARRIER
+    name: "&cЗакрыть"
+    action: CLOSE
+  no-arenas:
+    slot: 22
+    material: BARRIER
+    name: "&cАрен пока нет"
+    condition: no-arenas
