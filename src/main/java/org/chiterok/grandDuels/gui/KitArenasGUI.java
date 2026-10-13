@@ -104,7 +104,7 @@ public final class KitArenasGUI extends GuiHolder {
         Map<String, String> local = new HashMap<>(ph);
         local.put("arena_name", arena.displayName());
         local.put("arena_id", arena.name());
-        return MenuItem.decorate(new ItemStack(material), name, lore, glint, local);
+        return MenuItem.decorate(new ItemStack(material), name, lore, glint, local, viewer);
     }
 
     @Override

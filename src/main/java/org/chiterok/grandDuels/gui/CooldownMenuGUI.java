@@ -62,7 +62,7 @@ public final class CooldownMenuGUI extends GuiHolder {
             MenuItem item = MenuItem.parse(type.configKey(), section, def.size(), plugin.getLogger());
             List<String> lore = section.contains("lore") ? item.lore() : type.hasCooldown() ? cooldownLore : restrictionLore;
             ItemStack built = MenuItem.decorate(new ItemStack(item.material(), item.amount()), item.name(), lore,
-                    item.enchanted(), placeholders(def, type));
+                    item.enchanted(), placeholders(def, type), viewer);
             for (int slot : item.slots()) {
                 getInventory().setItem(slot, built.clone());
                 typeBySlot.put(slot, type);

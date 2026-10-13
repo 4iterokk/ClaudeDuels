@@ -35,6 +35,7 @@ import org.chiterok.grandDuels.runtime.GuiListener;
 import org.chiterok.grandDuels.runtime.KitEditorListener;
 import org.chiterok.grandDuels.runtime.MatchListener;
 import org.chiterok.grandDuels.runtime.PvPRulesListener;
+import org.chiterok.grandDuels.utils.PapiParser;
 import org.chiterok.grandDuels.utils.PlaceholderUtil;
 
 import java.util.UUID;
@@ -111,6 +112,7 @@ public final class GrandDuels extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        PapiParser.disable();
         if (queues != null) queues.stop();
         if (placeholders != null) placeholders.stop();
         if (kitEdits != null) kitEdits.shutdown();
@@ -125,6 +127,8 @@ public final class GrandDuels extends JavaPlugin {
     /** Registers the %grandduels_...% placeholders when PlaceholderAPI is installed (it is a soft dependency). */
     private void hookPlaceholderApi() {
         if (getServer().getPluginManager().getPlugin("PlaceholderAPI") == null) return;
+        PapiParser.enable();
+        if (PapiParser.isAvailable()) getLogger().info("PlaceholderAPI found: placeholders are parsed in menus.");
         try {
             this.placeholders = new PlaceholderUtil(this);
             if (placeholders.start()) getLogger().info("PlaceholderAPI found: %grandduels_...% placeholders registered.");

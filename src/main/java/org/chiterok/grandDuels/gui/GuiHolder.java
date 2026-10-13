@@ -30,7 +30,7 @@ public abstract class GuiHolder implements InventoryHolder {
     }
 
     protected final Inventory create(MenuDefinition definition, Map<String, String> placeholders) {
-        this.inventory = Bukkit.createInventory(this, definition.size(), ColorUtil.colorize(definition.title(), placeholders));
+        this.inventory = Bukkit.createInventory(this, definition.size(), ColorUtil.colorize(definition.title(), placeholders, viewer));
         return inventory;
     }
 
@@ -49,14 +49,14 @@ public abstract class GuiHolder implements InventoryHolder {
         inventory.clear();
         MenuItem filler = definition.filler();
         if (filler != null) {
-            ItemStack fill = filler.build(placeholders);
+            ItemStack fill = filler.build(placeholders, viewer);
             for (int slot = 0; slot < inventory.getSize(); slot++) inventory.setItem(slot, fill.clone());
         }
         Map<Integer, String> actions = new HashMap<>();
         Set<Integer> occupied = new HashSet<>();
         for (MenuItem item : definition.items()) {
             if (!item.visible(flags)) continue;
-            ItemStack built = item.build(placeholders);
+            ItemStack built = item.build(placeholders, viewer);
             for (int slot : item.slots()) {
                 inventory.setItem(slot, built.clone());
                 occupied.add(slot);
