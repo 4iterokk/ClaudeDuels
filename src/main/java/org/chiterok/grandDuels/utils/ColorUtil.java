@@ -4,6 +4,8 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
+import org.bukkit.entity.Player;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,10 +38,18 @@ public final class ColorUtil {
     }
 
     public static Component colorize(String text, Map<String, String> placeholders) {
+        return colorize(text, placeholders, null);
+    }
+
+    /**
+     * Colorizes {@code text}; {@code {name}} placeholders are replaced first, then PlaceholderAPI placeholders are
+     * resolved for {@code viewer} (skipped when {@code viewer} is {@code null} or PlaceholderAPI is not installed).
+     */
+    public static Component colorize(String text, Map<String, String> placeholders, @Nullable Player viewer) {
         if (text == null || text.isEmpty()) return Component.empty();
         String converted = toMiniMessage(text);
         if (!placeholders.isEmpty()) converted = applyPlaceholders(converted, placeholders);
-        return MINI.deserialize(converted);
+        return MINI.deserialize(applyPapi(converted, viewer));
     }
 
     public static List<Component> colorize(List<String> lines) {
@@ -47,8 +57,12 @@ public final class ColorUtil {
     }
 
     public static List<Component> colorize(List<String> lines, Map<String, String> placeholders) {
+        return colorize(lines, placeholders, null);
+    }
+
+    public static List<Component> colorize(List<String> lines, Map<String, String> placeholders, @Nullable Player viewer) {
         List<Component> out = new ArrayList<>(lines.size());
-        for (String line : lines) out.add(colorize(line, placeholders));
+        for (String line : lines) out.add(colorize(line, placeholders, viewer));
         return out;
     }
 
@@ -58,7 +72,11 @@ public final class ColorUtil {
     }
 
     public static Component colorizeItem(String text, Map<String, String> placeholders) {
-        return colorize(text, placeholders).decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE);
+        return colorizeItem(text, placeholders, null);
+    }
+
+    public static Component colorizeItem(String text, Map<String, String> placeholders, @Nullable Player viewer) {
+        return colorize(text, placeholders, viewer).decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE);
     }
 
     public static List<Component> colorizeItem(List<String> lines) {
@@ -66,8 +84,12 @@ public final class ColorUtil {
     }
 
     public static List<Component> colorizeItem(List<String> lines, Map<String, String> placeholders) {
+        return colorizeItem(lines, placeholders, null);
+    }
+
+    public static List<Component> colorizeItem(List<String> lines, Map<String, String> placeholders, @Nullable Player viewer) {
         List<Component> out = new ArrayList<>(lines.size());
-        for (String line : lines) out.add(colorizeItem(line, placeholders));
+        for (String line : lines) out.add(colorizeItem(line, placeholders, viewer));
         return out;
     }
 
@@ -85,6 +107,16 @@ public final class ColorUtil {
         }
         matcher.appendTail(out);
         return out.toString();
+    }
+
+    /**
+     * Resolves PlaceholderAPI placeholders in already MiniMessage-converted text. The resolved text may carry legacy
+     * or hex codes, so it is converted again; text without any change is returned untouched.
+     */
+    private static String applyPapi(String text, @Nullable Player viewer) {
+        if (viewer == null || text.indexOf('%') < 0) return text;
+        String parsed = PapiParser.parse(viewer, text);
+        return parsed.equals(text) ? text : toMiniMessage(parsed);
     }
 
     /** Converts legacy and {@code &#RRGGBB} syntax into MiniMessage tags. */

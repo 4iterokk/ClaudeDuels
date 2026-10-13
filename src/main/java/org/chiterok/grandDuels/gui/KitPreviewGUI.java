@@ -87,7 +87,7 @@ public final class KitPreviewGUI extends GuiHolder {
                     .replace("{level}", String.valueOf(effect.getAmplifier() + 1))
                     .replace("{duration}", duration));
         }
-        return MenuItem.decorate(new ItemStack(material), name, lore, false, Map.of());
+        return MenuItem.decorate(new ItemStack(material), name, lore, false, Map.of(), viewer);
     }
 
     @Override

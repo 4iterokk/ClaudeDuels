@@ -87,7 +87,7 @@ public final class ArenaKitsGUI extends GuiHolder {
         ItemStack icon = kit.icon().clone();
         icon.setAmount(1);
         icon.editMeta(meta -> meta.lore(null));
-        return MenuItem.decorate(icon, name, lore, glint, local);
+        return MenuItem.decorate(icon, name, lore, glint, local, viewer);
     }
 
     @Override

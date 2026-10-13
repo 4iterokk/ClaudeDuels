@@ -2,6 +2,7 @@ package org.chiterok.grandDuels.gui;
 
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.chiterok.grandDuels.utils.ColorUtil;
@@ -106,16 +107,19 @@ public record MenuItem(String id, List<Integer> slots, Material material, int am
         return condition.startsWith("!") ? !flags.contains(condition.substring(1)) : flags.contains(condition);
     }
 
-    public ItemStack build(Map<String, String> placeholders) {
-        return decorate(new ItemStack(material, amount), name, lore, enchanted, placeholders);
+    public ItemStack build(Map<String, String> placeholders, Player viewer) {
+        return decorate(new ItemStack(material, amount), name, lore, enchanted, placeholders, viewer);
     }
 
-    /** Applies name/lore/enchanted glint to {@code item}. A {@code null} name or empty lore leaves that part untouched. */
+    /**
+     * Applies name/lore/enchanted glint to {@code item}. A {@code null} name or empty lore leaves that part untouched.
+     * PlaceholderAPI placeholders in name and lore are resolved for {@code viewer}.
+     */
     public static ItemStack decorate(ItemStack item, @Nullable String name, List<String> lore, boolean enchanted,
-                                     Map<String, String> placeholders) {
+                                     Map<String, String> placeholders, Player viewer) {
         item.editMeta(meta -> {
-            if (name != null) meta.displayName(ColorUtil.colorizeItem(name, placeholders));
-            if (!lore.isEmpty()) meta.lore(ColorUtil.colorizeItem(lore, placeholders));
+            if (name != null) meta.displayName(ColorUtil.colorizeItem(name, placeholders, viewer));
+            if (!lore.isEmpty()) meta.lore(ColorUtil.colorizeItem(lore, placeholders, viewer));
             meta.addItemFlags(ItemFlag.values());
             if (enchanted) meta.setEnchantmentGlintOverride(true);
         });

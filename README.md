@@ -19,11 +19,13 @@ Modern 1v1 dueling plugin for **Paper 1.21.11** (Java 21): data-component kits, 
 - **Combat restrictions**: command blocking (with whitelist), item drop/pickup blocking, frozen countdown, ender pearl and chorus fruit boundary checks.
 - **Stats**: wins, losses, kills, deaths, K/D, win streaks and ELO, stored asynchronously in YAML or SQLite.
 - **Fully configurable text**: `messages.yml` and every menu in `menu/*.yml`. Colors support legacy codes (`&a`), hex (`&#RRGGBB`, `<#RRGGBB>`) and MiniMessage gradients.
+- **PlaceholderAPI in menus**: with PlaceholderAPI installed, any `%placeholder%` in menu titles, item names and lore is resolved for the player viewing the menu (e.g. `%player_name%`, `%vault_eco_balance%`). Built-in `{placeholders}` are replaced first, so `%grandduels_elo_{target}%`-style combinations work.
 
 ## Requirements
 
 - Paper 1.21.11 (or a compatible build)
 - Java 21
+- PlaceholderAPI (optional, for `%placeholders%` in menus and the `%grandduels_...%` expansion)
 
 ## Installation
 

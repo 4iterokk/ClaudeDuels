@@ -116,7 +116,7 @@ public final class ArenaSelectorGUI extends GuiHolder {
         local.put("arena_name", arena.displayName());
         local.put("arena_id", arena.name());
         local.put("state", def.root().getString("states." + (busy ? "busy" : "free"), busy ? "busy" : "free"));
-        return MenuItem.decorate(new ItemStack(material), name, lore, glint, local);
+        return MenuItem.decorate(new ItemStack(material), name, lore, glint, local, viewer);
     }
 
     @Override

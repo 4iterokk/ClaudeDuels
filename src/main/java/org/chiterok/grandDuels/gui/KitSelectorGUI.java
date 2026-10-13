@@ -125,7 +125,7 @@ public final class KitSelectorGUI extends GuiHolder {
         ItemStack icon = kit.icon().clone();
         icon.setAmount(1);
         icon.editMeta(meta -> meta.lore(null));
-        return MenuItem.decorate(icon, name, lore, enchanted, local);
+        return MenuItem.decorate(icon, name, lore, enchanted, local, viewer);
     }
 
     @Override
