@@ -243,7 +243,10 @@ public final class SpectatorManager {
     /** Quit handler: the player is leaving, so restore synchronously. */
     public void handleQuit(Player player) {
         Session session = sessions.get(player.getUniqueId());
-        if (session != null) restore(player, session, false);
+        // Teleporting inside PlayerQuitEvent is not reliable (the connection is already closing), so the snapshot file
+        // is KEPT: the gamemode and inventory are reset now, and the next join restores the location for certain
+        // (MatchManager#recover), instead of leaving the player at the arena.
+        if (session != null) restore(player, session, false, false);
     }
 
     /** Death listener (the player can only die to /kill or similar): respawn, then restore. */
@@ -349,10 +352,14 @@ public final class SpectatorManager {
     }
 
     private void restore(Player player, Session session, boolean async) {
+        restore(player, session, async, true);
+    }
+
+    private void restore(Player player, Session session, boolean async, boolean deleteSnapshot) {
         UUID id = player.getUniqueId();
         if (!sessions.remove(id, session)) return; // removing first: the teleport/gamemode guards no longer apply
         session.snapshot.restore(player, destinationFor(session.snapshot), async);
-        plugin.snapshots().delete(id);
+        if (deleteSnapshot) plugin.snapshots().delete(id);
     }
 
     /** Where the player was before spectating; the lobby, then the main world's spawn if that world is gone. */
