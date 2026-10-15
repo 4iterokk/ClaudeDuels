@@ -4,7 +4,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.chiterok.grandDuels.GrandDuels;
+import org.chiterok.grandDuels.ClaudeDuels;
 import org.chiterok.grandDuels.gui.QueueMenuGUI;
 import org.chiterok.grandDuels.match.DuelMode;
 import org.jetbrains.annotations.NotNull;
@@ -12,10 +12,10 @@ import org.jetbrains.annotations.NotNull;
 /** {@code /ranked} and {@code /unranked}: open the queue menu of the given mode. */
 public final class QueueCommand implements CommandExecutor {
 
-    private final GrandDuels plugin;
+    private final ClaudeDuels plugin;
     private final DuelMode mode;
 
-    public QueueCommand(GrandDuels plugin, DuelMode mode) {
+    public QueueCommand(ClaudeDuels plugin, DuelMode mode) {
         this.plugin = plugin;
         this.mode = mode;
     }

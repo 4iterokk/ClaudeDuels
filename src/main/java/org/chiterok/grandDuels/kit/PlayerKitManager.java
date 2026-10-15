@@ -5,7 +5,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.chiterok.grandDuels.GrandDuels;
+import org.chiterok.grandDuels.ClaudeDuels;
 import org.chiterok.grandDuels.config.Settings;
 import org.jetbrains.annotations.Nullable;
 
@@ -32,11 +32,11 @@ public final class PlayerKitManager {
 
     public record SaveOutcome(SaveResult result, int skippedItems) {}
 
-    private final GrandDuels plugin;
+    private final ClaudeDuels plugin;
     private final File directory;
     private final Map<UUID, Map<String, Kit>> cache = new HashMap<>();
 
-    public PlayerKitManager(GrandDuels plugin) {
+    public PlayerKitManager(ClaudeDuels plugin) {
         this.plugin = plugin;
         this.directory = new File(plugin.getDataFolder(), "playerkits");
     }

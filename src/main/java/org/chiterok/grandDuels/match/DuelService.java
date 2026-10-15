@@ -2,7 +2,7 @@ package org.chiterok.grandDuels.match;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.chiterok.grandDuels.GrandDuels;
+import org.chiterok.grandDuels.ClaudeDuels;
 import org.chiterok.grandDuels.arena.Arena;
 import org.chiterok.grandDuels.arena.ArenaState;
 import org.chiterok.grandDuels.gui.KitSelectorGUI;
@@ -16,9 +16,9 @@ import java.util.stream.Collectors;
 /** Validation and orchestration of the request -> accept -> match flow. Shared by commands and GUIs. */
 public final class DuelService {
 
-    private final GrandDuels plugin;
+    private final ClaudeDuels plugin;
 
-    public DuelService(GrandDuels plugin) {
+    public DuelService(ClaudeDuels plugin) {
         this.plugin = plugin;
     }
 

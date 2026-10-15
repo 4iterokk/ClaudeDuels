@@ -2,7 +2,7 @@ package org.chiterok.grandDuels.command.admin.arena;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.chiterok.grandDuels.GrandDuels;
+import org.chiterok.grandDuels.ClaudeDuels;
 import org.chiterok.grandDuels.arena.Arena;
 import org.chiterok.grandDuels.arena.ArenaState;
 import org.chiterok.grandDuels.command.CommandRegistry;
@@ -14,9 +14,9 @@ import java.util.List;
 /** {@code /duels arena pos1|setspawn1 <name>} - sets the first spawn point to the executor's location. */
 public final class PosOne implements SubCommand {
 
-    private final GrandDuels plugin;
+    private final ClaudeDuels plugin;
 
-    public PosOne(GrandDuels plugin) {
+    public PosOne(ClaudeDuels plugin) {
         this.plugin = plugin;
     }
 

@@ -2,16 +2,16 @@ package org.chiterok.grandDuels.command.admin.arena;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.chiterok.grandDuels.GrandDuels;
+import org.chiterok.grandDuels.ClaudeDuels;
 import org.chiterok.grandDuels.command.SubCommand;
 import org.chiterok.grandDuels.gui.ArenaKitsGUI;
 
 /** {@code /duels arena kits} - opens the menu where admins choose which arenas each kit can be played on. */
 public final class Kits implements SubCommand {
 
-    private final GrandDuels plugin;
+    private final ClaudeDuels plugin;
 
-    public Kits(GrandDuels plugin) {
+    public Kits(ClaudeDuels plugin) {
         this.plugin = plugin;
     }
 

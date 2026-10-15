@@ -5,7 +5,7 @@ import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.util.BoundingBox;
-import org.chiterok.grandDuels.GrandDuels;
+import org.chiterok.grandDuels.ClaudeDuels;
 import org.chiterok.grandDuels.kit.Kit;
 import org.chiterok.grandDuels.utils.StoredLocation;
 import org.jetbrains.annotations.Nullable;
@@ -30,12 +30,12 @@ public final class ArenaManager {
 
     private static final Pattern VALID_NAME = Pattern.compile("[A-Za-z0-9_-]{1,32}");
 
-    private final GrandDuels plugin;
+    private final ClaudeDuels plugin;
     private final Map<String, Arena> arenas = new ConcurrentHashMap<>();
     /** Kit id -> ids of the arenas the kit may use. Absent = unrestricted. */
     private final Map<String, Set<String>> kitArenas = new ConcurrentHashMap<>();
 
-    public ArenaManager(GrandDuels plugin) {
+    public ArenaManager(ClaudeDuels plugin) {
         this.plugin = plugin;
     }
 

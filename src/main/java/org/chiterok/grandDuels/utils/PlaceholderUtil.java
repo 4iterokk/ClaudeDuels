@@ -5,7 +5,7 @@ import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.scheduler.BukkitTask;
-import org.chiterok.grandDuels.GrandDuels;
+import org.chiterok.grandDuels.ClaudeDuels;
 import org.chiterok.grandDuels.config.Settings;
 import org.chiterok.grandDuels.data.PlayerStats;
 import org.chiterok.grandDuels.data.RatingEntry;
@@ -52,12 +52,12 @@ public final class PlaceholderUtil extends PlaceholderExpansion {
     private static final Pattern KIT_ELO = Pattern.compile("kit_elo_([a-z0-9_-]+)");
     private static final long COUNTER_REFRESH_TICKS = 20L;
 
-    private final GrandDuels plugin;
+    private final ClaudeDuels plugin;
     private volatile int rankedCount;
     private volatile int unrankedCount;
     private BukkitTask counterTask;
 
-    public PlaceholderUtil(GrandDuels plugin) {
+    public PlaceholderUtil(ClaudeDuels plugin) {
         this.plugin = plugin;
     }
 

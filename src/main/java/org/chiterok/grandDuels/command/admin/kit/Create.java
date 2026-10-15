@@ -2,7 +2,7 @@ package org.chiterok.grandDuels.command.admin.kit;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.chiterok.grandDuels.GrandDuels;
+import org.chiterok.grandDuels.ClaudeDuels;
 import org.chiterok.grandDuels.command.SubCommand;
 import org.chiterok.grandDuels.kit.KitEditManager;
 import org.chiterok.grandDuels.kit.KitManager;
@@ -12,9 +12,9 @@ import java.util.Locale;
 /** {@code /duels kit create <name>} - starts an empty loadout; finish with {@code /duels kit save}. */
 public final class Create implements SubCommand {
 
-    private final GrandDuels plugin;
+    private final ClaudeDuels plugin;
 
-    public Create(GrandDuels plugin) {
+    public Create(ClaudeDuels plugin) {
         this.plugin = plugin;
     }
 

@@ -4,7 +4,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
-import org.chiterok.grandDuels.GrandDuels;
+import org.chiterok.grandDuels.ClaudeDuels;
 import org.chiterok.grandDuels.config.Messages;
 import org.chiterok.grandDuels.kit.Kit;
 import org.chiterok.grandDuels.match.ArenaModeManager;
@@ -26,7 +26,7 @@ public final class ArenaModeGUI extends GuiHolder {
     private int page;
     private int pageCount = 1;
 
-    public ArenaModeGUI(GrandDuels plugin, Player viewer) {
+    public ArenaModeGUI(ClaudeDuels plugin, Player viewer) {
         super(plugin, viewer);
         this.kits = new ArrayList<>(plugin.kits().all()); // standard kits only
     }

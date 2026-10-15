@@ -43,7 +43,7 @@ import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.event.vehicle.VehicleEnterEvent;
 import org.bukkit.inventory.ItemStack;
-import org.chiterok.grandDuels.GrandDuels;
+import org.chiterok.grandDuels.ClaudeDuels;
 import org.chiterok.grandDuels.config.Settings;
 import org.chiterok.grandDuels.kit.PlayerKitItemFilter;
 import org.jetbrains.annotations.Nullable;
@@ -76,10 +76,10 @@ public final class KitEditorListener implements Listener {
     private static final long WARN_INTERVAL_MS = 1000L;
     private static final long RESPAWN_SETTLE_TICKS = 10L;
 
-    private final GrandDuels plugin;
+    private final ClaudeDuels plugin;
     private final Map<UUID, Long> lastWarning = new HashMap<>();
 
-    public KitEditorListener(GrandDuels plugin) {
+    public KitEditorListener(ClaudeDuels plugin) {
         this.plugin = plugin;
     }
 

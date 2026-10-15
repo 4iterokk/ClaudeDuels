@@ -2,7 +2,7 @@ package org.chiterok.grandDuels.command.admin;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.chiterok.grandDuels.GrandDuels;
+import org.chiterok.grandDuels.ClaudeDuels;
 import org.chiterok.grandDuels.command.SubCommand;
 import org.chiterok.grandDuels.utils.StoredLocation;
 
@@ -11,9 +11,9 @@ import java.util.List;
 /** {@code /duels setarenaspawn} - sets where players of arena mode ({@code /arena}) are teleported. */
 public final class SetArenaSpawn implements SubCommand {
 
-    private final GrandDuels plugin;
+    private final ClaudeDuels plugin;
 
-    public SetArenaSpawn(GrandDuels plugin) {
+    public SetArenaSpawn(ClaudeDuels plugin) {
         this.plugin = plugin;
     }
 

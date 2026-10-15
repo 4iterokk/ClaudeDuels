@@ -41,7 +41,7 @@ import org.chiterok.grandDuels.utils.PlaceholderUtil;
 import java.util.UUID;
 
 /** Composition root: builds every service once and exposes them to the rest of the plugin. */
-public final class GrandDuels extends JavaPlugin {
+public final class ClaudeDuels extends JavaPlugin {
 
     private ConfigManager configs;
     private Messages messages;

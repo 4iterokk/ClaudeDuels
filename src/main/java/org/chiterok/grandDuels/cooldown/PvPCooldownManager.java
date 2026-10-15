@@ -2,7 +2,7 @@ package org.chiterok.grandDuels.cooldown;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.chiterok.grandDuels.GrandDuels;
+import org.chiterok.grandDuels.ClaudeDuels;
 import org.chiterok.grandDuels.utils.TimeUtil;
 
 /**
@@ -16,9 +16,9 @@ public final class PvPCooldownManager {
 
     private static final long TICK_MILLIS = 50L;
 
-    private final GrandDuels plugin;
+    private final ClaudeDuels plugin;
 
-    public PvPCooldownManager(GrandDuels plugin) {
+    public PvPCooldownManager(ClaudeDuels plugin) {
         this.plugin = plugin;
     }
 

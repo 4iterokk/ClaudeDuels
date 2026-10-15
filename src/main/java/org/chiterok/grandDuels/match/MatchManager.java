@@ -1,7 +1,7 @@
 package org.chiterok.grandDuels.match;
 
 import org.bukkit.entity.Player;
-import org.chiterok.grandDuels.GrandDuels;
+import org.chiterok.grandDuels.ClaudeDuels;
 import org.chiterok.grandDuels.arena.Arena;
 import org.chiterok.grandDuels.arena.ArenaState;
 import org.chiterok.grandDuels.kit.Kit;
@@ -19,10 +19,10 @@ public final class MatchManager {
 
     public enum StartResult { STARTED, PLAYER_BUSY, NO_ARENA, ARENA_UNAVAILABLE, FAILED }
 
-    private final GrandDuels plugin;
+    private final ClaudeDuels plugin;
     private final Map<UUID, Match> byPlayer = new HashMap<>();
 
-    public MatchManager(GrandDuels plugin) {
+    public MatchManager(ClaudeDuels plugin) {
         this.plugin = plugin;
     }
 

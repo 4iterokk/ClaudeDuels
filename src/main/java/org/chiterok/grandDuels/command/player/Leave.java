@@ -2,7 +2,7 @@ package org.chiterok.grandDuels.command.player;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.chiterok.grandDuels.GrandDuels;
+import org.chiterok.grandDuels.ClaudeDuels;
 import org.chiterok.grandDuels.command.SubCommand;
 
 import java.util.List;
@@ -10,9 +10,9 @@ import java.util.List;
 /** {@code /duel leave} - leaves the ranked/unranked queue. */
 public final class Leave implements SubCommand {
 
-    private final GrandDuels plugin;
+    private final ClaudeDuels plugin;
 
-    public Leave(GrandDuels plugin) {
+    public Leave(ClaudeDuels plugin) {
         this.plugin = plugin;
     }
 

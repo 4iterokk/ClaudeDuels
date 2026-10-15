@@ -2,15 +2,15 @@ package org.chiterok.grandDuels.command.admin.kit;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.chiterok.grandDuels.GrandDuels;
+import org.chiterok.grandDuels.ClaudeDuels;
 import org.chiterok.grandDuels.command.SubCommand;
 
 /** {@code /duels kit cancel} - leaves edit mode without saving and restores your inventory. */
 public final class Cancel implements SubCommand {
 
-    private final GrandDuels plugin;
+    private final ClaudeDuels plugin;
 
-    public Cancel(GrandDuels plugin) {
+    public Cancel(ClaudeDuels plugin) {
         this.plugin = plugin;
     }
 

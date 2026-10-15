@@ -6,7 +6,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
-import org.chiterok.grandDuels.GrandDuels;
+import org.chiterok.grandDuels.ClaudeDuels;
 import org.chiterok.grandDuels.config.Settings;
 import org.chiterok.grandDuels.match.MatchSettings;
 import org.chiterok.grandDuels.match.PlayerSnapshot;
@@ -54,10 +54,10 @@ public final class KitEditManager {
         }
     }
 
-    private final GrandDuels plugin;
+    private final ClaudeDuels plugin;
     private final Map<UUID, Session> sessions = new HashMap<>();
 
-    public KitEditManager(GrandDuels plugin) {
+    public KitEditManager(ClaudeDuels plugin) {
         this.plugin = plugin;
     }
 

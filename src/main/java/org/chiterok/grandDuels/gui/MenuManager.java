@@ -1,6 +1,6 @@
 package org.chiterok.grandDuels.gui;
 
-import org.chiterok.grandDuels.GrandDuels;
+import org.chiterok.grandDuels.ClaudeDuels;
 import org.chiterok.grandDuels.config.ConfigManager;
 import org.chiterok.grandDuels.config.YamlFile;
 import org.chiterok.grandDuels.cooldown.RuleDefaults;
@@ -30,12 +30,12 @@ public final class MenuManager {
     private static final String[] MENUS = {KIT_SELECTOR, OWN_KIT_SELECTOR, KIT_PREVIEW, DUEL_SETTINGS, COOLDOWNS, RANKED, UNRANKED,
             ARENA_SELECTOR, ARENA_MODE, ADMIN_ARENA_KITS, ADMIN_KIT_ARENAS};
 
-    private final GrandDuels plugin;
+    private final ClaudeDuels plugin;
     private final Map<String, YamlFile> files = new LinkedHashMap<>();
     private volatile Map<String, MenuDefinition> definitions = Map.of();
     private volatile RuleDefaults defaults = RuleDefaults.from(null);
 
-    public MenuManager(GrandDuels plugin) {
+    public MenuManager(ClaudeDuels plugin) {
         this.plugin = plugin;
         generateBundled();
         open();

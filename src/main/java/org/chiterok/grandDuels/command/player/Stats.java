@@ -4,7 +4,7 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.chiterok.grandDuels.GrandDuels;
+import org.chiterok.grandDuels.ClaudeDuels;
 import org.chiterok.grandDuels.command.CommandRegistry;
 import org.chiterok.grandDuels.command.SubCommand;
 import org.chiterok.grandDuels.config.Messages;
@@ -23,9 +23,9 @@ public final class Stats implements SubCommand {
 
     private static final Pattern NAME = Pattern.compile("[A-Za-z0-9_.-]{1,32}");
 
-    private final GrandDuels plugin;
+    private final ClaudeDuels plugin;
 
-    public Stats(GrandDuels plugin) {
+    public Stats(ClaudeDuels plugin) {
         this.plugin = plugin;
     }
 

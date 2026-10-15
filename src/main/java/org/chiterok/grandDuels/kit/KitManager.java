@@ -7,7 +7,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffect;
-import org.chiterok.grandDuels.GrandDuels;
+import org.chiterok.grandDuels.ClaudeDuels;
 import org.chiterok.grandDuels.config.Settings;
 import org.chiterok.grandDuels.match.DuelMode;
 import org.jetbrains.annotations.Nullable;
@@ -29,11 +29,11 @@ public final class KitManager {
 
     private static final Pattern VALID_ID = Pattern.compile("[a-z0-9_-]{1,32}");
 
-    private final GrandDuels plugin;
+    private final ClaudeDuels plugin;
     private final KitItemCodec codec;
     private volatile Map<String, Kit> kits = Map.of();
 
-    public KitManager(GrandDuels plugin) {
+    public KitManager(ClaudeDuels plugin) {
         this.plugin = plugin;
         this.codec = new KitItemCodec(plugin);
     }

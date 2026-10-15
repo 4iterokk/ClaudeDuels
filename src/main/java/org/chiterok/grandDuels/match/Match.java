@@ -12,7 +12,7 @@ import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
-import org.chiterok.grandDuels.GrandDuels;
+import org.chiterok.grandDuels.ClaudeDuels;
 import org.chiterok.grandDuels.arena.Arena;
 import org.chiterok.grandDuels.arena.ArenaState;
 import org.chiterok.grandDuels.config.Messages;
@@ -45,7 +45,7 @@ public final class Match {
     /** Ticks to wait after a respawn before moving/teleporting the player again (client must finish loading). */
     private static final long RESPAWN_SETTLE_TICKS = 10L;
 
-    private final GrandDuels plugin;
+    private final ClaudeDuels plugin;
     private final MatchManager manager;
     private final Arena arena;
     private final Kit kit;
@@ -67,7 +67,7 @@ public final class Match {
     private BukkitTask celebrationTask;
     private int elapsedSeconds;
 
-    Match(GrandDuels plugin, MatchManager manager, Arena arena, Kit kit, MatchSettings settings, DuelMode mode,
+    Match(ClaudeDuels plugin, MatchManager manager, Arena arena, Kit kit, MatchSettings settings, DuelMode mode,
           Player first, Player second) {
         this.plugin = plugin;
         this.manager = manager;

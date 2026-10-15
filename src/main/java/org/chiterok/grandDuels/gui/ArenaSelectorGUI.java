@@ -5,7 +5,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
-import org.chiterok.grandDuels.GrandDuels;
+import org.chiterok.grandDuels.ClaudeDuels;
 import org.chiterok.grandDuels.arena.Arena;
 import org.chiterok.grandDuels.arena.ArenaState;
 import org.chiterok.grandDuels.config.Messages;
@@ -42,7 +42,7 @@ public final class ArenaSelectorGUI extends GuiHolder {
      * @param onChoose called with the picked arena id, or {@code null} for "random"
      * @param onBack   called when the viewer goes back without picking
      */
-    public ArenaSelectorGUI(GrandDuels plugin, Player viewer, Kit kit, @Nullable String current,
+    public ArenaSelectorGUI(ClaudeDuels plugin, Player viewer, Kit kit, @Nullable String current,
                             Consumer<@Nullable String> onChoose, Runnable onBack) {
         super(plugin, viewer);
         this.kit = kit;

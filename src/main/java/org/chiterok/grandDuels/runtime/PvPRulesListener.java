@@ -18,7 +18,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.event.player.PlayerRiptideEvent;
 import org.bukkit.inventory.ItemStack;
-import org.chiterok.grandDuels.GrandDuels;
+import org.chiterok.grandDuels.ClaudeDuels;
 import org.chiterok.grandDuels.config.Settings;
 import org.chiterok.grandDuels.cooldown.RuleType;
 import org.chiterok.grandDuels.match.Match;
@@ -30,9 +30,9 @@ public final class PvPRulesListener implements Listener {
 
     private static final float MACE_SMASH_MIN_FALL = 1.5f;
 
-    private final GrandDuels plugin;
+    private final ClaudeDuels plugin;
 
-    public PvPRulesListener(GrandDuels plugin) {
+    public PvPRulesListener(ClaudeDuels plugin) {
         this.plugin = plugin;
     }
 

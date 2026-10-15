@@ -2,7 +2,7 @@ package org.chiterok.grandDuels.command.admin;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.chiterok.grandDuels.GrandDuels;
+import org.chiterok.grandDuels.ClaudeDuels;
 import org.chiterok.grandDuels.command.CommandRegistry;
 import org.chiterok.grandDuels.command.SubCommand;
 import org.chiterok.grandDuels.kit.KitManager;
@@ -13,9 +13,9 @@ import java.util.Locale;
 /** {@code /duels savekit <id>} - stores the admin's inventory, armor, offhand and effects as a kit. */
 public final class SaveKit implements SubCommand {
 
-    private final GrandDuels plugin;
+    private final ClaudeDuels plugin;
 
-    public SaveKit(GrandDuels plugin) {
+    public SaveKit(ClaudeDuels plugin) {
         this.plugin = plugin;
     }
 

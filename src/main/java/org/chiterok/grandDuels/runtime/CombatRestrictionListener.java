@@ -19,7 +19,7 @@ import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.util.BoundingBox;
-import org.chiterok.grandDuels.GrandDuels;
+import org.chiterok.grandDuels.ClaudeDuels;
 import org.chiterok.grandDuels.cooldown.RuleType;
 import org.chiterok.grandDuels.match.Match;
 
@@ -31,9 +31,9 @@ public final class CombatRestrictionListener implements Listener {
 
     private static final String BYPASS_PERMISSION = "grandduels.bypass.commands";
 
-    private final GrandDuels plugin;
+    private final ClaudeDuels plugin;
 
-    public CombatRestrictionListener(GrandDuels plugin) {
+    public CombatRestrictionListener(ClaudeDuels plugin) {
         this.plugin = plugin;
     }
 

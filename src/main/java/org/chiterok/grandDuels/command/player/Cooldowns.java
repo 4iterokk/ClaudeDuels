@@ -2,7 +2,7 @@ package org.chiterok.grandDuels.command.player;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.chiterok.grandDuels.GrandDuels;
+import org.chiterok.grandDuels.ClaudeDuels;
 import org.chiterok.grandDuels.command.SubCommand;
 import org.chiterok.grandDuels.gui.CooldownMenuGUI;
 
@@ -11,9 +11,9 @@ import java.util.List;
 /** {@code /duel cooldowns} - opens the personal cooldowns and restrictions menu. */
 public final class Cooldowns implements SubCommand {
 
-    private final GrandDuels plugin;
+    private final ClaudeDuels plugin;
 
-    public Cooldowns(GrandDuels plugin) {
+    public Cooldowns(ClaudeDuels plugin) {
         this.plugin = plugin;
     }
 

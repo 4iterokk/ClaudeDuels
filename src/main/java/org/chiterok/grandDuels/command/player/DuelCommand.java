@@ -5,7 +5,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
-import org.chiterok.grandDuels.GrandDuels;
+import org.chiterok.grandDuels.ClaudeDuels;
 import org.chiterok.grandDuels.command.CommandRegistry;
 import org.jetbrains.annotations.NotNull;
 
@@ -15,10 +15,10 @@ import java.util.List;
 /** {@code /duel <player|accept|deny|cancel|cooldowns|kit|leave|stats>} */
 public final class DuelCommand implements TabExecutor {
 
-    private final GrandDuels plugin;
+    private final ClaudeDuels plugin;
     private final CommandRegistry registry;
 
-    public DuelCommand(GrandDuels plugin) {
+    public DuelCommand(ClaudeDuels plugin) {
         this.plugin = plugin;
         this.registry = new CommandRegistry(plugin)
                 .register(new Accept(plugin))

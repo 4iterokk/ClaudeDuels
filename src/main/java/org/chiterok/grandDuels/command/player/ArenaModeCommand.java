@@ -4,7 +4,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
-import org.chiterok.grandDuels.GrandDuels;
+import org.chiterok.grandDuels.ClaudeDuels;
 import org.chiterok.grandDuels.command.CommandRegistry;
 import org.chiterok.grandDuels.gui.ArenaModeGUI;
 import org.chiterok.grandDuels.match.ArenaModeManager;
@@ -16,9 +16,9 @@ import java.util.Locale;
 /** {@code /arena} opens the kit menu of arena mode; {@code /arena leave} returns to the lobby. */
 public final class ArenaModeCommand implements TabExecutor {
 
-    private final GrandDuels plugin;
+    private final ClaudeDuels plugin;
 
-    public ArenaModeCommand(GrandDuels plugin) {
+    public ArenaModeCommand(ClaudeDuels plugin) {
         this.plugin = plugin;
     }
 

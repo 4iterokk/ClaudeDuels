@@ -2,16 +2,16 @@ package org.chiterok.grandDuels.command.admin;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.chiterok.grandDuels.GrandDuels;
+import org.chiterok.grandDuels.ClaudeDuels;
 import org.chiterok.grandDuels.command.SubCommand;
 import org.chiterok.grandDuels.utils.StoredLocation;
 
 /** {@code /duels setlobby} - sets the location used when {@code duel.return-mode} is LOBBY. */
 public final class SetLobby implements SubCommand {
 
-    private final GrandDuels plugin;
+    private final ClaudeDuels plugin;
 
-    public SetLobby(GrandDuels plugin) {
+    public SetLobby(ClaudeDuels plugin) {
         this.plugin = plugin;
     }
 

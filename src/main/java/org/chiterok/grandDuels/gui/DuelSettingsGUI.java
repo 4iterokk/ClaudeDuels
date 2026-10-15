@@ -2,7 +2,7 @@ package org.chiterok.grandDuels.gui;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
-import org.chiterok.grandDuels.GrandDuels;
+import org.chiterok.grandDuels.ClaudeDuels;
 import org.chiterok.grandDuels.arena.Arena;
 import org.chiterok.grandDuels.config.Messages;
 import org.chiterok.grandDuels.cooldown.RuleType;
@@ -32,7 +32,7 @@ public final class DuelSettingsGUI extends GuiHolder {
     private @Nullable String arenaId;
     private Map<Integer, String> actions = Map.of();
 
-    public DuelSettingsGUI(GrandDuels plugin, Player viewer, Player target, Kit kit, int returnPage,
+    public DuelSettingsGUI(ClaudeDuels plugin, Player viewer, Player target, Kit kit, int returnPage,
                            KitSelectorGUI.Source source) {
         super(plugin, viewer);
         this.targetId = target.getUniqueId();

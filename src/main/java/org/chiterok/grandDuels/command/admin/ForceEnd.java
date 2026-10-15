@@ -3,7 +3,7 @@ package org.chiterok.grandDuels.command.admin;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.chiterok.grandDuels.GrandDuels;
+import org.chiterok.grandDuels.ClaudeDuels;
 import org.chiterok.grandDuels.command.CommandRegistry;
 import org.chiterok.grandDuels.command.SubCommand;
 import org.chiterok.grandDuels.match.Match;
@@ -14,9 +14,9 @@ import java.util.List;
 /** {@code /duels forceend <player>} - ends the player's duel as a draw. */
 public final class ForceEnd implements SubCommand {
 
-    private final GrandDuels plugin;
+    private final ClaudeDuels plugin;
 
-    public ForceEnd(GrandDuels plugin) {
+    public ForceEnd(ClaudeDuels plugin) {
         this.plugin = plugin;
     }
 

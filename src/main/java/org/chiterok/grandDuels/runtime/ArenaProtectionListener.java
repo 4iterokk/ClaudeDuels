@@ -19,7 +19,7 @@ import org.bukkit.event.entity.EntityChangeBlockEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.player.PlayerBucketEmptyEvent;
 import org.bukkit.event.player.PlayerBucketFillEvent;
-import org.chiterok.grandDuels.GrandDuels;
+import org.chiterok.grandDuels.ClaudeDuels;
 import org.chiterok.grandDuels.arena.Arena;
 import org.chiterok.grandDuels.match.Match;
 
@@ -30,9 +30,9 @@ import org.chiterok.grandDuels.match.Match;
  */
 public final class ArenaProtectionListener implements Listener {
 
-    private final GrandDuels plugin;
+    private final ClaudeDuels plugin;
 
-    public ArenaProtectionListener(GrandDuels plugin) {
+    public ArenaProtectionListener(ClaudeDuels plugin) {
         this.plugin = plugin;
     }
 

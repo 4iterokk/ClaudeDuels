@@ -1,6 +1,6 @@
 name: GrandDuels
 version: '${project.version}'
-main: org.chiterok.grandDuels.GrandDuels
+main: org.chiterok.grandDuels.ClaudeDuels
 api-version: '1.21.11'
 load: POSTWORLD
 softdepend: [PlaceholderAPI]

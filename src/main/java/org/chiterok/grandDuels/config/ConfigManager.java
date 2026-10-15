@@ -1,7 +1,7 @@
 package org.chiterok.grandDuels.config;
 
 import org.bukkit.configuration.file.FileConfiguration;
-import org.chiterok.grandDuels.GrandDuels;
+import org.chiterok.grandDuels.ClaudeDuels;
 
 import java.util.List;
 
@@ -17,14 +17,14 @@ public final class ConfigManager {
     /** Languages that ship inside the jar. */
     public static final List<String> BUNDLED_LANGUAGES = List.of("en", "ru");
 
-    private final GrandDuels plugin;
+    private final ClaudeDuels plugin;
     private final YamlFile config;
     private final YamlFile kits;
     private final YamlFile arenas;
     private volatile YamlFile messages;
     private volatile Settings settings;
 
-    public ConfigManager(GrandDuels plugin) {
+    public ConfigManager(ClaudeDuels plugin) {
         this.plugin = plugin;
         this.config = new YamlFile(plugin, "config.yml", YamlFile.Mode.RESOURCE_WITH_DEFAULTS);
         this.kits = new YamlFile(plugin, "kits.yml", YamlFile.Mode.RESOURCE_ONCE);

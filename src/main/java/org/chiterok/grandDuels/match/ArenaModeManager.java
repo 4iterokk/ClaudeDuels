@@ -7,7 +7,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.scheduler.BukkitTask;
-import org.chiterok.grandDuels.GrandDuels;
+import org.chiterok.grandDuels.ClaudeDuels;
 import org.chiterok.grandDuels.config.Messages;
 import org.chiterok.grandDuels.config.Settings;
 import org.chiterok.grandDuels.cooldown.RuleDefaults;
@@ -51,13 +51,13 @@ public final class ArenaModeManager {
     /** Ticks to wait after a respawn before moving the player again (the client must finish loading). */
     private static final long RESPAWN_SETTLE_TICKS = 10L;
 
-    private final GrandDuels plugin;
+    private final ClaudeDuels plugin;
     private static final long BAR_REFRESH_TICKS = 4L;
 
     private final Map<UUID, Participant> participants = new HashMap<>();
     private BukkitTask barTask;
 
-    public ArenaModeManager(GrandDuels plugin) {
+    public ArenaModeManager(ClaudeDuels plugin) {
         this.plugin = plugin;
     }
 

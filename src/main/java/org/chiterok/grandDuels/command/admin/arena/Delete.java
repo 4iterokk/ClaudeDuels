@@ -1,7 +1,7 @@
 package org.chiterok.grandDuels.command.admin.arena;
 
 import org.bukkit.command.CommandSender;
-import org.chiterok.grandDuels.GrandDuels;
+import org.chiterok.grandDuels.ClaudeDuels;
 import org.chiterok.grandDuels.arena.Arena;
 import org.chiterok.grandDuels.command.CommandRegistry;
 import org.chiterok.grandDuels.command.SubCommand;
@@ -11,9 +11,9 @@ import java.util.List;
 /** {@code /duels arena delete <name>} */
 public final class Delete implements SubCommand {
 
-    private final GrandDuels plugin;
+    private final ClaudeDuels plugin;
 
-    public Delete(GrandDuels plugin) {
+    public Delete(ClaudeDuels plugin) {
         this.plugin = plugin;
     }
 

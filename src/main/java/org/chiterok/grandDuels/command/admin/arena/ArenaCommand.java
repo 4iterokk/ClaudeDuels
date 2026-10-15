@@ -1,7 +1,7 @@
 package org.chiterok.grandDuels.command.admin.arena;
 
 import org.bukkit.command.CommandSender;
-import org.chiterok.grandDuels.GrandDuels;
+import org.chiterok.grandDuels.ClaudeDuels;
 import org.chiterok.grandDuels.command.CommandRegistry;
 import org.chiterok.grandDuels.command.SubCommand;
 
@@ -10,10 +10,10 @@ import java.util.List;
 /** {@code /duels arena <create|delete|pos1|pos2|setname|seticon|kits> ...} */
 public final class ArenaCommand implements SubCommand {
 
-    private final GrandDuels plugin;
+    private final ClaudeDuels plugin;
     private final CommandRegistry registry;
 
-    public ArenaCommand(GrandDuels plugin) {
+    public ArenaCommand(ClaudeDuels plugin) {
         this.plugin = plugin;
         this.registry = new CommandRegistry(plugin)
                 .register(new Create(plugin))

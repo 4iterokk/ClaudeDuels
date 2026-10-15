@@ -23,7 +23,7 @@ import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
-import org.chiterok.grandDuels.GrandDuels;
+import org.chiterok.grandDuels.ClaudeDuels;
 import org.chiterok.grandDuels.config.Messages;
 import org.chiterok.grandDuels.cooldown.RuleType;
 import org.chiterok.grandDuels.match.MatchSettings;
@@ -45,9 +45,9 @@ public final class ArenaModeListener implements Listener {
             PlayerTeleportEvent.TeleportCause.END_PORTAL, PlayerTeleportEvent.TeleportCause.END_GATEWAY,
             PlayerTeleportEvent.TeleportCause.SPECTATE);
 
-    private final GrandDuels plugin;
+    private final ClaudeDuels plugin;
 
-    public ArenaModeListener(GrandDuels plugin) {
+    public ArenaModeListener(ClaudeDuels plugin) {
         this.plugin = plugin;
     }
 

@@ -1,16 +1,16 @@
 package org.chiterok.grandDuels.command.admin.arena;
 
 import org.bukkit.command.CommandSender;
-import org.chiterok.grandDuels.GrandDuels;
+import org.chiterok.grandDuels.ClaudeDuels;
 import org.chiterok.grandDuels.arena.ArenaManager;
 import org.chiterok.grandDuels.command.SubCommand;
 
 /** {@code /duels arena create <name>} */
 public final class Create implements SubCommand {
 
-    private final GrandDuels plugin;
+    private final ClaudeDuels plugin;
 
-    public Create(GrandDuels plugin) {
+    public Create(ClaudeDuels plugin) {
         this.plugin = plugin;
     }
 

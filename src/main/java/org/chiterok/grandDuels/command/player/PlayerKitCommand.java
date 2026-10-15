@@ -2,7 +2,7 @@ package org.chiterok.grandDuels.command.player;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.chiterok.grandDuels.GrandDuels;
+import org.chiterok.grandDuels.ClaudeDuels;
 import org.chiterok.grandDuels.command.CommandRegistry;
 import org.chiterok.grandDuels.command.SubCommand;
 import org.chiterok.grandDuels.kit.Kit;
@@ -28,9 +28,9 @@ public final class PlayerKitCommand implements SubCommand {
 
     private static final List<String> ACTIONS = List.of("create", "edit", "save", "cancel", "delete", "list");
 
-    private final GrandDuels plugin;
+    private final ClaudeDuels plugin;
 
-    public PlayerKitCommand(GrandDuels plugin) {
+    public PlayerKitCommand(ClaudeDuels plugin) {
         this.plugin = plugin;
     }
 

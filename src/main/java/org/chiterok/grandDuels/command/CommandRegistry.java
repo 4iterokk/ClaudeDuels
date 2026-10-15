@@ -2,7 +2,7 @@ package org.chiterok.grandDuels.command;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.chiterok.grandDuels.GrandDuels;
+import org.chiterok.grandDuels.ClaudeDuels;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -15,11 +15,11 @@ import java.util.Map;
 /** Holds the sub-commands of one command level and handles permission / player-only checks and tab completion. */
 public final class CommandRegistry {
 
-    private final GrandDuels plugin;
+    private final ClaudeDuels plugin;
     private final Map<String, SubCommand> lookup = new LinkedHashMap<>();
     private final List<SubCommand> commands = new ArrayList<>();
 
-    public CommandRegistry(GrandDuels plugin) {
+    public CommandRegistry(ClaudeDuels plugin) {
         this.plugin = plugin;
     }
 

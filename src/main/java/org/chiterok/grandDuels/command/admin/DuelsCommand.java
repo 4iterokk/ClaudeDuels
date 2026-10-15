@@ -3,7 +3,7 @@ package org.chiterok.grandDuels.command.admin;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
-import org.chiterok.grandDuels.GrandDuels;
+import org.chiterok.grandDuels.ClaudeDuels;
 import org.chiterok.grandDuels.command.CommandRegistry;
 import org.chiterok.grandDuels.command.admin.arena.ArenaCommand;
 import org.chiterok.grandDuels.command.admin.kit.KitCommand;
@@ -14,10 +14,10 @@ import java.util.List;
 /** {@code /duels <arena|kit|reload|setlobby|setarenaspawn|forceend>} */
 public final class DuelsCommand implements TabExecutor {
 
-    private final GrandDuels plugin;
+    private final ClaudeDuels plugin;
     private final CommandRegistry registry;
 
-    public DuelsCommand(GrandDuels plugin) {
+    public DuelsCommand(ClaudeDuels plugin) {
         this.plugin = plugin;
         this.registry = new CommandRegistry(plugin)
                 .register(new ArenaCommand(plugin))

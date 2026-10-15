@@ -7,7 +7,7 @@ import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
-import org.chiterok.grandDuels.GrandDuels;
+import org.chiterok.grandDuels.ClaudeDuels;
 import org.chiterok.grandDuels.config.Messages;
 import org.chiterok.grandDuels.kit.Kit;
 import org.chiterok.grandDuels.utils.TimeUtil;
@@ -29,7 +29,7 @@ public final class KitPreviewGUI extends GuiHolder {
     private Map<Integer, String> actions = Map.of();
 
     /** @param back runs when the viewer clicks an item with action BACK (normally reopens the previous menu) */
-    public KitPreviewGUI(GrandDuels plugin, Player viewer, Kit kit, Runnable back) {
+    public KitPreviewGUI(ClaudeDuels plugin, Player viewer, Kit kit, Runnable back) {
         super(plugin, viewer);
         this.kit = kit;
         this.back = back;

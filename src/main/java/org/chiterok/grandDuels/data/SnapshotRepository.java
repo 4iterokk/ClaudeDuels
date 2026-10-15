@@ -1,7 +1,7 @@
 package org.chiterok.grandDuels.data;
 
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.chiterok.grandDuels.GrandDuels;
+import org.chiterok.grandDuels.ClaudeDuels;
 import org.chiterok.grandDuels.match.PlayerSnapshot;
 import org.jetbrains.annotations.Nullable;
 
@@ -16,10 +16,10 @@ import java.util.logging.Level;
  */
 public final class SnapshotRepository {
 
-    private final GrandDuels plugin;
+    private final ClaudeDuels plugin;
     private final File directory;
 
-    public SnapshotRepository(GrandDuels plugin) {
+    public SnapshotRepository(ClaudeDuels plugin) {
         this.plugin = plugin;
         this.directory = new File(plugin.getDataFolder(), "snapshots");
     }

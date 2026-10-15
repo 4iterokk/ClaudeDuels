@@ -14,16 +14,16 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
-import org.chiterok.grandDuels.GrandDuels;
+import org.chiterok.grandDuels.ClaudeDuels;
 import org.chiterok.grandDuels.match.Match;
 import org.jetbrains.annotations.Nullable;
 
 /** Match flow events: damage rules, death, respawn, quit and crash recovery on join. */
 public final class MatchListener implements Listener {
 
-    private final GrandDuels plugin;
+    private final ClaudeDuels plugin;
 
-    public MatchListener(GrandDuels plugin) {
+    public MatchListener(ClaudeDuels plugin) {
         this.plugin = plugin;
     }
 

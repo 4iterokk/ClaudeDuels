@@ -7,7 +7,7 @@ import net.kyori.adventure.text.event.HoverEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
-import org.chiterok.grandDuels.GrandDuels;
+import org.chiterok.grandDuels.ClaudeDuels;
 import org.chiterok.grandDuels.arena.Arena;
 import org.chiterok.grandDuels.config.Messages;
 import org.chiterok.grandDuels.cooldown.RuleType;
@@ -27,10 +27,10 @@ public final class RequestManager {
 
     public enum SendResult { SENT, ALREADY_PENDING }
 
-    private final GrandDuels plugin;
+    private final ClaudeDuels plugin;
     private final Map<UUID, DuelRequest> bySender = new LinkedHashMap<>();
 
-    public RequestManager(GrandDuels plugin) {
+    public RequestManager(ClaudeDuels plugin) {
         this.plugin = plugin;
     }
 

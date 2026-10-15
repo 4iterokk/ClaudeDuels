@@ -6,7 +6,7 @@ import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
-import org.chiterok.grandDuels.GrandDuels;
+import org.chiterok.grandDuels.ClaudeDuels;
 import org.chiterok.grandDuels.utils.ColorUtil;
 
 import java.util.HashMap;
@@ -20,11 +20,11 @@ public abstract class GuiHolder implements InventoryHolder {
     /** Result of {@link #render}: which slot triggers which action, and which slots hold configured items. */
     protected record Rendered(Map<Integer, String> actions, Set<Integer> occupied) {}
 
-    protected final GrandDuels plugin;
+    protected final ClaudeDuels plugin;
     protected final Player viewer;
     private Inventory inventory;
 
-    protected GuiHolder(GrandDuels plugin, Player viewer) {
+    protected GuiHolder(ClaudeDuels plugin, Player viewer) {
         this.plugin = plugin;
         this.viewer = viewer;
     }

@@ -1,15 +1,15 @@
 package org.chiterok.grandDuels.command.admin;
 
 import org.bukkit.command.CommandSender;
-import org.chiterok.grandDuels.GrandDuels;
+import org.chiterok.grandDuels.ClaudeDuels;
 import org.chiterok.grandDuels.command.SubCommand;
 
 /** {@code /duels reload} - reloads config.yml, messages.yml and kits.yml. Running duels keep their kit. */
 public final class Reload implements SubCommand {
 
-    private final GrandDuels plugin;
+    private final ClaudeDuels plugin;
 
-    public Reload(GrandDuels plugin) {
+    public Reload(ClaudeDuels plugin) {
         this.plugin = plugin;
     }
 

@@ -6,7 +6,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitTask;
-import org.chiterok.grandDuels.GrandDuels;
+import org.chiterok.grandDuels.ClaudeDuels;
 import org.chiterok.grandDuels.config.Messages;
 import org.chiterok.grandDuels.kit.Kit;
 import org.chiterok.grandDuels.match.DuelMode;
@@ -35,7 +35,7 @@ public final class QueueMenuGUI extends GuiHolder {
     private int page;
     private int pageCount = 1;
 
-    public QueueMenuGUI(GrandDuels plugin, Player viewer, DuelMode mode) {
+    public QueueMenuGUI(ClaudeDuels plugin, Player viewer, DuelMode mode) {
         super(plugin, viewer);
         this.mode = mode;
         this.menuId = mode == DuelMode.RANKED ? MenuManager.RANKED : MenuManager.UNRANKED;

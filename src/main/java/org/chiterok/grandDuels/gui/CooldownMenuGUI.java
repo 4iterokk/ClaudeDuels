@@ -4,7 +4,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
-import org.chiterok.grandDuels.GrandDuels;
+import org.chiterok.grandDuels.ClaudeDuels;
 import org.chiterok.grandDuels.config.Messages;
 import org.chiterok.grandDuels.cooldown.RuleDefaults;
 import org.chiterok.grandDuels.cooldown.RuleType;
@@ -30,7 +30,7 @@ public final class CooldownMenuGUI extends GuiHolder {
     private final Map<Integer, RuleType> typeBySlot = new HashMap<>();
     private Map<Integer, String> actions = Map.of();
 
-    public CooldownMenuGUI(GrandDuels plugin, Player viewer, @Nullable Runnable back) {
+    public CooldownMenuGUI(ClaudeDuels plugin, Player viewer, @Nullable Runnable back) {
         super(plugin, viewer);
         this.prefs = plugin.preferences().get(viewer.getUniqueId());
         this.back = back;

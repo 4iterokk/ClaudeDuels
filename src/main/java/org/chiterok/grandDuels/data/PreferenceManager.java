@@ -3,7 +3,7 @@ package org.chiterok.grandDuels.data;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.chiterok.grandDuels.GrandDuels;
+import org.chiterok.grandDuels.ClaudeDuels;
 import org.chiterok.grandDuels.cooldown.RuleType;
 
 import java.io.File;
@@ -22,7 +22,7 @@ import java.util.logging.Level;
  */
 public final class PreferenceManager {
 
-    private final GrandDuels plugin;
+    private final ClaudeDuels plugin;
     private final File file;
     private final Map<UUID, PlayerPreferences> preferences = new HashMap<>();
     private final Object ioLock = new Object();
@@ -30,7 +30,7 @@ public final class PreferenceManager {
     private long version;
     private long lastWritten;
 
-    public PreferenceManager(GrandDuels plugin) {
+    public PreferenceManager(ClaudeDuels plugin) {
         this.plugin = plugin;
         this.file = new File(plugin.getDataFolder(), "preferences.yml");
     }

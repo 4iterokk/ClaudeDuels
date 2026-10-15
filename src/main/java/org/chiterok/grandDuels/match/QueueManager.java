@@ -3,7 +3,7 @@ package org.chiterok.grandDuels.match;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
-import org.chiterok.grandDuels.GrandDuels;
+import org.chiterok.grandDuels.ClaudeDuels;
 import org.chiterok.grandDuels.config.Settings;
 import org.chiterok.grandDuels.kit.Kit;
 import org.chiterok.grandDuels.utils.TimeUtil;
@@ -28,12 +28,12 @@ public final class QueueManager {
 
     public record Key(DuelMode mode, String kitId) {}
 
-    private final GrandDuels plugin;
+    private final ClaudeDuels plugin;
     private final Map<Key, LinkedHashMap<UUID, Long>> queues = new LinkedHashMap<>();
     private final Map<UUID, Key> byPlayer = new HashMap<>();
     private BukkitTask task;
 
-    public QueueManager(GrandDuels plugin) {
+    public QueueManager(ClaudeDuels plugin) {
         this.plugin = plugin;
     }
 

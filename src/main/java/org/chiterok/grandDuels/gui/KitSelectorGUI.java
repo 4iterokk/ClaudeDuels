@@ -4,7 +4,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
-import org.chiterok.grandDuels.GrandDuels;
+import org.chiterok.grandDuels.ClaudeDuels;
 import org.chiterok.grandDuels.config.Messages;
 import org.chiterok.grandDuels.kit.Kit;
 
@@ -42,11 +42,11 @@ public final class KitSelectorGUI extends GuiHolder {
 
     private final Source source;
 
-    public KitSelectorGUI(GrandDuels plugin, Player viewer, Player target, int page) {
+    public KitSelectorGUI(ClaudeDuels plugin, Player viewer, Player target, int page) {
         this(plugin, viewer, target, page, Source.STANDARD);
     }
 
-    public KitSelectorGUI(GrandDuels plugin, Player viewer, Player target, int page, Source source) {
+    public KitSelectorGUI(ClaudeDuels plugin, Player viewer, Player target, int page, Source source) {
         super(plugin, viewer);
         this.source = source;
         this.targetId = target.getUniqueId();

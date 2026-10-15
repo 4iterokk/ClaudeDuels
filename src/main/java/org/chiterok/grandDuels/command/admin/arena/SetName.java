@@ -1,7 +1,7 @@
 package org.chiterok.grandDuels.command.admin.arena;
 
 import org.bukkit.command.CommandSender;
-import org.chiterok.grandDuels.GrandDuels;
+import org.chiterok.grandDuels.ClaudeDuels;
 import org.chiterok.grandDuels.arena.Arena;
 import org.chiterok.grandDuels.command.CommandRegistry;
 import org.chiterok.grandDuels.command.SubCommand;
@@ -17,9 +17,9 @@ public final class SetName implements SubCommand {
 
     private static final int MAX_LENGTH = 48;
 
-    private final GrandDuels plugin;
+    private final ClaudeDuels plugin;
 
-    public SetName(GrandDuels plugin) {
+    public SetName(ClaudeDuels plugin) {
         this.plugin = plugin;
     }
 

@@ -2,7 +2,7 @@ package org.chiterok.grandDuels.data;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.chiterok.grandDuels.GrandDuels;
+import org.chiterok.grandDuels.ClaudeDuels;
 import org.chiterok.grandDuels.config.Settings;
 import org.jetbrains.annotations.Nullable;
 
@@ -33,7 +33,7 @@ public final class StatsManager {
 
     private record Cached(PlayerStats stats, long loadedAt) {}
 
-    private final GrandDuels plugin;
+    private final ClaudeDuels plugin;
     private final ConcurrentHashMap<UUID, PlayerStats> cache = new ConcurrentHashMap<>();
     /** Stats of players who are not online, loaded on demand for placeholders (short lived). */
     private final ConcurrentHashMap<UUID, Cached> offlineCache = new ConcurrentHashMap<>();
@@ -43,7 +43,7 @@ public final class StatsManager {
     private StatsStorage storage;
     private BukkitTask topTask;
 
-    public StatsManager(GrandDuels plugin) {
+    public StatsManager(ClaudeDuels plugin) {
         this.plugin = plugin;
     }
 

@@ -3,7 +3,7 @@ package org.chiterok.grandDuels.data;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
-import org.chiterok.grandDuels.GrandDuels;
+import org.chiterok.grandDuels.ClaudeDuels;
 import org.chiterok.grandDuels.config.Settings;
 import org.jetbrains.annotations.Nullable;
 
@@ -36,7 +36,7 @@ public final class KitRatingManager {
 
     private record Cached(Map<String, Integer> ratings, long loadedAt) {}
 
-    private final GrandDuels plugin;
+    private final ClaudeDuels plugin;
     private final ConcurrentHashMap<UUID, Map<String, Integer>> cache = new ConcurrentHashMap<>();
     private final ConcurrentHashMap<UUID, Cached> offlineCache = new ConcurrentHashMap<>();
     private final Set<UUID> offlineLoading = ConcurrentHashMap.newKeySet();
@@ -46,7 +46,7 @@ public final class KitRatingManager {
     private KitRatingStorage storage;
     private BukkitTask topTask;
 
-    public KitRatingManager(GrandDuels plugin) {
+    public KitRatingManager(ClaudeDuels plugin) {
         this.plugin = plugin;
     }
 
