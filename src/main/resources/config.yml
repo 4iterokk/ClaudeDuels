@@ -71,6 +71,19 @@ rules:
     max-damage: 0
     knockback-multiplier: 1.0
 
+# Spectating running duels (/spec opens a menu of all duels, /spec <player> jumps to that player's duel).
+# Spectators use spectator mode. Their inventory, gamemode and location are saved and restored when they leave,
+# when the duel ends, when they quit, and after a server crash.
+spectate:
+  enabled: true
+  # How many blocks outside the duel's arena boundary (duel.boundary-padding) spectators may fly (0 = only inside it)
+  padding: 20.0
+  # Maximum spectators per duel (0 = unlimited)
+  max-per-match: 0
+  # true: spectators can only use /spec and the commands from duel.command-whitelist (other commands could change
+  # their inventory or teleport them away)
+  block-commands: true
+
 # Player-made kits (/duel kit ...)
 player-kits:
   # How many kits a player may own (permission grandduels.kits.unlimited removes the limit, 0 disables player kits)

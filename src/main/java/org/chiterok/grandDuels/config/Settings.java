@@ -22,7 +22,8 @@ import java.util.Set;
  * Item restrictions and cooldowns are NOT here: they live in menu/cooldowns.yml (see RuleDefaults).
  */
 public record Settings(String language, StorageType storageType, DuelSettings duel, RuleSettings rules,
-                       MatchmakingSettings matchmaking, PlayerKitSettings playerKits, ArenaModeSettings arenaMode) {
+                       MatchmakingSettings matchmaking, PlayerKitSettings playerKits, ArenaModeSettings arenaMode,
+                       SpectateSettings spectate) {
 
     /** Language used when {@code language} in config.yml is missing or malformed. */
     public static final String DEFAULT_LANGUAGE = "en";
@@ -98,6 +99,16 @@ public record Settings(String language, StorageType storageType, DuelSettings du
 
     public record ArenaModeSettings(boolean enabled, @Nullable StoredLocation spawn, double radius,
                                     int combatTagSeconds, ArenaCombatSettings combat) {}
+
+    /**
+     * Spectating running duels ({@code /spec}).
+     *
+     * @param enabled       false disables {@code /spec} (running sessions finish with their duel)
+     * @param padding       how far outside the duel's arena boundary spectators may fly (0 = only inside it)
+     * @param maxPerMatch   spectator limit per duel (0 = unlimited)
+     * @param blockCommands true: spectators may only use /spec and the duel command whitelist
+     */
+    public record SpectateSettings(boolean enabled, double padding, int maxPerMatch, boolean blockCommands) {}
 
     /**
      * Combat rules of arena mode, configured in {@code arena-mode.combat}. When not {@code enabled}, arena mode uses
@@ -180,7 +191,11 @@ public record Settings(String language, StorageType storageType, DuelSettings du
                         Math.max(0, c.getInt("matchmaking.ranked.max-elo-range", 800)),
                         parseEnum(RatingMode.class, c.getString("matchmaking.rating-mode"), RatingMode.GLOBAL)),
                 new PlayerKitSettings(Math.max(0, c.getInt("player-kits.max-per-player", 5)), Set.copyOf(banned), editor),
-                arenaMode);
+                arenaMode,
+                new SpectateSettings(c.getBoolean("spectate.enabled", true),
+                        Math.max(0.0, c.getDouble("spectate.padding", 20.0)),
+                        Math.max(0, c.getInt("spectate.max-per-match", 0)),
+                        c.getBoolean("spectate.block-commands", true)));
     }
 
     private static Set<InventoryType> editorInventories(FileConfiguration c) {

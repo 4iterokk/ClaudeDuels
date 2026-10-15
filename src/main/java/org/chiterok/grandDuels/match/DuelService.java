@@ -72,6 +72,14 @@ public final class DuelService {
             plugin.messages().send(sender, "arenamode.busy");
             return false;
         }
+        if (plugin.spectators().isSpectating(sender.getUniqueId())) {
+            plugin.messages().send(sender, "spectate.self-spectating");
+            return false;
+        }
+        if (plugin.spectators().isSpectating(target.getUniqueId())) {
+            plugin.messages().send(sender, "spectate.target-spectating", "player", target.getName());
+            return false;
+        }
         if (plugin.kitEdits().isEditing(target.getUniqueId()) || plugin.arenaMode().isIn(target.getUniqueId())) {
             plugin.messages().send(sender, "duels.target-busy", "player", target.getName());
             return false;

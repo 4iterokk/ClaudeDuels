@@ -24,11 +24,12 @@ public final class MenuManager {
     public static final String KIT_PREVIEW = "player/kit-preview";
     public static final String ARENA_SELECTOR = "player/arena-selector";
     public static final String ARENA_MODE = "player/arena-mode";
+    public static final String SPECTATE = "player/spectate";
     public static final String ADMIN_ARENA_KITS = "admin/arena-kits";
     public static final String ADMIN_KIT_ARENAS = "admin/kit-arenas";
 
     private static final String[] MENUS = {KIT_SELECTOR, OWN_KIT_SELECTOR, KIT_PREVIEW, DUEL_SETTINGS, COOLDOWNS, RANKED, UNRANKED,
-            ARENA_SELECTOR, ARENA_MODE, ADMIN_ARENA_KITS, ADMIN_KIT_ARENAS};
+            ARENA_SELECTOR, ARENA_MODE, SPECTATE, ADMIN_ARENA_KITS, ADMIN_KIT_ARENAS};
 
     private final ClaudeDuels plugin;
     private final Map<String, YamlFile> files = new LinkedHashMap<>();
