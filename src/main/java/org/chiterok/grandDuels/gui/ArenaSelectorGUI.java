@@ -6,8 +6,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 import org.chiterok.grandDuels.ClaudeDuels;
-import org.chiterok.grandDuels.arena.Arena;
-import org.chiterok.grandDuels.arena.ArenaState;
+import org.chiterok.grandDuels.arena.ArenaGroup;
 import org.chiterok.grandDuels.config.Messages;
 import org.chiterok.grandDuels.kit.Kit;
 import org.jetbrains.annotations.Nullable;
@@ -22,8 +21,9 @@ import java.util.Set;
 import java.util.function.Consumer;
 
 /**
- * Arena chooser of a duel request (menu/player/arena-selector.yml). Lists the arenas the kit may be played on; the
- * request keeps the choice until it is accepted. Occupied arenas are shown but cannot be picked.
+ * Arena chooser of a duel request (menu/player/arena-selector.yml). Lists the arena groups the kit may be played on; the
+ * request keeps the choice until it is accepted. A group whose arenas are all occupied is shown but cannot be picked;
+ * the free sub-arena of a picked group is chosen when the duel starts.
  */
 public final class ArenaSelectorGUI extends GuiHolder {
 
@@ -31,8 +31,8 @@ public final class ArenaSelectorGUI extends GuiHolder {
     private final @Nullable String current;
     private final Consumer<@Nullable String> onChoose;
     private final Runnable onBack;
-    private final List<Arena> arenas;
-    private final Map<Integer, Arena> arenaBySlot = new HashMap<>();
+    private final List<ArenaGroup> arenas;
+    private final Map<Integer, ArenaGroup> arenaBySlot = new HashMap<>();
     private Map<Integer, String> actions = Map.of();
     private int page;
     private int pageCount = 1;
@@ -68,7 +68,7 @@ public final class ArenaSelectorGUI extends GuiHolder {
         if (page < pageCount - 1) flags.add("has-next");
         if (arenas.isEmpty()) flags.add("no-arenas");
         if (current == null) flags.add("random-selected");
-        Arena selected = current == null ? null : plugin.arenas().get(current);
+        ArenaGroup selected = current == null ? null : plugin.arenas().group(current);
         Map<String, String> ph = Messages.ph("page", page + 1, "pages", pageCount, "kit", kit.displayName(),
                 "selected", selected == null ? plugin.messages().string("duels.arena-random") : selected.displayName());
 
@@ -81,7 +81,7 @@ public final class ArenaSelectorGUI extends GuiHolder {
             int slot = slots.get(i);
             int index = page * perPage + i;
             if (index < arenas.size()) {
-                Arena arena = arenas.get(index);
+                ArenaGroup arena = arenas.get(index);
                 getInventory().setItem(slot, arenaItem(def, arena, ph));
                 arenaBySlot.put(slot, arena);
                 actions.remove(slot);
@@ -92,10 +92,10 @@ public final class ArenaSelectorGUI extends GuiHolder {
         viewer.openInventory(getInventory());
     }
 
-    private ItemStack arenaItem(MenuDefinition def, Arena arena, Map<String, String> ph) {
+    private ItemStack arenaItem(MenuDefinition def, ArenaGroup arena, Map<String, String> ph) {
         ConfigurationSection template = def.root().getConfigurationSection("arena-item");
-        boolean busy = arena.state() != ArenaState.WAITING;
-        boolean chosen = arena.name().equalsIgnoreCase(current);
+        boolean busy = arena.isBusy();
+        boolean chosen = arena.id().equalsIgnoreCase(current);
 
         String loreKey = chosen && template != null && template.contains("lore-selected") ? "lore-selected"
                 : busy && template != null && template.contains("lore-busy") ? "lore-busy" : "lore";
@@ -105,7 +105,7 @@ public final class ArenaSelectorGUI extends GuiHolder {
             Material parsed = Material.matchMaterial(template.getString(materialKey, template.getString("material", "GRASS_BLOCK")));
             if (parsed != null && parsed.isItem() && !parsed.isAir()) material = parsed;
         }
-        // an icon chosen by the admin (/duels arena seticon) wins; busy/selected are still shown by lore and glint
+        // an icon chosen by the admin (/duels arena group seticon) wins; busy/selected are still shown by lore and glint
         Material custom = arena.displayMaterial();
         if (custom != null) material = custom;
         String name = template == null ? "{arena_name}" : template.getString("name", "{arena_name}");
@@ -114,20 +114,22 @@ public final class ArenaSelectorGUI extends GuiHolder {
 
         Map<String, String> local = new HashMap<>(ph);
         local.put("arena_name", arena.displayName());
-        local.put("arena_id", arena.name());
+        local.put("arena_id", arena.id());
+        local.put("free", String.valueOf(arena.freeArenas().size()));
+        local.put("total", String.valueOf(arena.usableArenas().size()));
         local.put("state", def.root().getString("states." + (busy ? "busy" : "free"), busy ? "busy" : "free"));
         return MenuItem.decorate(new ItemStack(material), name, lore, glint, local, viewer);
     }
 
     @Override
     public void onClick(int slot, ClickType click) {
-        Arena arena = arenaBySlot.get(slot);
+        ArenaGroup arena = arenaBySlot.get(slot);
         if (arena != null) {
-            if (arena.state() != ArenaState.WAITING) {
+            if (arena.isBusy()) {
                 plugin.messages().send(viewer, "arena.in-use", "arena", arena.displayName());
                 return;
             }
-            onChoose.accept(arena.name());
+            onChoose.accept(arena.id());
             return;
         }
         String action = actions.get(slot);

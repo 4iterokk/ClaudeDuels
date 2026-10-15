@@ -15,7 +15,7 @@ Modern 1v1 dueling plugin for **Paper 1.21.11** (Java 21): data-component kits, 
 - **Per-player PvP rules**: cooldowns and bans for golden apples, enchanted golden apples, tridents, wind charges, ender pearls, chorus fruit and fireworks, plus elytra and riptide bans. Edited in `/duel cooldowns` and saved per player.
 - **Modern combat tuning**: optional damage cap and knockback multiplier for mace smash and spear charge.
 - **Safety first**: pre-duel inventory, effects, health and location are snapshotted to disk, so a crash or reload never destroys a player's items. They are restored on the next join.
-- **Arena handling**: two-point arenas with state tracking (`WAITING`, `STARTING`, `IN_GAME`, `RESETTING`), arena boundaries, and block rollback when building is enabled.
+- **Arena handling**: arena groups of interchangeable two-point sub-arenas (a free one is picked per duel, groups/arenas can be switched off for maintenance) with state tracking (`WAITING`, `STARTING`, `IN_GAME`, `RESETTING`), arena boundaries, and block rollback when building is enabled.
 - **Combat restrictions**: command blocking (with whitelist), item drop/pickup blocking, frozen countdown, ender pearl and chorus fruit boundary checks.
 - **Stats**: wins, losses, kills, deaths, K/D, win streaks and ELO, stored asynchronously in YAML or SQLite.
 - **Fully configurable text**: `messages.yml` and every menu in `menu/*.yml`. Colors support legacy codes (`&a`), hex (`&#RRGGBB`, `<#RRGGBB>`) and MiniMessage gradients.
@@ -37,9 +37,10 @@ Modern 1v1 dueling plugin for **Paper 1.21.11** (Java 21): data-component kits, 
 ## Quick setup
 
 ```text
-/duels arena create arena1
-/duels arena pos1 arena1      # stand on the first spawn point
-/duels arena pos2 arena1      # stand on the second spawn point (same world)
+/duels arena group create castle   # players pick groups; a free arena of the group is used
+/duels arena add castle castle-1   # add a sub-arena to the group
+/duels arena pos1 castle castle-1  # stand on the first spawn point
+/duels arena pos2 castle castle-1  # stand on the second spawn point (same world)
 /duels kit create mykit       # you get creative mode and an empty loadout
 /duels kit save               # saves the loadout and restores your own inventory
 ```
@@ -67,7 +68,9 @@ A sample `nodebuff` kit ships in `kits.yml`.
 
 | Command | Description |
 |---|---|
-| `/duels arena <create\|delete\|pos1\|pos2> <name>` | Manage arenas |
+| `/duels arena group <create\|delete\|setname\|seticon\|toggle> <group>` | Manage arena groups; `toggle` switches a whole group on/off |
+| `/duels arena <add\|remove\|pos1\|pos2\|toggle> <group> <arena>` | Manage the sub-arenas of a group; `toggle` switches one arena on/off (maintenance) |
+| `/duels arena kits` | Choose which groups each standard kit can be played on |
 | `/duels kit <create\|edit\|save\|delete\|cancel> [name]` | Manage standard kits in-game |
 | `/duels setlobby` | Set the lobby location |
 | `/duels forceend <player>` | End a player's duel as a draw |

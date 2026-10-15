@@ -3,7 +3,7 @@ package org.chiterok.grandDuels.gui;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.chiterok.grandDuels.ClaudeDuels;
-import org.chiterok.grandDuels.arena.Arena;
+import org.chiterok.grandDuels.arena.ArenaGroup;
 import org.chiterok.grandDuels.config.Messages;
 import org.chiterok.grandDuels.cooldown.RuleType;
 import org.chiterok.grandDuels.kit.Kit;
@@ -57,7 +57,7 @@ public final class DuelSettingsGUI extends GuiHolder {
 
     /** Display name of the chosen arena, or the "random" text. A chosen arena that vanished counts as random. */
     private String arenaName() {
-        Arena arena = arenaId == null ? null : plugin.arenas().get(arenaId);
+        ArenaGroup arena = arenaId == null ? null : plugin.arenas().group(arenaId);
         if (arena == null) {
             arenaId = null;
             return plugin.messages().string("duels.arena-random");

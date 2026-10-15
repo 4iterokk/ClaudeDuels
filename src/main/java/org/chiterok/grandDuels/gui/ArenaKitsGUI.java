@@ -81,7 +81,7 @@ public final class ArenaKitsGUI extends GuiHolder {
         local.put("kit_name", kit.displayName());
         local.put("kit_id", kit.id());
         local.put("allowed", String.valueOf(plugin.arenas().allowedCount(kit.id())));
-        local.put("total", String.valueOf(plugin.arenas().all().size()));
+        local.put("total", String.valueOf(plugin.arenas().groupCount()));
         local.put("restriction", def.root().getString("restriction." + (restricted ? "limited" : "none"), ""));
 
         ItemStack icon = kit.icon().clone();

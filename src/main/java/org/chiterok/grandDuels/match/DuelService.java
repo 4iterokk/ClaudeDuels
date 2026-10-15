@@ -3,8 +3,7 @@ package org.chiterok.grandDuels.match;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.chiterok.grandDuels.ClaudeDuels;
-import org.chiterok.grandDuels.arena.Arena;
-import org.chiterok.grandDuels.arena.ArenaState;
+import org.chiterok.grandDuels.arena.ArenaGroup;
 import org.chiterok.grandDuels.gui.KitSelectorGUI;
 import org.chiterok.grandDuels.kit.Kit;
 import org.jetbrains.annotations.Nullable;
@@ -44,13 +43,13 @@ public final class DuelService {
         if (!validateParticipants(sender, target)) return;
         String arena = arenaId;
         if (arena != null) {
-            Arena chosen = plugin.arenas().get(arena);
-            if (chosen == null || !chosen.isComplete() || !plugin.arenas().isAllowed(kit, chosen)) {
+            ArenaGroup chosen = plugin.arenas().group(arena);
+            if (chosen == null || !chosen.isPlayable() || !plugin.arenas().isAllowed(kit, chosen)) {
                 plugin.messages().send(sender, "arena.not-allowed", "arena", arena);
                 return;
             }
             // the menu may have been opened a while ago: the picked arena must be free right now
-            if (chosen.state() != ArenaState.WAITING) {
+            if (chosen.isBusy()) {
                 plugin.messages().send(sender, "arena.chosen-unavailable");
                 return;
             }

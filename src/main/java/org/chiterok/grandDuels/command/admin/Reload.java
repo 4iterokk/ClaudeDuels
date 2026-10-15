@@ -27,6 +27,6 @@ public final class Reload implements SubCommand {
     public void execute(CommandSender sender, String[] args) {
         plugin.reloadAll();
         plugin.messages().send(sender, "admin.reloaded", "kits", plugin.kits().all().size(),
-                "arenas", plugin.arenas().all().size());
+                "arenas", plugin.arenas().arenaCount());
     }
 }

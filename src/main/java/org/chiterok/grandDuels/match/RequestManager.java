@@ -8,7 +8,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
 import org.chiterok.grandDuels.ClaudeDuels;
-import org.chiterok.grandDuels.arena.Arena;
+import org.chiterok.grandDuels.arena.ArenaGroup;
 import org.chiterok.grandDuels.config.Messages;
 import org.chiterok.grandDuels.cooldown.RuleType;
 import org.chiterok.grandDuels.kit.Kit;
@@ -53,7 +53,7 @@ public final class RequestManager {
 
     /** Display name of the chosen arena, or the localized "random" text. */
     private String arenaName(@Nullable String arenaId) {
-        Arena arena = arenaId == null ? null : plugin.arenas().get(arenaId);
+        ArenaGroup arena = arenaId == null ? null : plugin.arenas().group(arenaId);
         return arena == null ? plugin.messages().string("duels.arena-random") : arena.displayName();
     }
 

@@ -1,56 +1,56 @@
 package org.chiterok.grandDuels.arena;
 
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.util.BoundingBox;
 import org.chiterok.grandDuels.utils.StoredLocation;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * A duel arena: two spawn points (pos1/pos2) and a runtime state.
+ * A sub-arena of an {@link ArenaGroup}: two spawn points (pos1/pos2) and a runtime state.
  * The arena boundary is the cuboid spanned by both points, expanded by the configured padding when a duel starts.
  */
 public final class Arena {
 
+    private final ArenaGroup group;
     private final String name;
     private final ArenaRollback rollback = new ArenaRollback();
     private volatile StoredLocation pos1;
     private volatile StoredLocation pos2;
-    private volatile String displayName;
-    private volatile Material displayMaterial;
+    private volatile boolean enabled = true;
     private volatile ArenaState state = ArenaState.WAITING;
     private volatile BoundingBox activeBounds;
 
-    public Arena(String name) {
+    Arena(ArenaGroup group, String name) {
+        this.group = group;
         this.name = name;
     }
 
+    public ArenaGroup group() {
+        return group;
+    }
+
+    /** Id of this sub-arena inside its group. */
     public String name() {
         return name;
     }
 
-    /** Custom name shown to players (scoreboard, messages, menus); the id when none is set. May contain color codes. */
+    /** Unique id across groups: {@code group/name}. */
+    public String id() {
+        return group.id() + "/" + name;
+    }
+
+    /** Name shown to players: the group's custom name (or id). May contain color codes. */
     public String displayName() {
-        String custom = displayName;
-        return custom == null || custom.isBlank() ? name : custom;
+        return group.displayName();
     }
 
-    public boolean hasCustomName() {
-        String custom = displayName;
-        return custom != null && !custom.isBlank();
+    /** Disabled sub-arenas (maintenance) are never picked for a duel. */
+    public boolean enabled() {
+        return enabled;
     }
 
-    public void setDisplayName(@Nullable String displayName) {
-        this.displayName = displayName == null || displayName.isBlank() ? null : displayName;
-    }
-
-    /** Item shown for this arena in the arena selector, or {@code null} for the menu's default icons. */
-    public @Nullable Material displayMaterial() {
-        return displayMaterial;
-    }
-
-    public void setDisplayMaterial(@Nullable Material material) {
-        this.displayMaterial = material;
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 
     public ArenaState state() {

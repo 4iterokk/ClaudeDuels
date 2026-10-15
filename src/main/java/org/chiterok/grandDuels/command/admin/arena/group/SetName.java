@@ -1,8 +1,8 @@
-package org.chiterok.grandDuels.command.admin.arena;
+package org.chiterok.grandDuels.command.admin.arena.group;
 
 import org.bukkit.command.CommandSender;
 import org.chiterok.grandDuels.ClaudeDuels;
-import org.chiterok.grandDuels.arena.Arena;
+import org.chiterok.grandDuels.arena.ArenaGroup;
 import org.chiterok.grandDuels.command.CommandRegistry;
 import org.chiterok.grandDuels.command.SubCommand;
 
@@ -10,7 +10,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * {@code /duels arena setname <arena> [name...]} - gives the arena a custom name (color codes allowed) that players see
+ * {@code /duels arena group setname <group> [name...]} - gives the group a custom name (color codes allowed) that players see
  * in the scoreboard and messages. Without a name the custom name is removed.
  */
 public final class SetName implements SubCommand {
@@ -41,12 +41,12 @@ public final class SetName implements SubCommand {
     @Override
     public void execute(CommandSender sender, String[] args) {
         if (args.length < 1) {
-            plugin.messages().send(sender, "arena.usage");
+            plugin.messages().send(sender, "arena.group-usage");
             return;
         }
-        Arena arena = plugin.arenas().get(args[0]);
-        if (arena == null) {
-            plugin.messages().send(sender, "arena.not-found", "arena", args[0]);
+        ArenaGroup group = plugin.arenas().group(args[0]);
+        if (group == null) {
+            plugin.messages().send(sender, "arena.group-not-found", "group", args[0]);
             return;
         }
         String display = args.length == 1 ? null : String.join(" ", Arrays.copyOfRange(args, 1, args.length)).trim();
@@ -54,16 +54,16 @@ public final class SetName implements SubCommand {
             plugin.messages().send(sender, "arena.name-too-long", "max", MAX_LENGTH);
             return;
         }
-        plugin.arenas().setDisplayName(arena.name(), display);
+        plugin.arenas().setDisplayName(group.id(), display);
         if (display == null || display.isEmpty()) {
-            plugin.messages().send(sender, "arena.name-reset", "arena", arena.name());
+            plugin.messages().send(sender, "arena.group-name-reset", "group", group.id());
         } else {
-            plugin.messages().send(sender, "arena.name-set", "arena", arena.name(), "name", display);
+            plugin.messages().send(sender, "arena.group-name-set", "group", group.id(), "name", display);
         }
     }
 
     @Override
     public List<String> tabComplete(CommandSender sender, String[] args) {
-        return args.length == 1 ? CommandRegistry.filter(plugin.arenas().names(), args[0]) : List.of();
+        return args.length == 1 ? CommandRegistry.filter(plugin.arenas().groupNames(), args[0]) : List.of();
     }
 }

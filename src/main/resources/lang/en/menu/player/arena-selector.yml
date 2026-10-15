@@ -16,7 +16,8 @@ filler:
 # Slots in which arenas are listed (numbers and "from-to" ranges). Arenas per page = number of slots.
 arena-slots: ["0-44"]
 
-# Template of every arena entry. Placeholders: {arena_name} (custom name) {arena_id} {state}
+# Template of every arena group entry. Placeholders: {arena_name} (custom name) {arena_id} (group id) {state}
+# {free} (idle arenas in the group) {total} (usable arenas in the group). The free arena is picked when the duel starts.
 # material-busy is used while the arena is occupied by another duel, material-selected for the chosen arena.
 arena-item:
   material: GRASS_BLOCK

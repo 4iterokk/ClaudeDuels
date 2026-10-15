@@ -6,7 +6,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 import org.chiterok.grandDuels.ClaudeDuels;
-import org.chiterok.grandDuels.arena.Arena;
+import org.chiterok.grandDuels.arena.ArenaGroup;
 import org.chiterok.grandDuels.arena.ArenaManager;
 import org.chiterok.grandDuels.config.Messages;
 import org.chiterok.grandDuels.kit.Kit;
@@ -28,7 +28,7 @@ public final class KitArenasGUI extends GuiHolder {
 
     private final Kit kit;
     private final Runnable onBack;
-    private final Map<Integer, Arena> arenaBySlot = new HashMap<>();
+    private final Map<Integer, ArenaGroup> arenaBySlot = new HashMap<>();
     private Map<Integer, String> actions = Map.of();
     private int page;
     private int pageCount = 1;
@@ -50,12 +50,12 @@ public final class KitArenasGUI extends GuiHolder {
 
     private Map<String, String> placeholders() {
         return Messages.ph("page", page + 1, "pages", pageCount, "kit", kit.displayName(), "kit_id", kit.id(),
-                "allowed", plugin.arenas().allowedCount(kit.id()), "total", plugin.arenas().all().size());
+                "allowed", plugin.arenas().allowedCount(kit.id()), "total", plugin.arenas().groupCount());
     }
 
     /** Re-renders the open inventory in place (no reopening, so the cursor position is kept). */
     private void populate(MenuDefinition def) {
-        List<Arena> arenas = plugin.arenas().sorted();
+        List<ArenaGroup> arenas = plugin.arenas().groups();
         List<Integer> slots = def.slots("arena-slots");
         if (slots.isEmpty()) {
             for (int i = 0; i < Math.max(1, def.size() - 9); i++) slots.add(i);
@@ -79,7 +79,7 @@ public final class KitArenasGUI extends GuiHolder {
             int slot = slots.get(i);
             int index = page * perPage + i;
             if (index < arenas.size()) {
-                Arena arena = arenas.get(index);
+                ArenaGroup arena = arenas.get(index);
                 getInventory().setItem(slot, arenaItem(def, arena, ph));
                 arenaBySlot.put(slot, arena);
                 actions.remove(slot);
@@ -89,7 +89,7 @@ public final class KitArenasGUI extends GuiHolder {
         }
     }
 
-    private ItemStack arenaItem(MenuDefinition def, Arena arena, Map<String, String> ph) {
+    private ItemStack arenaItem(MenuDefinition def, ArenaGroup arena, Map<String, String> ph) {
         ConfigurationSection template = def.root().getConfigurationSection("arena-item");
         boolean allowed = plugin.arenas().isAllowed(kit, arena);
         String name = template == null ? "{arena_name}" : template.getString("name", "{arena_name}");
@@ -103,7 +103,7 @@ public final class KitArenasGUI extends GuiHolder {
 
         Map<String, String> local = new HashMap<>(ph);
         local.put("arena_name", arena.displayName());
-        local.put("arena_id", arena.name());
+        local.put("arena_id", arena.id());
         return MenuItem.decorate(new ItemStack(material), name, lore, glint, local, viewer);
     }
 
@@ -115,16 +115,16 @@ public final class KitArenasGUI extends GuiHolder {
             return;
         }
         MenuDefinition def = plugin.menus().get(MenuManager.ADMIN_KIT_ARENAS);
-        Arena arena = arenaBySlot.get(slot);
+        ArenaGroup arena = arenaBySlot.get(slot);
         if (arena != null) {
-            ArenaManager.ToggleResult result = plugin.arenas().toggleKitArena(kit.id(), arena.name());
+            ArenaManager.ToggleResult result = plugin.arenas().toggleKitArena(kit.id(), arena.id());
             switch (result) {
                 case ENABLED -> plugin.messages().actionBar(viewer, "arena.kit-enabled", "arena", arena.displayName(),
                         "kit", kit.displayName());
                 case DISABLED -> plugin.messages().actionBar(viewer, "arena.kit-disabled", "arena", arena.displayName(),
                         "kit", kit.displayName());
                 case LAST_ARENA -> plugin.messages().actionBar(viewer, "arena.kit-last-arena");
-                case UNKNOWN_ARENA -> plugin.messages().actionBar(viewer, "arena.not-found", "arena", arena.name());
+                case UNKNOWN_ARENA -> plugin.messages().actionBar(viewer, "arena.not-found", "arena", arena.id());
             }
             populate(def);
             return;

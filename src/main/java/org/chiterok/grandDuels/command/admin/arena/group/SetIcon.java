@@ -1,10 +1,10 @@
-package org.chiterok.grandDuels.command.admin.arena;
+package org.chiterok.grandDuels.command.admin.arena.group;
 
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.chiterok.grandDuels.ClaudeDuels;
-import org.chiterok.grandDuels.arena.Arena;
+import org.chiterok.grandDuels.arena.ArenaGroup;
 import org.chiterok.grandDuels.arena.ArenaManager;
 import org.chiterok.grandDuels.command.CommandRegistry;
 import org.chiterok.grandDuels.command.SubCommand;
@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Locale;
 
 /**
- * {@code /duels arena seticon <arena> [material|reset]} - sets the item that represents the arena in the arena
+ * {@code /duels arena group seticon <group> [material|reset]} - sets the item that represents the group in the arena
  * selector. Without a material the item in the admin's hand is used; {@code reset} restores the menu's default icons.
  */
 public final class SetIcon implements SubCommand {
@@ -45,18 +45,18 @@ public final class SetIcon implements SubCommand {
     @Override
     public void execute(CommandSender sender, String[] args) {
         if (args.length < 1) {
-            plugin.messages().send(sender, "arena.usage");
+            plugin.messages().send(sender, "arena.group-usage");
             return;
         }
-        Arena arena = plugin.arenas().get(args[0]);
-        if (arena == null) {
-            plugin.messages().send(sender, "arena.not-found", "arena", args[0]);
+        ArenaGroup group = plugin.arenas().group(args[0]);
+        if (group == null) {
+            plugin.messages().send(sender, "arena.group-not-found", "group", args[0]);
             return;
         }
 
         if (args.length >= 2 && args[1].equalsIgnoreCase(RESET)) {
-            plugin.arenas().setDisplayMaterial(arena.name(), null);
-            plugin.messages().send(sender, "arena.icon-reset", "arena", arena.name());
+            plugin.arenas().setDisplayMaterial(group.id(), null);
+            plugin.messages().send(sender, "arena.group-icon-reset", "group", group.id());
             return;
         }
 
@@ -74,17 +74,17 @@ public final class SetIcon implements SubCommand {
                 return;
             }
         } else {
-            plugin.messages().send(sender, "arena.usage");
+            plugin.messages().send(sender, "arena.group-usage");
             return;
         }
-        plugin.arenas().setDisplayMaterial(arena.name(), material);
-        plugin.messages().send(sender, "arena.icon-set", "arena", arena.name(),
+        plugin.arenas().setDisplayMaterial(group.id(), material);
+        plugin.messages().send(sender, "arena.group-icon-set", "group", group.id(),
                 "material", material.name().toLowerCase(Locale.ROOT));
     }
 
     @Override
     public List<String> tabComplete(CommandSender sender, String[] args) {
-        if (args.length == 1) return CommandRegistry.filter(plugin.arenas().names(), args[0]);
+        if (args.length == 1) return CommandRegistry.filter(plugin.arenas().groupNames(), args[0]);
         if (args.length != 2) return List.of();
         List<String> options = new ArrayList<>();
         options.add(RESET);

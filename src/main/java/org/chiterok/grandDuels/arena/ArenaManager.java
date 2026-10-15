@@ -11,7 +11,6 @@ import org.chiterok.grandDuels.utils.StoredLocation;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Comparator;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -23,16 +22,17 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.regex.Pattern;
 
 /**
- * Registry and persistence (arenas.yml) of arenas, including which arenas each standard kit may be played on.
- * A kit without an entry in {@code kit-arenas} can be played on every arena. Mutations happen on the main thread.
+ * Registry and persistence (arenas.yml) of arena groups and their sub-arenas, including which groups each standard
+ * kit may be played on. A kit without an entry in {@code kit-arenas} can be played on every group.
+ * Mutations happen on the main thread.
  */
 public final class ArenaManager {
 
     private static final Pattern VALID_NAME = Pattern.compile("[A-Za-z0-9_-]{1,32}");
 
     private final ClaudeDuels plugin;
-    private final Map<String, Arena> arenas = new ConcurrentHashMap<>();
-    /** Kit id -> ids of the arenas the kit may use. Absent = unrestricted. */
+    private final Map<String, ArenaGroup> groups = new ConcurrentHashMap<>();
+    /** Kit id -> ids of the groups the kit may use. Absent = unrestricted. */
     private final Map<String, Set<String>> kitArenas = new ConcurrentHashMap<>();
 
     public ArenaManager(ClaudeDuels plugin) {
@@ -43,21 +43,36 @@ public final class ArenaManager {
         return VALID_NAME.matcher(name).matches();
     }
 
+    // ---------------------------------------------------------------- persistence
+
     public void load() {
-        arenas.clear();
+        groups.clear();
         kitArenas.clear();
         YamlConfiguration yaml = plugin.configs().arenasFile().get();
-        ConfigurationSection root = yaml.getConfigurationSection("arenas");
+        ConfigurationSection root = yaml.getConfigurationSection("groups");
+        int subCount = 0;
         if (root != null) {
             for (String key : root.getKeys(false)) {
                 ConfigurationSection section = root.getConfigurationSection(key);
                 if (section == null) continue;
-                Arena arena = new Arena(key.toLowerCase(Locale.ROOT));
-                arena.setPos1(StoredLocation.read(section.getConfigurationSection("pos1")));
-                arena.setPos2(StoredLocation.read(section.getConfigurationSection("pos2")));
-                arena.setDisplayName(section.getString("display-name"));
-                arena.setDisplayMaterial(parseIcon(section.getString("icon")));
-                arenas.put(arena.name(), arena);
+                ArenaGroup group = new ArenaGroup(key);
+                group.setDisplayName(section.getString("display-name"));
+                group.setDisplayMaterial(parseIcon(section.getString("icon")));
+                group.setEnabled(section.getBoolean("enabled", true));
+                ConfigurationSection subs = section.getConfigurationSection("arenas");
+                if (subs != null) {
+                    for (String subKey : subs.getKeys(false)) {
+                        ConfigurationSection subSection = subs.getConfigurationSection(subKey);
+                        if (subSection == null) continue;
+                        Arena arena = group.addArena(subKey);
+                        if (arena == null) continue;
+                        arena.setPos1(StoredLocation.read(subSection.getConfigurationSection("pos1")));
+                        arena.setPos2(StoredLocation.read(subSection.getConfigurationSection("pos2")));
+                        arena.setEnabled(subSection.getBoolean("enabled", true));
+                        subCount++;
+                    }
+                }
+                groups.put(group.id(), group);
             }
         }
         ConfigurationSection restrictions = yaml.getConfigurationSection("kit-arenas");
@@ -65,24 +80,30 @@ public final class ArenaManager {
             for (String kitId : restrictions.getKeys(false)) {
                 Set<String> allowed = new LinkedHashSet<>();
                 for (String name : restrictions.getStringList(kitId)) allowed.add(name.toLowerCase(Locale.ROOT));
-                allowed.retainAll(arenas.keySet());
+                allowed.retainAll(groups.keySet());
                 if (!allowed.isEmpty()) kitArenas.put(kitId.toLowerCase(Locale.ROOT), allowed);
             }
         }
-        plugin.getLogger().info("Loaded " + arenas.size() + " arena(s).");
+        plugin.getLogger().info("Loaded " + groups.size() + " arena group(s) with " + subCount + " arena(s).");
     }
 
     public void save() {
         YamlConfiguration yaml = plugin.configs().arenasFile().get();
-        yaml.set("arenas", null);
-        for (Arena arena : arenas.values()) {
-            ConfigurationSection section = yaml.createSection("arenas." + arena.name());
-            StoredLocation p1 = arena.pos1();
-            StoredLocation p2 = arena.pos2();
-            if (p1 != null) p1.write(section.createSection("pos1"));
-            if (p2 != null) p2.write(section.createSection("pos2"));
-            if (arena.hasCustomName()) section.set("display-name", arena.displayName());
-            if (arena.displayMaterial() != null) section.set("icon", arena.displayMaterial().name());
+        yaml.set("arenas", null); // pre-group format, no longer used
+        yaml.set("groups", null);
+        for (ArenaGroup group : groups.values()) {
+            ConfigurationSection section = yaml.createSection("groups." + group.id());
+            if (group.hasCustomName()) section.set("display-name", group.displayName());
+            if (group.displayMaterial() != null) section.set("icon", group.displayMaterial().name());
+            section.set("enabled", group.enabled());
+            for (Arena arena : group.arenas()) {
+                ConfigurationSection sub = section.createSection("arenas." + arena.name());
+                StoredLocation p1 = arena.pos1();
+                StoredLocation p2 = arena.pos2();
+                if (p1 != null) p1.write(sub.createSection("pos1"));
+                if (p2 != null) p2.write(sub.createSection("pos2"));
+                sub.set("enabled", arena.enabled());
+            }
         }
         yaml.set("kit-arenas", null);
         for (Map.Entry<String, Set<String>> entry : kitArenas.entrySet()) {
@@ -91,35 +112,44 @@ public final class ArenaManager {
         plugin.configs().arenasFile().save();
     }
 
-    public @Nullable Arena get(String name) {
-        return arenas.get(name.toLowerCase(Locale.ROOT));
+    // ---------------------------------------------------------------- groups
+
+    public @Nullable ArenaGroup group(String id) {
+        return groups.get(id.toLowerCase(Locale.ROOT));
     }
 
-    public Collection<Arena> all() {
-        return List.copyOf(arenas.values());
+    /** Every group sorted by id (complete or not, enabled or not). */
+    public List<ArenaGroup> groups() {
+        List<ArenaGroup> list = new ArrayList<>(groups.values());
+        list.sort(Comparator.comparing(ArenaGroup::id));
+        return list;
     }
 
-    public List<String> names() {
-        return new ArrayList<>(arenas.keySet());
+    public List<String> groupNames() {
+        return groups().stream().map(ArenaGroup::id).toList();
     }
 
-    /** @return the new arena, or {@code null} if one with that name exists. */
-    public @Nullable Arena create(String name) {
-        Arena arena = new Arena(name.toLowerCase(Locale.ROOT));
-        if (arenas.putIfAbsent(arena.name(), arena) != null) return null;
+    public int groupCount() {
+        return groups.size();
+    }
+
+    /** @return the new group, or {@code null} if one with that id exists. */
+    public @Nullable ArenaGroup createGroup(String id) {
+        ArenaGroup group = new ArenaGroup(id);
+        if (groups.putIfAbsent(group.id(), group) != null) return null;
         save();
-        return arena;
+        return group;
     }
 
-    /** @return false if the arena does not exist or is in use. */
-    public boolean delete(String name) {
-        Arena arena = get(name);
-        if (arena == null || arena.state() != ArenaState.WAITING) return false;
-        arenas.remove(arena.name());
+    /** @return false if the group does not exist or one of its arenas is in use. */
+    public boolean deleteGroup(String id) {
+        ArenaGroup group = group(id);
+        if (group == null || group.isInUse()) return false;
+        groups.remove(group.id());
         for (Map.Entry<String, Set<String>> entry : List.copyOf(kitArenas.entrySet())) {
             Set<String> remaining = new LinkedHashSet<>(entry.getValue());
-            remaining.remove(arena.name());
-            // a kit whose only arena was deleted becomes unrestricted again instead of unplayable
+            remaining.remove(group.id());
+            // a kit whose only group was deleted becomes unrestricted again instead of unplayable
             if (remaining.isEmpty()) kitArenas.remove(entry.getKey());
             else kitArenas.put(entry.getKey(), remaining);
         }
@@ -127,22 +157,31 @@ public final class ArenaManager {
         return true;
     }
 
-    /** Sets (or, with null/blank, clears) the custom name of an arena. @return false if it does not exist. */
-    public boolean setDisplayName(String name, @Nullable String displayName) {
-        Arena arena = get(name);
-        if (arena == null) return false;
-        arena.setDisplayName(displayName);
+    /** Sets (or, with null/blank, clears) the custom name of a group. @return false if it does not exist. */
+    public boolean setDisplayName(String id, @Nullable String displayName) {
+        ArenaGroup group = group(id);
+        if (group == null) return false;
+        group.setDisplayName(displayName);
         save();
         return true;
     }
 
-    /** Sets (or, with null, clears) the arena selector icon of an arena. @return false if it does not exist. */
-    public boolean setDisplayMaterial(String name, @Nullable Material material) {
-        Arena arena = get(name);
-        if (arena == null) return false;
-        arena.setDisplayMaterial(material);
+    /** Sets (or, with null, clears) the selector icon of a group. @return false if it does not exist. */
+    public boolean setDisplayMaterial(String id, @Nullable Material material) {
+        ArenaGroup group = group(id);
+        if (group == null) return false;
+        group.setDisplayMaterial(material);
         save();
         return true;
+    }
+
+    /** Switches a group on/off (matches already running there finish normally). @return the new state, or null. */
+    public @Nullable Boolean toggleGroup(String id) {
+        ArenaGroup group = group(id);
+        if (group == null) return null;
+        group.setEnabled(!group.enabled());
+        save();
+        return group.enabled();
     }
 
     /** A usable menu icon: an existing, non-air item material; {@code null} for anything else. */
@@ -152,65 +191,98 @@ public final class ArenaManager {
         return material == null || material.isAir() || !material.isItem() ? null : material;
     }
 
-    // ---------------------------------------------------------------- arenas per kit
+    // ---------------------------------------------------------------- sub-arenas
 
-    /** True when an admin picked a list of arenas for the standard kit. */
+    public @Nullable Arena arena(String groupId, String name) {
+        ArenaGroup group = group(groupId);
+        return group == null ? null : group.arena(name);
+    }
+
+    /** @return the new sub-arena, or {@code null} if the group is unknown or the name is taken. */
+    public @Nullable Arena addArena(String groupId, String name) {
+        ArenaGroup group = group(groupId);
+        if (group == null) return null;
+        Arena arena = group.addArena(name);
+        if (arena != null) save();
+        return arena;
+    }
+
+    /** @return false if the group or arena does not exist, or the arena is in use. */
+    public boolean removeArena(String groupId, String name) {
+        Arena arena = arena(groupId, name);
+        if (arena == null || arena.state() != ArenaState.WAITING) return false;
+        arena.group().removeArena(name);
+        save();
+        return true;
+    }
+
+    /** Switches one sub-arena on/off (maintenance). @return the new state, or {@code null} if unknown. */
+    public @Nullable Boolean toggleArena(String groupId, String name) {
+        Arena arena = arena(groupId, name);
+        if (arena == null) return null;
+        arena.setEnabled(!arena.enabled());
+        save();
+        return arena.enabled();
+    }
+
+    public int arenaCount() {
+        int total = 0;
+        for (ArenaGroup group : groups.values()) total += group.size();
+        return total;
+    }
+
+    // ---------------------------------------------------------------- groups per kit
+
+    /** True when an admin picked a list of groups for the standard kit. */
     public boolean isRestricted(String kitId) {
         return kitArenas.containsKey(kitId.toLowerCase(Locale.ROOT));
     }
 
-    /** Player kits may use every arena; standard kits follow the admin's list (unrestricted when none). */
-    public boolean isAllowed(Kit kit, Arena arena) {
+    /** Player kits may use every group; standard kits follow the admin's list (unrestricted when none). */
+    public boolean isAllowed(Kit kit, ArenaGroup group) {
         if (kit.owner() != null) return true;
         Set<String> allowed = kitArenas.get(kit.id().toLowerCase(Locale.ROOT));
-        return allowed == null || allowed.contains(arena.name());
+        return allowed == null || allowed.contains(group.id());
     }
 
-    /** Complete arenas the kit may be played on (free or not), sorted by id. */
-    public List<Arena> availableFor(Kit kit) {
-        List<Arena> list = new ArrayList<>();
-        for (Arena arena : arenas.values()) {
-            if (arena.isComplete() && isAllowed(kit, arena)) list.add(arena);
+    /** Playable groups (enabled, with a usable sub-arena) the kit may be played on, busy or not, sorted by id. */
+    public List<ArenaGroup> availableFor(Kit kit) {
+        List<ArenaGroup> list = new ArrayList<>();
+        for (ArenaGroup group : groups.values()) {
+            if (group.isPlayable() && isAllowed(kit, group)) list.add(group);
         }
-        list.sort(Comparator.comparing(Arena::name));
-        return list;
-    }
-
-    /** Every arena, complete or not, sorted by id. Used by the admin menu. */
-    public List<Arena> sorted() {
-        List<Arena> list = new ArrayList<>(arenas.values());
-        list.sort(Comparator.comparing(Arena::name));
+        list.sort(Comparator.comparing(ArenaGroup::id));
         return list;
     }
 
     public int allowedCount(String kitId) {
         Set<String> allowed = kitArenas.get(kitId.toLowerCase(Locale.ROOT));
-        return allowed == null ? arenas.size() : allowed.size();
+        return allowed == null ? groups.size() : allowed.size();
     }
 
     public enum ToggleResult { ENABLED, DISABLED, LAST_ARENA, UNKNOWN_ARENA }
 
     /**
-     * Enables or disables one arena for a kit. The first toggle of an unrestricted kit starts from "all arenas".
-     * The last enabled arena cannot be disabled (use {@link #clearRestriction} to allow everything instead).
+     * Enables or disables one group for a kit. The first toggle of an unrestricted kit starts from "all groups".
+     * The last enabled group cannot be disabled (use {@link #clearRestriction} to allow everything instead).
      */
-    public ToggleResult toggleKitArena(String kitId, String arenaName) {
-        Arena arena = get(arenaName);
-        if (arena == null) return ToggleResult.UNKNOWN_ARENA;
+    public ToggleResult toggleKitArena(String kitId, String groupId) {
+        ArenaGroup group = group(groupId);
+        if (group == null) return ToggleResult.UNKNOWN_ARENA;
         String kit = kitId.toLowerCase(Locale.ROOT);
         Set<String> allowed = kitArenas.containsKey(kit) ? new LinkedHashSet<>(kitArenas.get(kit))
-                : new LinkedHashSet<>(arenas.keySet());
+                : new LinkedHashSet<>(groups.keySet());
         ToggleResult result;
-        if (allowed.contains(arena.name())) {
+        if (allowed.contains(group.id())) {
             if (allowed.size() == 1) return ToggleResult.LAST_ARENA;
-            allowed.remove(arena.name());
+            allowed.remove(group.id());
             result = ToggleResult.DISABLED;
         } else {
-            allowed.add(arena.name());
+            allowed.add(group.id());
             result = ToggleResult.ENABLED;
         }
-        // enabling everything again is the same as having no restriction (arenas created later then count too)
-        if (allowed.containsAll(arenas.keySet())) kitArenas.remove(kit);
+        // enabling everything again is the same as having no restriction (groups created later then count too)
+        if (allowed.containsAll(groups.keySet())) kitArenas.remove(kit);
         else kitArenas.put(kit, allowed);
         save();
         return result;
@@ -220,17 +292,19 @@ public final class ArenaManager {
         if (kitArenas.remove(kitId.toLowerCase(Locale.ROOT)) != null) save();
     }
 
+    // ---------------------------------------------------------------- matchmaking
+
     /**
-     * Reserves a free, complete arena the kit may be played on (state STARTING) and computes its boundary.
-     * @param preferred id of the arena the players asked for, or {@code null} for a random one
-     * @return the arena, or {@code null} when none (or not the preferred one) is available
+     * Reserves a free sub-arena (state STARTING) of a group the kit may be played on and computes its boundary.
+     * @param preferred id of the group the players asked for, or {@code null} for a random one
+     * @return the sub-arena, or {@code null} when none (or none in the preferred group) is free
      */
     public @Nullable Arena acquireFree(double boundaryPadding, Kit kit, @Nullable String preferred) {
         List<Arena> free = new ArrayList<>();
-        for (Arena arena : arenas.values()) {
-            if (arena.state() != ArenaState.WAITING || !arena.isComplete() || !isAllowed(kit, arena)) continue;
-            if (preferred != null && !arena.name().equalsIgnoreCase(preferred)) continue;
-            free.add(arena);
+        for (ArenaGroup group : groups.values()) {
+            if (!isAllowed(kit, group)) continue;
+            if (preferred != null && !group.id().equalsIgnoreCase(preferred)) continue;
+            free.addAll(group.freeArenas());
         }
         if (free.isEmpty()) return null;
         Arena chosen = free.get(ThreadLocalRandom.current().nextInt(free.size()));
@@ -240,21 +314,23 @@ public final class ArenaManager {
     }
 
     public boolean hasActive() {
-        for (Arena arena : arenas.values()) {
-            if (arena.state() != ArenaState.WAITING) return true;
+        for (ArenaGroup group : groups.values()) {
+            if (group.isInUse()) return true;
         }
         return false;
     }
 
-    /** Finds the in-use arena whose boundary contains the location. */
+    /** Finds the in-use sub-arena whose boundary contains the location. */
     public @Nullable Arena findActiveAt(Location location) {
         if (location.getWorld() == null) return null;
         String world = location.getWorld().getName();
-        for (Arena arena : arenas.values()) {
-            if (arena.state() == ArenaState.WAITING) continue;
-            BoundingBox bounds = arena.activeBounds();
-            if (bounds == null || !world.equals(arena.worldName())) continue;
-            if (bounds.contains(location.getX(), location.getY(), location.getZ())) return arena;
+        for (ArenaGroup group : groups.values()) {
+            for (Arena arena : group.arenas()) {
+                if (arena.state() == ArenaState.WAITING) continue;
+                BoundingBox bounds = arena.activeBounds();
+                if (bounds == null || !world.equals(arena.worldName())) continue;
+                if (bounds.contains(location.getX(), location.getY(), location.getZ())) return arena;
+            }
         }
         return null;
     }

@@ -1,14 +1,14 @@
-package org.chiterok.grandDuels.command.admin.arena;
+package org.chiterok.grandDuels.command.admin.arena.group;
 
 import org.bukkit.command.CommandSender;
 import org.chiterok.grandDuels.ClaudeDuels;
-import org.chiterok.grandDuels.arena.Arena;
+import org.chiterok.grandDuels.arena.ArenaGroup;
 import org.chiterok.grandDuels.command.CommandRegistry;
 import org.chiterok.grandDuels.command.SubCommand;
 
 import java.util.List;
 
-/** {@code /duels arena delete <name>} */
+/** {@code /duels arena group delete <group>} */
 public final class Delete implements SubCommand {
 
     private final ClaudeDuels plugin;
@@ -23,11 +23,6 @@ public final class Delete implements SubCommand {
     }
 
     @Override
-    public List<String> aliases() {
-        return List.of("remove");
-    }
-
-    @Override
     public String permission() {
         return "grandduels.admin";
     }
@@ -35,23 +30,23 @@ public final class Delete implements SubCommand {
     @Override
     public void execute(CommandSender sender, String[] args) {
         if (args.length != 1) {
-            plugin.messages().send(sender, "arena.usage");
+            plugin.messages().send(sender, "arena.group-usage");
             return;
         }
-        Arena arena = plugin.arenas().get(args[0]);
-        if (arena == null) {
-            plugin.messages().send(sender, "arena.not-found", "arena", args[0]);
+        ArenaGroup group = plugin.arenas().group(args[0]);
+        if (group == null) {
+            plugin.messages().send(sender, "arena.group-not-found", "group", args[0]);
             return;
         }
-        if (!plugin.arenas().delete(args[0])) {
-            plugin.messages().send(sender, "arena.in-use", "arena", arena.name());
+        if (!plugin.arenas().deleteGroup(args[0])) {
+            plugin.messages().send(sender, "arena.group-in-use", "group", group.id());
             return;
         }
-        plugin.messages().send(sender, "arena.deleted", "arena", arena.name());
+        plugin.messages().send(sender, "arena.group-deleted", "group", group.id());
     }
 
     @Override
     public List<String> tabComplete(CommandSender sender, String[] args) {
-        return args.length == 1 ? CommandRegistry.filter(plugin.arenas().names(), args[0]) : List.of();
+        return args.length == 1 ? CommandRegistry.filter(plugin.arenas().groupNames(), args[0]) : List.of();
     }
 }

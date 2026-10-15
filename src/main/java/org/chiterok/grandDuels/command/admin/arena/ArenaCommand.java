@@ -4,10 +4,11 @@ import org.bukkit.command.CommandSender;
 import org.chiterok.grandDuels.ClaudeDuels;
 import org.chiterok.grandDuels.command.CommandRegistry;
 import org.chiterok.grandDuels.command.SubCommand;
+import org.chiterok.grandDuels.command.admin.arena.group.GroupCommand;
 
 import java.util.List;
 
-/** {@code /duels arena <create|delete|pos1|pos2|setname|seticon|kits> ...} */
+/** {@code /duels arena <group|add|remove|pos1|pos2|toggle|kits> ...} */
 public final class ArenaCommand implements SubCommand {
 
     private final ClaudeDuels plugin;
@@ -16,12 +17,12 @@ public final class ArenaCommand implements SubCommand {
     public ArenaCommand(ClaudeDuels plugin) {
         this.plugin = plugin;
         this.registry = new CommandRegistry(plugin)
-                .register(new Create(plugin))
-                .register(new Delete(plugin))
+                .register(new GroupCommand(plugin))
+                .register(new Add(plugin))
+                .register(new Remove(plugin))
                 .register(new PosOne(plugin))
                 .register(new PosTwo(plugin))
-                .register(new SetName(plugin))
-                .register(new SetIcon(plugin))
+                .register(new ToggleArena(plugin))
                 .register(new Kits(plugin));
     }
 
