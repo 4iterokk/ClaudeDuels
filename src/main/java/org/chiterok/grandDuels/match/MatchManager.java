@@ -10,6 +10,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -20,7 +21,8 @@ public final class MatchManager {
     public enum StartResult { STARTED, PLAYER_BUSY, NO_ARENA, ARENA_UNAVAILABLE, FAILED }
 
     private final ClaudeDuels plugin;
-    private final Map<UUID, Match> byPlayer = new HashMap<>();
+    /** Insertion ordered, so {@link #all()} lists duels in the order they started (stable menus). */
+    private final Map<UUID, Match> byPlayer = new LinkedHashMap<>();
 
     public MatchManager(ClaudeDuels plugin) {
         this.plugin = plugin;
@@ -110,7 +112,7 @@ public final class MatchManager {
     /** Restores a leftover snapshot (crash / interrupted duel) for a joining player. */
     public boolean recover(Player player) {
         UUID id = player.getUniqueId();
-        if (isInMatch(id)) return false;
+        if (isInMatch(id) || plugin.spectators().isSpectating(id)) return false;
         PlayerSnapshot snapshot = plugin.snapshots().load(id);
         if (snapshot == null) return false;
         plugin.cooldowns().clear(player);

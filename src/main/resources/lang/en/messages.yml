@@ -212,6 +212,28 @@ arenamode:
   bossbar-combat: "&c&lIN COMBAT &7- &f{time}s"
   bossbar-safe: "&a&lYou are safe &7- you can leave with /arena leave"
 
+spectate:
+  usage: "&7Usage: &f/spec &8| &f/spec <player> &8| &f/spec leave"
+  disabled: "&cSpectating is disabled."
+  busy: "&cYou cannot spectate while you are in a duel, in the arena or editing a kit."
+  dead: "&cYou cannot spectate while you are dead."
+  not-in-duel: "&f{player} &cis not in a duel."
+  match-ended: "&cThat duel has already ended."
+  full: "&cThis duel already has the maximum number of spectators."
+  failed: "&cYou could not be moved to the duel. Nothing was changed."
+  joined: "&7You are now spectating &f{player1} &7vs &f{player2} &8(&7kit &f{kit}&8, &7arena &f{arena}&8)&7. Leave with &f/spec leave&7."
+  moved: "&7Now watching &f{player1} &7vs &f{player2}&7."
+  left: "&7You stopped spectating."
+  not-spectating: "&cYou are not spectating a duel."
+  ended: "&7The duel ended. You were returned to where you were."
+  actionbar: "&7Spectating &f{player1} &c{health1}❤ &7vs &f{player2} &c{health2}❤ &8| &f{time} &8| &7/spec leave"
+  command-blocked: "&cYou cannot use commands while spectating. Use &f/spec leave &cfirst."
+  outside-bounds: "&cYou cannot fly that far from the duel."
+  teleport-blocked: "&cYou cannot teleport out of the duel area. Use &f/spec leave&c."
+  gamemode-blocked: "&cYou cannot change your gamemode while spectating. Use &f/spec leave&c."
+  self-spectating: "&cYou are spectating a duel. Use &f/spec leave &cfirst."
+  target-spectating: "&f{player} &cis spectating a duel right now."
+
 placeholders:
   unknown: "N/A"
   empty-name: "-"

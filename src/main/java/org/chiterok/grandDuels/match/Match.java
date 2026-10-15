@@ -120,6 +120,16 @@ public final class Match {
         return id.equals(id1) ? id2 : id1;
     }
 
+    /** Name of a duelist as it was when the duel started (also valid after they went offline). */
+    public String nameOf(UUID id) {
+        return id.equals(id1) ? name1 : name2;
+    }
+
+    /** Shows the duel's scoreboard (sidebar + health) to a spectator. Their own board is restored by their snapshot. */
+    public void showScoreboardTo(Player spectator) {
+        scoreboard.show(spectator);
+    }
+
     public boolean usesCustomCooldowns() {
         return settings.customCooldowns();
     }
@@ -394,6 +404,7 @@ public final class Match {
         if (phase == Phase.FINISHED) return;
         phase = Phase.FINISHED;
         cancelTasks();
+        plugin.spectators().releaseAll(this, true); // spectators leave before the arena is rolled back
         for (UUID id : participants()) {
             Player p = Bukkit.getPlayer(id);
             if (p != null) restoreWhenAlive(p);
@@ -408,6 +419,7 @@ public final class Match {
         if (phase == Phase.FINISHED) return;
         phase = Phase.FINISHED;
         cancelTasks();
+        plugin.spectators().releaseAll(this, false);
         for (UUID id : participants()) {
             Player p = Bukkit.getPlayer(id);
             if (p != null && !p.isDead()) restoreNow(p, false);
@@ -474,7 +486,11 @@ public final class Match {
         return list;
     }
 
-    private Map<String, String> placeholders() {
+    /**
+     * Live values of the duel for scoreboards, menus and messages: {kit} {arena} {time} {mode} {player1} {health1}
+     * {player2} {health2}.
+     */
+    public Map<String, String> placeholders() {
         Player p1 = Bukkit.getPlayer(id1);
         Player p2 = Bukkit.getPlayer(id2);
         return Messages.ph("kit", kit.displayName(), "arena", arena.displayName(), "time", TimeUtil.mmss(elapsedSeconds),

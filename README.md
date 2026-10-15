@@ -17,6 +17,7 @@ Modern 1v1 dueling plugin for **Paper 1.21.11** (Java 21): data-component kits, 
 - **Safety first**: pre-duel inventory, effects, health and location are snapshotted to disk, so a crash or reload never destroys a player's items. They are restored on the next join.
 - **Arena handling**: arena groups of interchangeable two-point sub-arenas (a free one is picked per duel, groups/arenas can be switched off for maintenance) with state tracking (`WAITING`, `STARTING`, `IN_GAME`, `RESETTING`), arena boundaries, and block rollback when building is enabled.
 - **Combat restrictions**: command blocking (with whitelist), item drop/pickup blocking, frozen countdown, ender pearl and chorus fruit boundary checks.
+- **Spectating**: `/spec` opens a live menu of all running duels, `/spec <player>` jumps straight to that player's duel. Spectators are invulnerable, confined to the duel area, and always get their own gamemode, inventory and location back (on `/spec leave`, when the duel ends, on quit/kick/death, and after a crash).
 - **Stats**: wins, losses, kills, deaths, K/D, win streaks and ELO, stored asynchronously in YAML or SQLite.
 - **Fully configurable text**: `messages.yml` and every menu in `menu/*.yml`. Colors support legacy codes (`&a`), hex (`&#RRGGBB`, `<#RRGGBB>`) and MiniMessage gradients.
 - **PlaceholderAPI in menus**: with PlaceholderAPI installed, any `%placeholder%` in menu titles, item names and lore is resolved for the player viewing the menu (e.g. `%player_name%`, `%vault_eco_balance%`). Built-in `{placeholders}` are replaced first, so `%grandduels_elo_{target}%`-style combinations work.
@@ -63,6 +64,9 @@ A sample `nodebuff` kit ships in `kits.yml`.
 | `/duel stats [player]` | Show duel statistics |
 | `/ranked` | Open the ranked queue menu |
 | `/unranked` | Open the unranked queue menu |
+| `/spec` | Open the menu of running duels (left click = first player, right click = second player) |
+| `/spec <player>` | Spectate the duel of that player (also switches duels while spectating) |
+| `/spec leave` | Stop spectating and return to where you were |
 
 ### Admins (`/duels`, aliases `/gduels`, `/grandduels`)
 
@@ -86,7 +90,7 @@ A sample `nodebuff` kit ships in `kits.yml`.
 | `grandduels.bypass.commands` | op | Use any command during a duel |
 | `grandduels.kits.unlimited` | none | Ignore the player kit limit |
 
-Additional nodes used by the queue and player-kit commands are `grandduels.ranked`, `grandduels.unranked`, `grandduels.queue` and `grandduels.kits`.
+Additional nodes used by the queue, spectate and player-kit commands are `grandduels.ranked`, `grandduels.unranked`, `grandduels.queue`, `grandduels.spectate` (everyone) and `grandduels.kits`.
 
 ## Configuration
 

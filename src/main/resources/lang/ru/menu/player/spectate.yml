@@ -1,0 +1,94 @@
+# Меню /spec: все идущие дуэли с живым здоровьем и временем (обновляется каждую секунду, пока меню открыто).
+# ЛКМ = наблюдать за первым игроком, ПКМ = за вторым.
+#
+# Ключи предметов: slot (число или диапазон "0-8") | slots, material, amount, name, lore (список или строка), enchanted, action, condition
+# Действия:   PREVIOUS_PAGE, NEXT_PAGE, LEAVE (перестать наблюдать), CLOSE
+# Условия:    has-previous, has-next, no-duels, spectating (вы сейчас наблюдаете за дуэлью)
+# Плейсхолдеры меню: {page} {pages} {total_duels} {total_spectators} {watching}
+# Плейсхолдеры дуэли (match-item): {player1} {player2} {health1} {health2} {time} {kit} {arena} {mode} {spectators}
+#   Иконка - иконка набора дуэли; lore-watching используется для дуэли, за которой вы наблюдаете.
+
+menu_title: "&8Наблюдение - идущие дуэли"
+size: 54   # размер меню в слотах (кратно 9, максимум 54)
+
+filler:
+  material: GRAY_STAINED_GLASS_PANE
+  name: " "
+
+match-slots: ["0-44"]
+
+match-item:
+  name: "&f{player1} &7vs &f{player2}"
+  enchanted-when-watching: true
+  lore:
+    - "&7Набор: &f{kit}"
+    - "&7Арена: &f{arena}"
+    - "&7Режим: &f{mode}"
+    - "&7Время: &f{time}"
+    - ""
+    - "&f{player1}: &c{health1}❤"
+    - "&f{player2}: &c{health2}❤"
+    - ""
+    - "&7Наблюдателей: &f{spectators}"
+    - "&eНажмите, чтобы смотреть за &f{player1}"
+    - "&eПКМ, чтобы смотреть за &f{player2}"
+  lore-watching:
+    - "&7Набор: &f{kit}"
+    - "&7Арена: &f{arena}"
+    - "&7Режим: &f{mode}"
+    - "&7Время: &f{time}"
+    - ""
+    - "&f{player1}: &c{health1}❤"
+    - "&f{player2}: &c{health2}❤"
+    - ""
+    - "&7Наблюдателей: &f{spectators}"
+    - "&aВы наблюдаете за этой дуэлью"
+    - "&eНажмите, чтобы перейти к &f{player1}"
+    - "&eПКМ, чтобы перейти к &f{player2}"
+
+items:
+  previous:
+    slot: 45
+    material: ARROW
+    name: "&7« Предыдущая страница"
+    action: PREVIOUS_PAGE
+    condition: has-previous
+  next:
+    slot: 53
+    material: ARROW
+    name: "&7Следующая страница »"
+    action: NEXT_PAGE
+    condition: has-next
+  info:
+    slot: 49
+    material: ENDER_EYE
+    name: "&6Наблюдение"
+    lore:
+      - "&7Смотрите за идущей дуэлью в режиме"
+      - "&7наблюдателя. Когда вы выйдете или дуэль"
+      - "&7закончится, вы вернётесь туда, где были."
+      - ""
+      - "&7Идущих дуэлей: &f{total_duels}"
+      - "&7Наблюдателей: &f{total_spectators}"
+      - "&7Страница &f{page}&7/&f{pages}"
+  leave:
+    slot: 50
+    material: RED_DYE
+    name: "&cПерестать наблюдать"
+    lore:
+      - "&7Вы смотрите: &f{watching}"
+      - "&eНажмите, чтобы выйти"
+    action: LEAVE
+    condition: spectating
+  close:
+    slot: 48
+    material: BARRIER
+    name: "&cЗакрыть"
+    action: CLOSE
+  no-duels:
+    slot: 22
+    material: BARRIER
+    name: "&cНет идущих дуэлей"
+    lore:
+      - "&7Список обновляется автоматически."
+    condition: no-duels

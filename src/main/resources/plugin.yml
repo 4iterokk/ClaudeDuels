@@ -25,6 +25,11 @@ commands:
     description: Join the arena with a kit, or leave it
     usage: /<command> [leave]
     permission: grandduels.arena
+  spec:
+    description: Spectate running duels
+    usage: /<command> [player|leave]
+    aliases: [spectate]
+    permission: grandduels.spectate
   duels:
     description: GrandDuels administration
     usage: /<command> <arena|kit|reload|setlobby|setarenaspawn|forceend>
@@ -49,6 +54,9 @@ permissions:
     default: true
   grandduels.arena:
     description: Use arena mode (/arena)
+    default: true
+  grandduels.spectate:
+    description: Spectate running duels (/spec)
     default: true
   grandduels.kits:
     description: Create and edit your own kits (/duel kit)

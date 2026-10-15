@@ -1,0 +1,94 @@
+# /spec menu: every running duel with live health and time (refreshes every second while open).
+# Left click = spectate the first player, right click = spectate the second player.
+#
+# Item keys:  slot (number "5", range "8-12" or list "0, 1, 2, 5-7") | slots, material, amount, name, lore (list or string), enchanted, action, condition
+# Actions:    PREVIOUS_PAGE, NEXT_PAGE, LEAVE (stop spectating), CLOSE
+# Conditions: has-previous, has-next, no-duels, spectating (you are spectating a duel right now)
+# Menu placeholders: {page} {pages} {total_duels} {total_spectators} {watching}
+# Duel placeholders (match-item): {player1} {player2} {health1} {health2} {time} {kit} {arena} {mode} {spectators}
+#   The icon is the icon of the duel's kit; lore-watching is used for the duel you are watching.
+
+menu_title: "&8Spectate - running duels"
+size: 54   # menu size in slots (multiple of 9, max 54)
+
+filler:
+  material: GRAY_STAINED_GLASS_PANE
+  name: " "
+
+match-slots: ["0-44"]
+
+match-item:
+  name: "&f{player1} &7vs &f{player2}"
+  enchanted-when-watching: true
+  lore:
+    - "&7Kit: &f{kit}"
+    - "&7Arena: &f{arena}"
+    - "&7Mode: &f{mode}"
+    - "&7Time: &f{time}"
+    - ""
+    - "&f{player1}: &c{health1}❤"
+    - "&f{player2}: &c{health2}❤"
+    - ""
+    - "&7Spectators: &f{spectators}"
+    - "&eClick to watch &f{player1}"
+    - "&eRight-click to watch &f{player2}"
+  lore-watching:
+    - "&7Kit: &f{kit}"
+    - "&7Arena: &f{arena}"
+    - "&7Mode: &f{mode}"
+    - "&7Time: &f{time}"
+    - ""
+    - "&f{player1}: &c{health1}❤"
+    - "&f{player2}: &c{health2}❤"
+    - ""
+    - "&7Spectators: &f{spectators}"
+    - "&aYou are watching this duel"
+    - "&eClick to jump to &f{player1}"
+    - "&eRight-click to jump to &f{player2}"
+
+items:
+  previous:
+    slot: 45
+    material: ARROW
+    name: "&7« Previous page"
+    action: PREVIOUS_PAGE
+    condition: has-previous
+  next:
+    slot: 53
+    material: ARROW
+    name: "&7Next page »"
+    action: NEXT_PAGE
+    condition: has-next
+  info:
+    slot: 49
+    material: ENDER_EYE
+    name: "&6Spectate"
+    lore:
+      - "&7Watch a running duel in spectator mode."
+      - "&7You return to where you were when you"
+      - "&7leave or when the duel ends."
+      - ""
+      - "&7Running duels: &f{total_duels}"
+      - "&7Spectators: &f{total_spectators}"
+      - "&7Page &f{page}&7/&f{pages}"
+  leave:
+    slot: 50
+    material: RED_DYE
+    name: "&cStop spectating"
+    lore:
+      - "&7Watching: &f{watching}"
+      - "&eClick to leave"
+    action: LEAVE
+    condition: spectating
+  close:
+    slot: 48
+    material: BARRIER
+    name: "&cClose"
+    action: CLOSE
+  no-duels:
+    slot: 22
+    material: BARRIER
+    name: "&cNo running duels"
+    lore:
+      - "&7The list updates automatically."
+    condition: no-duels

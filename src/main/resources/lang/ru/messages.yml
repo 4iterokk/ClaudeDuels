@@ -212,6 +212,28 @@ arenamode:
   bossbar-combat: "&c&lВ БОЮ &7- &f{time} с"
   bossbar-safe: "&a&lВы в безопасности &7- можно выйти: /arena leave"
 
+spectate:
+  usage: "&fИспользование: &6/spec &8| &6/spec <игрок> &8| &6/spec leave"
+  disabled: "&fНаблюдение отключено."
+  busy: "&fНельзя наблюдать, пока вы в дуэли, на арене или редактируете набор."
+  dead: "&fНельзя наблюдать, пока вы мертвы."
+  not-in-duel: "&f{player} &7сейчас не в дуэли."
+  match-ended: "&fЭта дуэль уже закончилась."
+  full: "&fНа этой дуэли уже максимальное число наблюдателей."
+  failed: "&fНе удалось перенести вас к дуэли. Ничего не изменилось."
+  joined: "&7Вы наблюдаете за &f{player1} &7vs &f{player2} &8(&7набор &f{kit}&8, &7арена &f{arena}&8)&7. Выйти: &f/spec leave"
+  moved: "&7Теперь вы смотрите &f{player1} &7vs &f{player2}&7."
+  left: "&fВы перестали наблюдать."
+  not-spectating: "&fВы не наблюдаете за дуэлью."
+  ended: "&7Дуэль закончилась. Вы вернулись туда, где были."
+  actionbar: "&7Наблюдение: &f{player1} &c{health1}❤ &7vs &f{player2} &c{health2}❤ &8| &f{time} &8| &7/spec leave"
+  command-blocked: "&fВо время наблюдения нельзя использовать команды. Сначала &6/spec leave"
+  outside-bounds: "&fНельзя улетать так далеко от дуэли."
+  teleport-blocked: "&fНельзя телепортироваться за пределы дуэли. Выйти: &6/spec leave"
+  gamemode-blocked: "&fНельзя менять режим игры во время наблюдения. Сначала &6/spec leave"
+  self-spectating: "&fВы наблюдаете за дуэлью. Сначала &6/spec leave"
+  target-spectating: "&f{player} &7сейчас наблюдает за дуэлью."
+
 placeholders:
   unknown: "Н/Д"
   empty-name: "-"

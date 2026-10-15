@@ -10,6 +10,7 @@ import org.chiterok.grandDuels.command.admin.DuelsCommand;
 import org.chiterok.grandDuels.command.player.ArenaModeCommand;
 import org.chiterok.grandDuels.command.player.DuelCommand;
 import org.chiterok.grandDuels.command.player.QueueCommand;
+import org.chiterok.grandDuels.command.player.SpectateCommand;
 import org.chiterok.grandDuels.config.ConfigManager;
 import org.chiterok.grandDuels.config.Messages;
 import org.chiterok.grandDuels.config.Settings;
@@ -28,6 +29,7 @@ import org.chiterok.grandDuels.match.DuelService;
 import org.chiterok.grandDuels.match.MatchManager;
 import org.chiterok.grandDuels.match.QueueManager;
 import org.chiterok.grandDuels.match.RequestManager;
+import org.chiterok.grandDuels.match.SpectatorManager;
 import org.chiterok.grandDuels.runtime.ArenaModeListener;
 import org.chiterok.grandDuels.runtime.ArenaProtectionListener;
 import org.chiterok.grandDuels.runtime.CombatRestrictionListener;
@@ -35,6 +37,7 @@ import org.chiterok.grandDuels.runtime.GuiListener;
 import org.chiterok.grandDuels.runtime.KitEditorListener;
 import org.chiterok.grandDuels.runtime.MatchListener;
 import org.chiterok.grandDuels.runtime.PvPRulesListener;
+import org.chiterok.grandDuels.runtime.SpectatorListener;
 import org.chiterok.grandDuels.utils.PapiParser;
 import org.chiterok.grandDuels.utils.PlaceholderUtil;
 
@@ -59,6 +62,7 @@ public final class ClaudeDuels extends JavaPlugin {
     private RequestManager requests;
     private MatchManager matches;
     private ArenaModeManager arenaMode;
+    private SpectatorManager spectators;
     private DuelService duels;
     private PlaceholderUtil placeholders;
 
@@ -80,6 +84,7 @@ public final class ClaudeDuels extends JavaPlugin {
         this.requests = new RequestManager(this);
         this.matches = new MatchManager(this);
         this.arenaMode = new ArenaModeManager(this);
+        this.spectators = new SpectatorManager(this);
         this.duels = new DuelService(this);
 
         arenas.load();
@@ -89,13 +94,15 @@ public final class ClaudeDuels extends JavaPlugin {
         kitRatings.start();
         queues.start();
         arenaMode.start();
+        spectators.start();
 
         registerListeners(new GuiListener(), new PvPRulesListener(this), new CombatRestrictionListener(this),
                 new ArenaProtectionListener(this), new MatchListener(this), new KitEditorListener(this),
-                new ArenaModeListener(this));
+                new ArenaModeListener(this), new SpectatorListener(this));
         registerCommand("duel", new DuelCommand(this));
         registerCommand("duels", new DuelsCommand(this));
         registerCommand("arena", new ArenaModeCommand(this));
+        registerCommand("spec", new SpectateCommand(this));
         registerExecutor("ranked", new QueueCommand(this, DuelMode.RANKED));
         registerExecutor("unranked", new QueueCommand(this, DuelMode.UNRANKED));
 
@@ -117,6 +124,7 @@ public final class ClaudeDuels extends JavaPlugin {
         if (placeholders != null) placeholders.stop();
         if (kitEdits != null) kitEdits.shutdown();
         if (arenaMode != null) arenaMode.shutdown();
+        if (spectators != null) spectators.shutdown(); // before the duels: spectators leave while the arenas still exist
         if (matches != null) matches.shutdown();
         if (preferences != null) preferences.saveNow();
         if (requests != null) requests.clear();
@@ -139,11 +147,12 @@ public final class ClaudeDuels extends JavaPlugin {
     }
 
     /**
-     * True while the player is bound to one of the plugin's modes (duel, kit editing, arena mode) and so cannot start
-     * another one.
+     * True while the player is bound to one of the plugin's modes (duel, kit editing, arena mode, spectating) and so
+     * cannot start another one.
      */
     public boolean isOccupied(UUID playerId) {
-        return matches.isInMatch(playerId) || kitEdits.isEditing(playerId) || arenaMode.isIn(playerId);
+        return matches.isInMatch(playerId) || kitEdits.isEditing(playerId) || arenaMode.isIn(playerId)
+                || spectators.isSpectating(playerId);
     }
 
     /** Reloads config.yml, the language files (messages and menus), and kits.yml. Storage type changes need a restart. */
@@ -242,6 +251,10 @@ public final class ClaudeDuels extends JavaPlugin {
 
     public ArenaModeManager arenaMode() {
         return arenaMode;
+    }
+
+    public SpectatorManager spectators() {
+        return spectators;
     }
 
     public DuelService duels() {
