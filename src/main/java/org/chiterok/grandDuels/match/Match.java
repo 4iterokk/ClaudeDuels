@@ -64,6 +64,7 @@ public final class Match {
     private Phase phase = Phase.COUNTDOWN;
     private BukkitTask countdownTask;
     private BukkitTask tickTask;
+    private BukkitTask healthTask;
     private BukkitTask celebrationTask;
     private int elapsedSeconds;
 
@@ -163,7 +164,7 @@ public final class Match {
 
         Location destination1 = prepare(first, spawn1, spawn2);
         Location destination2 = prepare(second, spawn2, spawn1);
-        scoreboard.update(placeholders());
+        scoreboard.update(placeholders(), onlineParticipants());
 
         for (Player p : List.of(first, second)) {
             Player other = p == first ? second : first;
@@ -253,6 +254,11 @@ public final class Match {
             plugin.messages().title(p, "go", Map.of(), 0, 20, 10);
             p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1.0f, 2.0f);
         }
+        if (scoreboard.isPersonal()) {
+            // personal boards cannot use the vanilla HEALTH criterion: keep the nameplate health in sync
+            healthTask = Bukkit.getScheduler().runTaskTimer(plugin,
+                    () -> scoreboard.refreshHealth(onlineParticipants()), 5L, 5L);
+        }
         int limit = plugin.settings().duel().maxDurationSeconds();
         tickTask = new BukkitRunnable() {
             @Override
@@ -269,7 +275,7 @@ public final class Match {
     }
 
     private void tick() {
-        scoreboard.update(placeholders());
+        scoreboard.update(placeholders(), onlineParticipants());
         String time = TimeUtil.mmss(elapsedSeconds);
         for (Player p : onlineParticipants()) {
             Player opponent = Bukkit.getPlayer(opponentOf(p.getUniqueId()));
@@ -470,7 +476,7 @@ public final class Match {
     }
 
     private void cancelTasks() {
-        for (BukkitTask task : new BukkitTask[]{countdownTask, tickTask, celebrationTask}) {
+        for (BukkitTask task : new BukkitTask[]{countdownTask, tickTask, healthTask, celebrationTask}) {
             if (task != null) task.cancel();
         }
     }
