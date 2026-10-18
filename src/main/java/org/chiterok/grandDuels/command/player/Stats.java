@@ -75,7 +75,7 @@ public final class Stats implements SubCommand {
             List<Component> lines = plugin.messages().lines("stats.lines", Messages.ph(
                     "player", displayName, "wins", stats.wins(), "losses", stats.losses(), "kills", stats.kills(),
                     "deaths", stats.deaths(), "kd", stats.kdFormatted(), "streak", stats.currentStreak(),
-                    "best_streak", stats.bestStreak(), "elo", elo));
+                    "best_streak", stats.bestStreak(), "elo", elo), Messages.viewerOf(sender));
             for (Component line : lines) sender.sendMessage(line);
         }));
     }

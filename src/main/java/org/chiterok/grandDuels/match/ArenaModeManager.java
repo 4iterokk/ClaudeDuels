@@ -88,8 +88,8 @@ public final class ArenaModeManager {
             }
             Messages messages = plugin.messages();
             net.kyori.adventure.text.Component title = tagged
-                    ? messages.get("arenamode.bossbar-combat", Messages.ph("time", (remaining + 999L) / 1000L))
-                    : messages.get("arenamode.bossbar-safe");
+                    ? messages.get("arenamode.bossbar-combat", Messages.ph("time", (remaining + 999L) / 1000L), player)
+                    : messages.get("arenamode.bossbar-safe", java.util.Map.of(), player);
             float progress = tagged ? (float) Math.min(1.0, Math.max(0.0, remaining / (double) tagMillis)) : 1.0f;
             BossBar bar = participant.bar;
             if (bar == null) {

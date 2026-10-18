@@ -47,7 +47,7 @@ public final class RequestManager {
         Messages messages = plugin.messages();
         messages.send(sender, "duels.request-sent", "target", target.getName(), "kit", kit.displayName(),
                 "arena", arenaName(arenaId), "seconds", seconds);
-        target.sendMessage(requestComponent(request, kit, seconds));
+        target.sendMessage(requestComponent(request, kit, seconds, target));
         return SendResult.SENT;
     }
 
@@ -61,39 +61,39 @@ public final class RequestManager {
      * The request line carries a hover with the complete rules of the duel: kit, arena, whether custom cooldowns are
      * on, and the cooldown / ban of every rule. The accept and deny buttons keep their own hover texts.
      */
-    private Component requestComponent(DuelRequest request, Kit kit, int seconds) {
+    private Component requestComponent(DuelRequest request, Kit kit, int seconds, Player viewer) {
         Messages m = plugin.messages();
         Map<String, String> ph = Messages.ph(
                 "sender", request.senderName(), "kit", kit.displayName(), "seconds", seconds,
                 "arena", arenaName(request.arena()),
                 "cooldowns", plainState(request.settings().customCooldowns()));
-        Component text = m.prefixed("duels.request-received", ph)
-                .hoverEvent(HoverEvent.showText(rulesHover(request.settings(), ph)));
-        Component accept = m.get("duels.request-accept-button")
+        Component text = m.prefixed("duels.request-received", ph, viewer)
+                .hoverEvent(HoverEvent.showText(rulesHover(request.settings(), ph, viewer)));
+        Component accept = m.get("duels.request-accept-button", Map.of(), viewer)
                 .clickEvent(ClickEvent.runCommand("/duel accept " + request.senderName()))
-                .hoverEvent(HoverEvent.showText(m.get("duels.request-accept-hover")));
-        Component deny = m.get("duels.request-deny-button")
+                .hoverEvent(HoverEvent.showText(m.get("duels.request-accept-hover", Map.of(), viewer)));
+        Component deny = m.get("duels.request-deny-button", Map.of(), viewer)
                 .clickEvent(ClickEvent.runCommand("/duel deny " + request.senderName()))
-                .hoverEvent(HoverEvent.showText(m.get("duels.request-deny-hover")));
+                .hoverEvent(HoverEvent.showText(m.get("duels.request-deny-hover", Map.of(), viewer)));
         return Component.empty().append(text).append(Component.newline())
                 .append(accept).append(Component.space()).append(deny);
     }
 
     /** {@code duels.request-hover} with its {@code {rules}} line replaced by one line per rule. */
-    private Component rulesHover(MatchSettings settings, Map<String, String> ph) {
+    private Component rulesHover(MatchSettings settings, Map<String, String> ph, Player viewer) {
         List<Component> lines = new ArrayList<>();
         for (String template : plugin.messages().stringList("duels.request-hover")) {
             if (template.trim().equals("{rules}")) {
-                lines.addAll(ruleLines(settings));
+                lines.addAll(ruleLines(settings, viewer));
             } else {
-                lines.add(ColorUtil.colorize(template, ph));
+                lines.add(ColorUtil.colorize(template, ph, viewer));
             }
         }
         return Component.join(JoinConfiguration.newlines(), lines);
     }
 
     /** One line per {@link RuleType}: its cooldown, "banned", "no limits" or "vanilla" (custom cooldowns off). */
-    private List<Component> ruleLines(MatchSettings settings) {
+    private List<Component> ruleLines(MatchSettings settings, Player viewer) {
         List<Component> lines = new ArrayList<>();
         for (RuleType type : RuleType.values()) {
             String name = plugin.messages().string("cooldown-names." + type.configKey());
@@ -114,7 +114,7 @@ public final class RequestManager {
             } else {
                 template = "duels.rule-allowed";
             }
-            lines.add(plugin.messages().get(template, ph));
+            lines.add(plugin.messages().get(template, ph, viewer));
         }
         return lines;
     }
