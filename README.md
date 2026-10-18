@@ -20,7 +20,7 @@ Modern 1v1 dueling plugin for **Paper 1.21.11** (Java 21): data-component kits, 
 - **Spectating**: `/spec` opens a live menu of all running duels, `/spec <player>` jumps straight to that player's duel. Spectators are invulnerable, confined to the duel area, and always get their own gamemode, inventory and location back (on `/spec leave`, when the duel ends, on quit/kick/death, and after a crash).
 - **Stats**: wins, losses, kills, deaths, K/D, win streaks and ELO, stored asynchronously in YAML or SQLite.
 - **Fully configurable text**: `messages.yml` and every menu in `menu/*.yml`. Colors support legacy codes (`&a`), hex (`&#RRGGBB`, `<#RRGGBB>`) and MiniMessage gradients.
-- **PlaceholderAPI in all messages**: `%placeholders%` are resolved for the receiving player in every chat message, action bar, title, stats line, duel-request hover/buttons and arena boss bar (in addition to menus). Built-in `{placeholders}` are replaced first.
+- **PlaceholderAPI in all messages**: `%placeholders%` are resolved for the receiving player in every chat message, action bar, title, stats line, duel-request hover/buttons, arena boss bar and the duel scoreboard (in addition to menus). The scoreboard switches to one board per viewer when `scoreboard.title` / `scoreboard.lines` contain a `%placeholder%`. Built-in `{placeholders}` are replaced first.
 - **PlaceholderAPI in menus**: with PlaceholderAPI installed, any `%placeholder%` in menu titles, item names and lore is resolved for the player viewing the menu (e.g. `%player_name%`, `%vault_eco_balance%`). Built-in `{placeholders}` are replaced first, so `%grandduels_elo_{target}%`-style combinations work.
 
 ## Requirements
